@@ -59,7 +59,7 @@ The command line use assumes TSPLIB formatted files (assuming VeRyPy is in your 
 
 > Note: running with `python -O` entirely disables `__debug__` and logging.
 
-By using the Python API
+This simple Python code illustrates the API usage:
 ```python
 import cvrp_io
 from classic_heuristics.parallel_savings import parallel_savings_init
