@@ -1,10 +1,10 @@
 ![VeRyPy](doc/logo.png)
 
-```
+<!-- ```
 V  R  P
 Ve Ry Py
  easy
-```
+``` -->
 
 <!-- TODO: check and update these badges from shield.io and travis-ci.org -->
 <!-- TODO: upload to PyPI -->
@@ -16,7 +16,7 @@ Ve Ry Py
 
 VeRyPy is an **easy** to use **Python** library of classical Capacitated **Vehicle Routing Problem** (CVRP) algorithms. The enclosed implemented algorithms can be used to solve vehicle routing and travelling salesman problems (TSP). The code files are very loosely coupled so that you can take just the algorithms or the functionality you need in your studies or in your research project. 
 
-Compared to the existing heuristic and metaheuristic open source VRP libraries such as the [VRPH](https://projects.coin-or.org/VRPH), [Google OR-Tools](https://developers.google.com/optimization/), and others, the focus in VeRyPy has been in reusability of the code and in replicating the existing results from the literature. The lightness of the framework and architecture of VeRyPy is very much intentional as many existing libraries are complex beasts to reason about and understand which limits their use in a more exploratory setting. Please note that the limitations of VeRyPy are also related to the main target of replication: it is not the fastest, the most sophisticated, nor the most effective library for solving these problems. However, if you are looking for something simple, VeRyPy might be a good fit.
+Compared to the existing heuristic and metaheuristic open source VRP libraries such as the [VRPH](https://projects.coin-or.org/VRPH), [Google OR-Tools](https://developers.google.com/optimization/), and others, the focus in VeRyPy has been in reusability of the code and in replicating the existing results from the literature. The lightness of the framework and architecture of VeRyPy is very much intentional as many existing libraries are complex beasts to reason about and understand which limits their use in a more exploratory setting. Please note that the limitations of VeRyPy are also related to the main target of replication: it is not the fastest, the most sophisticated, nor the most effective library for solving these problems. However, if you are looking for something simple, VeRyPy might be just perfect fit.
 
 An ensemble of relatively simple heuristics can be an effective and robust way to solve practical problems and learning on the effectivity of different approaches before rolling out a more specialized and sophisticated algorithm. Furthermore, the quality of the solutions produced by the state-of-the-art metaheuristics depend on the quality of the initial solutions and VeRyPy can be used to produce a varied set of initial solutions for these more advanced methods.
 
@@ -31,18 +31,18 @@ An ensemble of relatively simple heuristics can be an effective and robust way t
 * Collection of local search heuristics:
   * intra route: 2-opt, 3-opt, relocate, exchange
   * inter route: insert, 2-opt*, 3-opt*<sup>1</sup>, one-point-move, two-point-swap, redistribute, chain
-* Wrappers for [LKH](http://akira.ruc.dk/~keld/research/LKH/), ACOTSP, and Gurobi TSP solvers
+* Wrappers for [LKH](http://akira.ruc.dk/~keld/research/LKH/), [ACOTSP](http://www.aco-metaheuristic.org/aco-code/public-software.html), and [Gurobi TSP](https://www.gurobi.com/documentation/8.1/examples/tsp_py.html) solvers
 * Command Line user Interface (CLI) for using the library and the separate algorithms
 * Integration, replication, and some unit tests
 * Imports TSPLIB compatible CVRP and TSP files
 * Exports VRPH compatible solutions 
+* Visualizer for many of the 15 heuristics 
 * Most algorithms are able to solve CVRP instances up to 1000 customers in under an hour
 * The simpler algorithms can tackle problems with over 10 000 customers in a reasonable time
 
 <sup>1</sup> In fact, due to its complexity, this just might be the only open source implementation of the 3-opt* operation out there.
 
-<!-- TODO: animated gifs here -->
-
+<!-- TODO: animated gifs of the heuristics here -->
 <!-- 
 ## Performance
 TODO: Comparison to SOTA.
@@ -52,10 +52,12 @@ TODO: Time complexity curves from the paper
 
 ## Quick Start
 
-From the command line (assuming VeRyPy is in your PYTHONPATH):
+The command line use assumes TSPLIB formatted files (assuming VeRyPy is in your PYTHONPATH):
 ```bash
 (base) python -O VeRyPy.py -a all E-n51-k5.vrp
 ```
+
+> Note: running with `python -O` entirely disables `__debug__` and logging.
 
 By using the Python API
 ```python
@@ -78,21 +80,13 @@ for route_idx, route in enumerate(sol2routes(solution)):
 
 <!-- TODO: Make sure it works -->
 
+<!-- TODO: A more comprehensive reference documentation can be found [here](/doc/). -->
+
 ### Dependencies and Installation
 
 VeRyPy requires Python 2.7, NumPy, and SciPy. For CLI use you also need `natsort` from PyPI and some algorithms have additional dependencies: CMT79-2P, FR76-1PLT, GM74-SwRI and WH72-SwLS require `orderedset` from PyPI; MJ76-INS needs `llist` from PyPI; and FR76-1PLT, FG81-GAP, and DV89-MM require Gurobi with `gurobipy`. By default Be83-RFCS, SG82-LR3OPT, and Ty68-NN use LKH to solve TSPs, but they can be configured to use any other TSP solver (such as the internal one) if these external executables are not available.
 
-<!-- TODO: Package to PyPI. How? -->
-
-### Examples of Use
-
-<!-- TODO: Dependency / object diagram. -->
-
-Assumes TSPLIB formatted files. Another alternative is to compress the necessary Python data structures to a pickle file.
-
-> Note: run with `python -O` to entirely disable `__debug__` and logging.
-
-A more comprehensive reference documentation can be found [here](/doc/).
+<!-- TODO: insert dependency / object diagram here-->
 
 ## Contributing and Contacting
 
