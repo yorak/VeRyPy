@@ -54,7 +54,7 @@ TODO: Time complexity curves from the paper
 
 The command line use assumes TSPLIB formatted files (assuming VeRyPy is in your PYTHONPATH):
 ```bash
-(base) python -O VeRyPy.py -a all E-n51-k5.vrp
+$ python -O VeRyPy.py -a all E-n51-k5.vrp
 ```
 
 > Note: running with `python -O` entirely disables `__debug__` and logging.
@@ -112,8 +112,7 @@ https://www.sphinx-doc.org/en/master/usage/quickstart.html
 
 If you find VeRyPy useful in your research and use it to produce results for your publications please consider citing it as:
 
-Rasku J, Musliu N, Kärkkäinen T. Meta-Survey and Implementations of Classic
-Capacitated Vehicle Routing Heuristics with Reproductions of Earlier Results. Manuscript. University of Jyväskylä, Finland.
+> Rasku J, Musliu N, Kärkkäinen T. Meta-Survey and Implementations of Classic Capacitated Vehicle Routing Heuristics with Reproductions of Earlier Results. Manuscript. University of Jyväskylä, Finland.
 
 <!-- ## References
 TODO: links -->
