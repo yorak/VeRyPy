@@ -8,11 +8,11 @@ Ve Ry Py
 
 <!-- TODO: check and update these badges from shield.io and travis-ci.org -->
 <!-- TODO: upload to PyPI -->
-[![PyPI version](https://badge.fury.io/py/flair.svg)](https://badge.fury.io/py/flair)
-[![GitHub Issues](https://img.shields.io/github/issues/zalandoresearch/flair.svg)](https://github.com/zalandoresearch/flair/issues)
+<!-- [![PyPI version](https://badge.fury.io/py/flair.svg)](https://badge.fury.io/py/flair) -->
+<!-- [![GitHub Issues](https://img.shields.io/github/issues/zalandoresearch/flair.svg)](https://github.com/zalandoresearch/flair/issues) -->
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 <!-- TODO: https://www.smartfile.com/blog/testing-python-with-travis-ci/ -->
-[![Travis](https://img.shields.io/travis/zalandoresearch/flair.svg)](https://travis-ci.org/zalandoresearch/flair)
+<!-- [![Travis](https://img.shields.io/travis/zalandoresearch/flair.svg)](https://travis-ci.org/zalandoresearch/flair) -->
 
 VeRyPy is an **easy** to use **Python** library of classical Capacitated **Vehicle Routing Problem** (CVRP) algorithms. The enclosed implemented algorithms can be used to solve vehicle routing and travelling salesman problems (TSP). The code files are very loosely coupled so that you can take just the algorithms or the functionality you need in your studies or in your research project. 
 
