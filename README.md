@@ -46,6 +46,7 @@ An ensemble of relatively simple heuristics can be an effective and robust way t
 <!-- 
 ## Performance
 TODO: Comparison to SOTA.
+      e.g., https://www.localsolver.com/benchmarkcvrp.html
 TODO: Replication results.
 TODO: Time complexity curves from the paper
 -->
