@@ -51,6 +51,9 @@ TODO: Replication results.
 TODO: Time complexity curves from the paper
 -->
 
+![Gillet & Miller Sweep heuristic solving a 22 customer problem instance from Gaskell](doc/GM_sweep_anim_02-Gaskell2-E023-k5g_ccw.gif)
+*Example of Gillet & Miller Sweep heuristic solving a 22 customer problem instance from Gaskell*
+
 ## Quick Start
 
 The command line use assumes TSPLIB formatted files (assuming VeRyPy is in your PYTHONPATH):
