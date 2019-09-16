@@ -27,7 +27,7 @@ An ensemble of relatively simple heuristics can be an effective and robust way t
 * Implementations of 15 CVRP heuristics that are:
   * deterministic
   * classical (from 60ies to mid 90ies, well-cited)
-  * constructive (as opposed to improvement heuristic)
+  * constructive (as opposed to improvement heuristics)
   * the correctness of implementation is shown through replication of the original results
   * tested on a comprehensive set of 454 well-known CVRP benchmark instances
 * Collection of local search heuristics:
@@ -35,12 +35,12 @@ An ensemble of relatively simple heuristics can be an effective and robust way t
   * inter route: insert, 2-opt*, 3-opt*<sup>1</sup>, one-point-move, two-point-swap, redistribute, chain
 * Wrappers for [LKH](http://akira.ruc.dk/~keld/research/LKH/), [ACOTSP](http://www.aco-metaheuristic.org/aco-code/public-software.html), and [Gurobi TSP](https://www.gurobi.com/documentation/8.1/examples/tsp_py.html) solvers
 * Command Line user Interface (CLI) for using the library and the separate algorithms
-* Integration, replication, and some unit tests
+* Integration, replication, and even some unit tests
 * Imports TSPLIB compatible CVRP and TSP files
 * Exports VRPH compatible solutions 
 * Visualizer for many of the 15 heuristics 
-* Most algorithms are able to solve CVRP instances up to 1000 customers in under an hour
-* The simpler algorithms can tackle problems with over 10 000 customers in a reasonable time
+* Most of the algorithms are able to solve CVRP instances up to 1000 customers in under an hour
+* The fastest algorithms can tackle problems with over 10 000 customers in a reasonable time
 
 <sup>1</sup> In fact, due to its complexity, this just might be the only open source implementation of the 3-opt* operation out there.
 
