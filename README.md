@@ -30,7 +30,7 @@ An ensemble of relatively simple heuristics can be an effective and robust way t
   * constructive (as opposed to improvement heuristics),
   * the correctness of implementation is shown through replication of the original results,
   * tested on a comprehensive set of 454 well-known CVRP benchmark instances.
-  * For a full list, see references.
+  * For a full list, see [the heuristics list with references](#implemented-heuristics-with-references).
 * Collection of local search heuristics:
   * intra route: 2-opt, 3-opt, relocate, exchange
   * inter route: insert, 2-opt*, 3-opt*<sup>1</sup>, one-point-move, two-point-swap, redistribute, chain
@@ -124,10 +124,94 @@ If you find VeRyPy useful in your research and use it to produce results for you
 
 ## Implemented Heuristics with References
 
+> [cmt](#cmt)
+
+**CMT79-2P** : Christofides, Mingozzi & Toth (1979) two phase heuristic.
+
+> [gap](#gap)
+
+**FJ81-GAP** : Fisher & Jaikumar (1981) generalized assignment problem (GAP) heuristic. *Requires Gurobi.*
+
+> [gm](#gm)
+
+**GM74-SwRI** : Gillett & Miller (1974) Sweep algorithm with emering route improvement step.
+
+> [gpl](#gpl)
+
+**Ga67-PS|𝜋𝜆** : Parallel savings algorithm with Gaskell (1967) with the 𝜋 and 𝜆 criteria.
+
+> [gps](#gps)
+
+**Pa88-PS|G2P** : Paessens (1988) parametrized parallel savings algorithm.
+
+> [ims](#ims)
+
+**HP76-PS|IMS** : Holmes & Parker (1976) parallel savings supression algorithm.
+
+> [lr3o](#lr3o)
+
+**SG84-LR3OPT** : Stewart & Golden (1984) 3-opt* heuristic with Lagrangian relaxations.
+
+> [mbsa](#mbsa)
+
+**DV89-MM** : Desrochers and Verhoog (1989) maximum matching problem solution based savings algorithm. *Requires Gurobi.*
+
+> [mj](#mj)
+
+**MJ76-INS** : Mole & Jameson (1976) sequential cheapest insertion heuristic with a route improvement phase.
+
+> [pi](#pi)
+
+**vB94-PI** : parallel insertion heuristic as described by van Breedam (1994, 2002).
+
+> [pn](#pn)
+
+**vB95-PNN** : Parallel Nearest Neighbor construction heuristic.
+
+> [ps](#ps)
+
+**CW64-PS** : Clarke & Wright (1964) parallel savings algorithm.
+
+> [ptl](#ptl)
+
+**FR76-1PTL** : Foster & Ryan (1976) Petal set covering algorithm. *Requires Gurobi.*
+
+> [rfcs](#rfcs) 
+
+**Be83-RFCS** : Route-first-cluster-second heuristic of Beasley (1983).
+
+> [si](#si)
+
+**vB94-SI** : Sequential cheapest insertion heuristic without local search (van Breedam 1994, 2002).
+
+> [sn](#sn)
+
+**vB95-SNN** : Sequential Nearest Neighbor construction heuristic as described by van Breedam (1994).
+
+> [ss](#ss)
+
+**We64-SS** : Webb (1964) sequential savings algorithm.
+
+> [swp](#swp)
+
+**Sweep** : Sweep algorithm without any route improvement heuristics.
+
+> [ty](#ty)
+
+**Ty68-NN** : Tyagi (1968) Nearest Neighbor construction heuristic. 
+
+> [wh](#wh)
+
+**WH72-SwLS** : Sweep heuristic with Wren and Holliday (1972) improvement procedures.
+
+<a name="wh">1</a>: Wren, A. and Holliday, A. (1972). Computer scheduling of vehicles from one or more depots to a number of delivery points. Journal of the Operational Research Society, 23(3):333-344.
+
 <!-- ## References
 TODO: links -->
 
-TBD
+
+
+
 
 ## License
 
