@@ -202,7 +202,7 @@ If you find VeRyPy useful in your research and use it to produce results for you
 
 > [WH72-SwLS](#WH72-SwLS)
 
-**** : Sweep heuristic with Wren and Holliday (1972) improvement procedures.
+`wh` : Sweep heuristic with Wren and Holliday (1972) improvement procedures.
 
 <a name="WH72-SwLS">WH72-SwLS</a>: Wren, A. and Holliday, A. (1972). Computer scheduling of vehicles from one or more depots to a number of delivery points. Journal of the Operational Research Society, 23(3):333-344.
 
