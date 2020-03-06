@@ -25,11 +25,12 @@ An ensemble of relatively simple heuristics can be an effective and robust way t
 ## Features
 
 * Implementations of 15 CVRP heuristics that are:
-  * deterministic
-  * classical (from 60ies to mid 90ies, well-cited)
-  * constructive (as opposed to improvement heuristics)
-  * the correctness of implementation is shown through replication of the original results
-  * tested on a comprehensive set of 454 well-known CVRP benchmark instances
+  * deterministic,
+  * classical (from 60ies to mid 90ies, well-cited),
+  * constructive (as opposed to improvement heuristics),
+  * the correctness of implementation is shown through replication of the original results,
+  * tested on a comprehensive set of 454 well-known CVRP benchmark instances.
+  * For a full list, see references.
 * Collection of local search heuristics:
   * intra route: 2-opt, 3-opt, relocate, exchange
   * inter route: insert, 2-opt*, 3-opt*<sup>1</sup>, one-point-move, two-point-swap, redistribute, chain
@@ -120,8 +121,13 @@ If you find VeRyPy useful in your research and use it to produce results for you
 
 > Rasku J, Musliu N, Kärkkäinen T. Meta-Survey and Implementations of Classic Capacitated Vehicle Routing Heuristics with Reproductions of Earlier Results. Manuscript. University of Jyväskylä, Finland.
 
+
+## Implemented Heuristics with References
+
 <!-- ## References
 TODO: links -->
+
+TBD
 
 ## License
 
