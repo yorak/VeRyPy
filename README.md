@@ -200,11 +200,11 @@ If you find VeRyPy useful in your research and use it to produce results for you
 
 **Ty68-NN** : Tyagi (1968) Nearest Neighbor construction heuristic. 
 
-> [wh](#wh)
+> [WH72-SwLS](#WH72-SwLS)
 
-**WH72-SwLS** : Sweep heuristic with Wren and Holliday (1972) improvement procedures.
+**** : Sweep heuristic with Wren and Holliday (1972) improvement procedures.
 
-<a name="wh">1</a>: Wren, A. and Holliday, A. (1972). Computer scheduling of vehicles from one or more depots to a number of delivery points. Journal of the Operational Research Society, 23(3):333-344.
+<a name="WH72-SwLS">WH72-SwLS</a>: Wren, A. and Holliday, A. (1972). Computer scheduling of vehicles from one or more depots to a number of delivery points. Journal of the Operational Research Society, 23(3):333-344.
 
 <!-- ## References
 TODO: links -->
