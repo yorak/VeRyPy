@@ -124,102 +124,60 @@ If you find VeRyPy useful in your research and use it to produce results for you
 
 ## Implemented Heuristics with References
 
-> [cmt](#cmt)
+<!-- [CMT79-2P](#CMT79-2P) -->
+`cmt` : Christofides, Mingozzi & Toth (1979) two phase heuristic.
+> <a name="CMT79-2P">CMT79-2P</a>: Christofides, N., Mingozzi, A., and Toth, P. (1979). The vehicle routing problem. In Christofides, N., Mingozzi, A., Toth, P., and Sandi, C., editors, Combinatorial Optimization, chapter 11, pages 315-338. Wiley.
 
-**CMT79-2P** : Christofides, Mingozzi & Toth (1979) two phase heuristic.
+<!-- [FJ81-GAP](#FJ81-GAP) -->
+`gap` : Fisher & Jaikumar (1981) generalized assignment problem (GAP) heuristic. *Requires Gurobi.*
+> <a name="FJ81-GAP">FJ81-GAP</a>: Fisher, M. L. and Jaikumar, R. (1981). A generalized assignment heuristic for vehicle routing. Networks, 11(2):109-124.
 
-> [gap](#gap)
-
-**FJ81-GAP** : Fisher & Jaikumar (1981) generalized assignment problem (GAP) heuristic. *Requires Gurobi.*
-
-> [gm](#gm)
-
-**GM74-SwRI** : Gillett & Miller (1974) Sweep algorithm with emering route improvement step.
-
-> [gpl](#gpl)
-
-**Ga67-PS|𝜋𝜆** : Parallel savings algorithm with Gaskell (1967) with the 𝜋 and 𝜆 criteria.
-
-> [Pa88-PS|G2P](#Pa88-PS|G2P)
-
-`gps` : Paessens (1988) parametrized parallel savings algorithm.
-
-> [HP76-PS|IMS](#HP76-PS|IMS)
-
-`ims` : Holmes & Parker (1976) parallel savings supression algorithm.
-
-> [SG84-LR3OPT](#SG84-LR3OPT)
-
-`lr3o` : Stewart & Golden (1984) 3-opt* heuristic with Lagrangian relaxations.
-
-> [DV89-MM](#DV89-MM)
-
-`mbsa` : Desrochers and Verhoog (1989) maximum matching problem solution based savings algorithm. *Requires Gurobi.*
-
-> [MJ76-INS](#MJ76-INS)
-
-`mj` : Mole & Jameson (1976) sequential cheapest insertion heuristic with a route improvement phase.
-
-> [vB94](#vB94)-PI
-
-`pi` : parallel insertion heuristic as described by van Breedam (1994, 2002).
-
-> [vB94](#vB94)-PNN
-
-`pn` : Parallel Nearest Neighbor construction heuristic.
-
-> [CW64-PS](#CW64-PS)
-
-`ps` : Clarke & Wright (1964) parallel savings algorithm.
-
-> [FR76-1PTL](#FR76-1PTL)
-
-`ptl` : Foster & Ryan (1976) Petal set covering algorithm. *Requires Gurobi.*
-
-> [Be83-RFCS](#Be83-RFCS) 
-
-`rfcs` : Route-first-cluster-second heuristic of Beasley (1983).
-
-> [vB94](#vB94)-SI
-
-`si` : Sequential cheapest insertion heuristic without local search (van Breedam 1994, 2002).
-
-> [vB94](#vB94)-SNN
-
-`sn` : Sequential Nearest Neighbor construction heuristic as described by van Breedam (1994).
-
-> [We64-SS](#We64-SS)
-
-`ss` : Webb (1964) sequential savings algorithm.
-
-> Sweep
+<!-- [GM74-SwRI](#GM74-SwRI) -->
+`gm` : Gillett & Miller (1974) Sweep algorithm with emering route improvement step.
 
 `swp` : Sweep algorithm without any route improvement heuristics.
 
-> [Ty68-NN](#Ty68-NN)
+> <a name="GM74-SwRI">GM74-SwRI</a>: Gillett, B. E. and Miller, L. R. (1974). A heuristic algorithm for the vehicle-dispatch
+problem. Operations Research, 22(2):340-349.
 
-`ty` : Tyagi (1968) Nearest Neighbor construction heuristic. 
+<!-- [Ga67-PS|𝜋𝜆](#Ga67-PS|𝜋𝜆) -->
+`gpl` : Parallel savings algorithm with Gaskell (1967) with the 𝜋 and 𝜆 criteria.
+> <a name="Ga67-PS|𝜋𝜆">Ga67-PS|𝜋𝜆</a>: Gaskell, T. (1967). Bases for vehicle fleet scheduling. Journal of the Operational Research Society, 18(3):281-295.
 
-> [WH72-SwLS](#WH72-SwLS)
+<!-- [Pa88-PS|G2P](#Pa88-PS|G2P) -->
+`gps` : Paessens (1988) parametrized parallel savings algorithm.
+> <a name="Pa88-PS|G2P">Pa88-PS|G2P</a>: Paessens, H. (1988). The savings algorithm for the vehicle routing problem. European Journal of Operational Research, 34(3):336-344.
 
-`wh` : Sweep heuristic with Wren and Holliday (1972) improvement procedures.
-
-
-> <a name="Be83-RFCS">Be83-RFCS</a>: Beasley, J. E. (1983). Route first - cluster second methods for vehicle routing. Omega, 11(4):403-408.
-
-> <a name="CW64-PS">CW64-PS</a>:Clarke, G. and Wright, J. W. (1964). Scheduling of vehicles from a central depot to a number of delivery points. Operations Research, 12(4):568-581.
-
-> <a name="DV89-MM">DV89-MM</a>: Desrochers, M. and Verhoog, T. W. (1989). G-89-04 : A matching based savings algorithm for the vehicle routing problem. Technical report, GERAD, Montreal, Canada.
-
-> <a name="FR76-1PTL">FR76-1PTL</a>: Foster, B. A. and Ryan, D. M. (1976). An integer programming approach to the vehicle scheduling problem. Journal of the Operational Research Society, 27(2):367-384.
-
+<!-- [HP76-PS|IMS](#HP76-PS|IMS) -->
+`ims` : Holmes & Parker (1976) parallel savings supression algorithm.
 > <a name="HP76-PS|IMS">HP76-PS|IMS</a>: Holmes, R. and Parker, R. (1976). A vehicle scheduling procedure based upon savings and a solution perturbation scheme. Journal of the Operational Research Society, 27(1):83-92.
 
-> <a name="MJ76-INS">MJ76-INS</a>: Mole, R. and Jameson, S. (1976). A sequential route-building algorithm employing a generalised savings criterion. Journal of the Operational Research Society, 27(2):503-511.
-
+<!-- [SG84-LR3OPT](#SG84-LR3OPT) -->
+`lr3o` : Stewart & Golden (1984) 3-opt* heuristic with Lagrangian relaxations.
 > <a name="SG84-LR3OPT">SG84-LR3OPT</a>: Stewart, W. R. and Golden, B. L. (1984). A Lagrangean relaxation heuristic for vehicle routing. European Journal of Operational Research, 15(1):84-88.
 
-> <a name="Ty68-NN">Ty68-NN</a>: Tyagi, M. S. (1968). A practical method for the truck dispatching problem. Journal of the Operations Research Society of Japan, 10:76-92.
+<!-- > [DV89-MM](#DV89-MM) -->
+`mbsa` : Desrochers and Verhoog (1989) maximum matching problem solution based savings algorithm. *Requires Gurobi.*
+> <a name="DV89-MM">DV89-MM</a>: Desrochers, M. and Verhoog, T. W. (1989). G-89-04 : A matching based savings algorithm for the vehicle routing problem. Technical report, GERAD, Montreal, Canada.
+
+<!-- > [MJ76-INS](#MJ76-INS) -->
+`mj` : Mole & Jameson (1976) sequential cheapest insertion heuristic with a route improvement phase.
+> <a name="MJ76-INS">MJ76-INS</a>: Mole, R. and Jameson, S. (1976). A sequential route-building algorithm employing a generalised savings criterion. Journal of the Operational Research Society, 27(2):503-511.
+
+<!-- > [CW64-PS](#CW64-PS) -->
+`ps` : Clarke & Wright (1964) parallel savings algorithm.
+> <a name="CW64-PS">CW64-PS</a>:Clarke, G. and Wright, J. W. (1964). Scheduling of vehicles from a central depot to a number of delivery points. Operations Research, 12(4):568-581.
+
+`ptl` : Foster & Ryan (1976) Petal set covering algorithm. *Requires Gurobi.*
+> <a name="FR76-1PTL">FR76-1PTL</a>: Foster, B. A. and Ryan, D. M. (1976). An integer programming approach to the vehicle scheduling problem. Journal of the Operational Research Society, 27(2):367-384.
+
+`pi`, [vB94](#vB94)-PI : parallel insertion heuristic as described by van Breedam (1994, 2002).
+
+`pn`, [vB94](#vB94)-PNN : Parallel Nearest Neighbor construction heuristic.
+
+`si`, [vB94](#vB94)-SI : Sequential cheapest insertion heuristic without local search (van Breedam 1994, 2002).
+
+`sn`, [vB94](#vB94)-SNN : Sequential Nearest Neighbor construction heuristic as described by van Breedam (1994).
 
 > <a name="vB94">vB94</a>: Van Breedam, A. (1994). An Analysis of the Behavior of Heuristics for the Vehicle Routing Problem for a Selectrion of Problems with Vehicle-related, Customer-related, and Time-related Constraints. PhD thesis, Faculty of Applied Economics, University of Antwerp, Belgium - RUCA. 
 > 
@@ -227,16 +185,20 @@ If you find VeRyPy useful in your research and use it to produce results for you
 > 
 > Van Breedam, A. (2002). A parametric analysis of heuristics for the vehicle routing problem with side-constraints. European Journal of Operational Research, 137(2):348-370.
 
+`rfcs` : Route-first-cluster-second heuristic of Beasley (1983).
+> <a name="Be83-RFCS">Be83-RFCS</a>: Beasley, J. E. (1983). Route first - cluster second methods for vehicle routing. Omega, 11(4):403-408.
+
+<!-- [We64-SS](#We64-SS) -->
+`ss` : Webb (1964) sequential savings algorithm.
 > <a name="We64-SS">We64-SS</a>: Webb, M. (1964). A study in transport routing. Glass Technology, 5:178-181.
 
+<!-- [Ty68-NN](#Ty68-NN) -->
+`ty` : Tyagi (1968) Nearest Neighbor construction heuristic. 
+> <a name="Ty68-NN">Ty68-NN</a>: Tyagi, M. S. (1968). A practical method for the truck dispatching problem. Journal of the Operations Research Society of Japan, 10:76-92.
+
+<!-- [WH72-SwLS](#WH72-SwLS) -->
+`wh` : Sweep heuristic with Wren and Holliday (1972) improvement procedures.
 > <a name="WH72-SwLS">WH72-SwLS</a>: Wren, A. and Holliday, A. (1972). Computer scheduling of vehicles from one or more depots to a number of delivery points. Journal of the Operational Research Society, 23(3):333-344.
-
-<!-- ## References
-TODO: links -->
-
-
-
-
 
 ## License
 
