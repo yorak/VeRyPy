@@ -43,7 +43,7 @@ An ensemble of relatively simple heuristics can be an effective and robust way t
 * Most of the algorithms are able to solve CVRP instances up to 1000 customers in under an hour
 * The fastest algorithms can tackle problems with over 10 000 customers in a reasonable time
 
-<sup>1</sup> In fact, due to its complexity, this just might be the only open source implementation of the 3-opt* operation out there.
+<sup>1</sup> In fact, due to its complexity, this just might be the only open source implementation of the 3-opt* (3-opt-star /  inter-route 3-opt) operation out there.
 
 <!-- TODO: animated gifs of the heuristics here -->
 <!-- 
