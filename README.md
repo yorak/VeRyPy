@@ -204,12 +204,12 @@ If you find VeRyPy useful in your research and use it to produce results for you
 
 `wh` : Sweep heuristic with Wren and Holliday (1972) improvement procedures.
 
+> <a name="vB95">vB95</a>: Van Breedam, A. (1994). An Analysis of the Behavior of Heuristics for the Vehicle Routing Problem for a Selectrion of Problems with Vehicle-related, Customer-related, and Time-related Constraints. PhD thesis, Faculty of Applied Economics, University of Antwerp, Belgium - RUCA. 
+> 
+> and
+> 
+> Van Breedam, A. (2002). A parametric analysis of heuristics for the vehicle routing problem with side-constraints. European Journal of Operational Research, 137(2):348-370.
 
-<a name="vB95">vB95</a>: Van Breedam, A. (1994). An Analysis of the Behavior of Heuristics for the Vehicle Routing Problem for a Selectrion of Problems with Vehicle-related, Customer-related, and Time-related Constraints. PhD thesis, Faculty of Applied Economics, University of Antwerp, Belgium - RUCA. 
-
-and
-
-Van Breedam, A. (2002). A parametric analysis of heuristics for the vehicle routing problem with side-constraints. European Journal of Operational Research, 137(2):348-370.
 
 > <a name="We64-SS">We64-SS</a>: Webb, M. (1964). A study in transport routing. Glass Technology, 5:178-181.
 
