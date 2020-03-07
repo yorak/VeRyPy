@@ -121,7 +121,7 @@ https://www.sphinx-doc.org/en/master/usage/quickstart.html
 
 If you find VeRyPy useful in your research and use it to produce results for your publications please consider citing it as:
 
-> Rasku J, Musliu N, Kärkkäinen T. Meta-Survey and Implementations of Classic Capacitated Vehicle Routing Heuristics with Reproductions of Earlier Results. Manuscript. University of Jyväskylä, Finland.
+> Rasku J., Musliu N., and Kärkkäinen T. (2019) Meta-Survey and Implementations of Classic Capacitated Vehicle Routing Heuristics with Reproductions of Earlier Results. Manuscript. University of Jyväskylä, Finland.
 
 
 ## Implemented Heuristics with References
