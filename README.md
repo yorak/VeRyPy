@@ -93,6 +93,8 @@ for route_idx, route in enumerate(sol2routes(solution)):
 
 VeRyPy requires Python 2.7, NumPy, and SciPy. For CLI use you also need `natsort` from PyPI and some algorithms have additional dependencies: [CMT79-2P](#CMT79-2P), [FR76-1PLT](#FR76-1PLT), [GM74-SwRI](#GM74-SwRI) and [WH72-SwLS](#WH72-SwLS) require `orderedset` from PyPI; [MJ76-INS](#MJ76-INS) needs `llist` from PyPI; and [FR76-1PLT](#FR76-1PLT) , [FG81-GAP](#FG81-GAP), and [DV89-MM](#DV89-MM) require Gurobi with `gurobipy`. By default [Be83-RFCS](#Be83-RFCS), [SG82-LR3OPT](#SG82-LR3OPT), and [Ty68-NN](#Ty68-NN) use LKH to solve TSPs, but they can be configured to use any other TSP solver (such as the internal one) if these external executables are not available.
 
+Also, be sure to add the VeRyPy root folder to your `PYTHONPATH` environment variable.
+
 <!-- TODO: insert dependency / object diagram here-->
 
 ## Contributing and Contacting
