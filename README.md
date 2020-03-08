@@ -14,7 +14,7 @@ Ve Ry Py
 <!-- TODO: https://www.smartfile.com/blog/testing-python-with-travis-ci/ -->
 <!-- [![Travis](https://img.shields.io/travis/zalandoresearch/flair.svg)](https://travis-ci.org/zalandoresearch/flair) -->
 
-VeRyPy is an **easy** to use **Python** library of classical Capacitated **Vehicle Routing Problem** (CVRP) algorithms. The enclosed implemented algorithms can also be used to solve travelling salesman problems (TSP). The code files are very loosely coupled so that you can take just the algorithms or the functionality you need in your studies or in your research project. 
+VeRyPy is an **easy** to use **Python** library of classical Capacitated **Vehicle Routing Problem** (CVRP) algorithms. The enclosed implemented algorithms can also be used to solve travelling salesman problems (TSP). The code files are published with the very permissive MIT license and are very loosely coupled so that you can take just the algorithms or the functionality you need in your studies, in your research project, or to solve the logistics planning problem you are facing. 
 
 ## Introduction
 
