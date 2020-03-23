@@ -9,7 +9,7 @@ import subprocess
 from export_dot import BB_HALF_SIZE, output_dot
 from os import makedirs, path
 from shutil import copyfile
-from sys import stderr, argv
+from sys import stderr, argv, exit
 
 GRAPHVIZ_NEATO_EXE = r"C:\Program Files (x86)\Graphviz\bin\neato.exe"
 GIFSICLE_EXE = r"C:\MyTemp\LocalApplications\gifsicle-1.88-win64\gifsicle.exe"
@@ -59,7 +59,6 @@ def visualize_procedure(algo_name, selector=VISUALIZE.ALL, make_anim=True,
         makedirs(output_folder) 
             
     points = None
-    d = None
     sol = None
     final_K = 1
     
@@ -70,8 +69,6 @@ def visualize_procedure(algo_name, selector=VISUALIZE.ALL, make_anim=True,
         if "POINTS:" in line:
             points = eval(line.split(":")[1])
             max(zip(points))
-        if "POINTS:" in line:
-            d = eval(line.split(":")[1])
         if "SOLUTION:" in line:
             #print(line)
             sol = eval(line.split(":")[1])
@@ -82,7 +79,7 @@ def visualize_procedure(algo_name, selector=VISUALIZE.ALL, make_anim=True,
             additional_points.extend( list( eval(point_coordinates_in_a_string ) ))
             
             
-    if not points or not d:
+    if not points:
         print(r"ERROR: the vrp file does not have coordinates!", file=stderr)
     
     dot_files = []

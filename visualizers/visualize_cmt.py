@@ -68,5 +68,5 @@ def _process_debug_line(line, normalization_parameters, currentK,
     return changed, newK
     
 if __name__=="__main__":
-    visualize_procedure("cmt", selector=VISUALIZE.ALL, make_anim=MAKE_ANIM, 
+    visualize_procedure("cmt_2phase", selector=VISUALIZE.ALL, make_anim=MAKE_ANIM, 
               process_debug_line_callback = _process_debug_line)
