@@ -44,15 +44,27 @@ def do_local_search(ls_ops, sol, D, d, C, L=None,
     all given operations are applied until giving up on reaching local optima).
     
     The iteration_strategy has an effect on which order the operations
-    are applied. If ALL_ACCEPT (default), each operator is applied in turn
-    until no improving moves are found. The options are:
-     * FIRST_ACCEPT accept every improving move returned by the operator, and 
-        start again from the first operator.
-     * BEST_ACCEPT accept the very best (single) move over all operators.
-     * ALL_ACCEPT accept every improving move of each operator and continue.
-     * REPEATED_ACCEPT run operator until no improving moves are found before
-        moving on to the next operator.
-    Note that these may freely be combined with the operator_strategy.   
+    are applied. The default is ALL_ACCEPT (default), but the options are:
+        
+     * ITEROPT.FIRST_ACCEPT accepts every improving move found by the active 
+        operator, and after an improving move is found and made, it starts
+        again from the first operator of the list. This is repeated until no
+        operator finds any improvements.
+     * ITEROPT.BEST_ACCEPT accepts the very best (single) move over all
+        operators. Stops when no operator finds any improvements. This, when
+        used together with operator_strategy=LSOPT.BEST_ACCEPT, will be the
+        very steepest descent. However, it is also the most computationally
+        heavy alternative as it has to evaluate every operator for each move.
+     * ITEROPT.ALL_ACCEPT accepts every improving move of each operator it
+        finds. It continues to the next operator after making that move or
+        noting that there is no improvement to be made. The strategy stops when
+        no operator finds any improvements.
+     * ITEROPT.REPEATED_ACCEPT runs a single operator until no improving moves 
+        are found for it. Then, the strategy moves on to the next operator. The
+        strategy starts again from the first operator if any of the operators
+        found an improvement.
+        
+    Note that these may freely be combined with the operator_strategy.    
     """
     
     current_sol = sol
