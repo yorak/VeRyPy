@@ -18,18 +18,22 @@ VeRyPy is an **easy** to use **Python** library of classical Capacitated **Vehic
 
 ## Introduction
 
-Compared to the existing heuristic and metaheuristic open source VRP libraries such as [VRPH](https://projects.coin-or.org/VRPH), [Google OR-Tools](https://developers.google.com/optimization/), and others, the focus in VeRyPy has been in reusability of the code and in replicating the existing results from the literature. There is no architecture astronautery in VeRyPy - instead, the focus is on the Python functions implementing the algorithms. The lightness of the framework is very much intentional as many existing libraries are complex beasts to reason about and understand which limits their use in a more exploratory setting. However, please note that the limitations of VeRyPy are also related to the main target of replication: it is not the fastest, the most sophisticated, nor the most effective library for solving these problems. But, if you are looking for something simple, VeRyPy might be just the perfect fit.
+Compared to the existing heuristic and metaheuristic open source VRP libraries such as [VRPH](https://projects.coin-or.org/VRPH), [Google OR-Tools](https://developers.google.com/optimization/), and others, the focus in VeRyPy has been in reusability of the code and in replicating the existing results from the literature. Hence, there is no architecture astronautery in VeRyPy - instead, the focus is entirely on the Python functions implementing the classical algorithms. The lightness of the framework is very much intentional. Many existing libraries are complex beasts to reason about and understand which limits their use in a more exploratory setting.
 
-Additionally, an ensemble of relatively simple heuristics can be an effective and robust way to solve practical problems and learning on the effectivity of different approaches before rolling out a more specialized and sophisticated algorithm. Furthermore, the quality of the solutions produced by the state-of-the-art metaheuristics depend on the quality of the initial solutions and VeRyPy can be used to produce a varied set of initial solutions for these more advanced methods.
+However, please note that the limitations of VeRyPy are also related to the main aims of this project, that is, of replication and simplicity: it is not the fastest, the most sophisticated, nor the most effective library for solving these problems. But, if you are looking for something simple, VeRyPy might be just the perfect fit!
+
+Additionally, an ensemble of relatively simple heuristics can be an effective and robust way to solve practical problems. Learning and experimenting on the effectivity of different approaches before rolling out a more specialized and sophisticated algorithm can be very fruitful. Furthermore, the quality of the solutions produced by the state-of-the-art metaheuristics depend on the quality of the initial solutions and VeRyPy can be used to produce a varied set of initial solutions for these more advanced methods.
 
 ## Features
 
-* Implementations of 15 CVRP heuristics that are:
+* Implementations of 15+ CVRP heuristics that are:
   * deterministic,
   * classical (from 60ies to mid 90ies, well-cited),
-  * constructive (as opposed to improvement heuristics),
-  * the correctness of implementation is shown through replication of the original results,
+  * constructive (as opposed to improvement heuristics), and which are
   * tested on a comprehensive set of 454 well-known CVRP benchmark instances.
+  * The correctness of implementation is shown through replication of the original results, where
+    * the results are replicated perfectly or near perfectly for 11 of the classical heuristics, but
+    * for 4 of the classical heuristics, the results are bit ambigious.
   * For a full list, see [the heuristics list with references](#implemented-heuristics-with-references).
 * Collection of local search heuristics:
   * intra route: 2-opt, 3-opt, relocate, exchange
