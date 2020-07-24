@@ -103,7 +103,7 @@ Also, be sure to add the VeRyPy root folder to your `PYTHONPATH` environment var
 
 ## Contributing and Contacting
 
-Please consider contributing to VeRyPy. But, if this library does not meet your needs, please check the alternatives: [VRPH](https://projects.coin-or.org/VRPH), [Google OR-Tools](https://developers.google.com/optimization/). In order to avoid reinventing (rewriting?) the wheel, please fight the NIH and consider the aforementioned options before rolling out your own VRP/TSP library.
+Please consider contributing to VeRyPy. But, if this library does not meet your needs, please check the alternatives: [VRPH](https://projects.coin-or.org/VRPH), [Google OR-Tools](https://developers.google.com/optimization/). In order to avoid reinventing (rewriting?) the wheel, please fight the [NIH](https://en.wikipedia.org/wiki/Not_invented_here) and consider the aforementioned options before rolling out your own VRP/TSP library.
 
 All contributions including, but not limited to, improving the implemented algorithms, implementing new classical heuristics or metaheuristics, reporting bugs, fixing bugs, improving documentation, writing tutorials, or improving the usability of the library are welcome. However, please note that any contributions you make will be under the MIT Software License. Even if you are not that much into coding please note that blogging, tweeting, and just plain talking about VeRyPy will help the project to grow and prosper.
 
@@ -116,10 +116,11 @@ Feature requests can be made, but there is no guarantee that they will be addres
 
 If you are itching to get started, please refer to the todo list below:
 
-1. Package project : https://packaging.python.org/tutorials/packaging-projects/
-2. Transform all docstrings to NumPy format 
-3. Generate restructured documentation 	https://pythonhosted.org/sphinxcontrib-restbuilder/
-https://www.sphinx-doc.org/en/master/usage/quickstart.html
+* [Package project](https://github.com/yorak/VeRyPy/issues/2) for `pip` to make it easier to install
+* [Transform all docstrings to NumPy format](https://github.com/yorak/VeRyPy/issues/3) and generate restructured documentation (work ongoing by yorak)
+* [Implement the inter-route 3-opt*](https://github.com/yorak/VeRyPy/issues/5#issue-665048120) that only operates on the selected 2 or 3 routes (as opposed to the proven solution-based version can be used as an reference). This work has been started, but not completed.
+* Consider verifing the support for asymmetric problems. Most of the algorithms should support this already, but more tests should be written to verify this.
+* Consider adding support for time windows (VRPTW). This would probably lead to a major refactoring, but could be an interesting exercise.
 
 ## Citing VeRyPy
 
