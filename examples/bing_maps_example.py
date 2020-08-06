@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 """This script calculates distance matrix for given addresses using Bing maps API.
 
@@ -35,17 +35,17 @@ except ImportError:
     from urlparse import urlparse
     from urllib import urlencode, quote
     from urllib2 import urlopen, Request, HTTPError
-    
-import json
-import sys
-import pickle
-import argparse
 
 __author__ = "Jussi Rasku"
 __copyright__ = "Copyright 2020"
 __license__ = "MIT"
 __version__ = "1.0.0"
 __status__ = "Example"
+
+import json
+import sys
+import pickle
+import argparse
 
 # TODO: include as a CLI parameter
 TRAVEL_MODE = 'driving' #'walking'
@@ -152,7 +152,7 @@ if args.f:
     D = getDistanceMatrix(locations, TRAVEL_MODE, mapApiKey)
     if args.o:
         pickle.dump(D, args.o)
-    pprint(D)
+    print("D = ", end="");pprint(D)
 elif args.D:
     D = pickle.load(args.D)
     
@@ -175,6 +175,6 @@ if args.C:
         sys.stderr.write("INFO: Solving a %d customer CVRP with Savings heuristic.\n"%(len(locations)-1))
 
     solution = parallel_savings_init(D=D, d=d, C=args.C)
-    print("\nCVRP solution\n")
+    print("\nCorresponding CVRP solution is")
     for route_idx, route in enumerate(sol2routes(solution)):
         print("Route #%d : %s"%(route_idx+1, route))
