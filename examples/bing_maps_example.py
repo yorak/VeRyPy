@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 """This script calculates distance matrix for given addresses using Bing maps API.
 
@@ -30,14 +30,18 @@ __license__ = "MIT"
 __version__ = "1.0.0"
 __status__ = "Example"
 
+# Written in Python 2.7, but try to maintain Python 3+ compatibility
+from __future__ import print_function
+from __future__ import division
+
 import urllib.request
 import json
 import sys
 import pickle
 import argparse
 
+# TODO: Could be a CLI flag?
 TRAVEL_MODE = 'driving' #'walking'
-
 
 from pprint import pprint
 import numpy as np
