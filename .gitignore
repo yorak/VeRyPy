@@ -104,4 +104,4 @@ venv.bak/
 .mypy_cache/
 
 # secrets
-.key
+*.key
