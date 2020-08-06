@@ -66,12 +66,14 @@ TODO: Time complexity curves from the paper
 
 Make sure that the VeRyPy is in PYTHONPATH. On linux the relevant command is
 ```
-export PYTHONPATH=$PYTHONPATH:/home/jussi/Projects/CVRP:/home/jussi/Projects/CVRP/VeRyPy
+$ export PYTHONPATH=$PYTHONPATH:/home/jussi/Projects/CVRP:/home/jussi/Projects/CVRP/VeRyPy
 ```
 and on Windows 
 ```
-set PYTHONPATH=%PYTHONPATH%;C:\users\jussi\Projects\CVRP;C:\users\jussi\Projects\CVRP\VeRyPy
+> set PYTHONPATH=%PYTHONPATH%;C:\users\jussi\Projects\CVRP;C:\users\jussi\Projects\CVRP\VeRyPy
 ```
+Be sure to modify the paths as necessary.
+
 The command line use of VeRyPy assumes TSPLIB formatted files (assuming VeRyPy is in your PYTHONPATH):
 ```bash
 $ python -O VeRyPy.py -a all E-n51-k5.vrp
