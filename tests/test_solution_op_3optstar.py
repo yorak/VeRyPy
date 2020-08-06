@@ -22,7 +22,7 @@ from classic_heuristics.nearest_neighbor import nearest_neighbor_init
 from cvrp_io import generate_CVRP
 from cvrp_ops import check_solution_feasibility, calculate_objective
 from util import sol2routes, routes2sol
-import test_local_search_operation
+from test_intra_route_local_search_operation import Test3Opt
 
 PRINT_ONLY_FINAL_RESULT = True
 
@@ -30,7 +30,7 @@ PRINT_ONLY_FINAL_RESULT = True
 def _intra_route_3optstar_call(sol, D, strategy=LSOPT.FIRST_ACCEPT):
      return do_3optstar_move(sol, D, [1.0]*len(D), len(D), None, strategy)
 
-class TestIntraRouteMoves3OptStarSolutionOperator(test_local_search_operation.Test3Opt):
+class TestIntraRouteMoves3OptStarSolutionOperator(Test3Opt):
     """ This tests all the move operators on a single route. The test reuses
     the test_local_search_operation.Test3Opt unit test.
     """
@@ -58,7 +58,7 @@ class TestSmoke3OptStarSolutionOperator(unittest.TestCase):
                               [293, 225, 158,   0, 440, 380],
                               [236, 226, 377, 440,   0, 507],
                               [276, 434, 236, 380, 507,   0]])
-        self.d = [0, 14, 1, 24, 50, 13],
+        self.d = [0, 14, 1, 24, 50, 13]
         self.C = 50
         self.initial_sol=[0, 5, 3, 0, 4, 0, 1, 2, 0]
 
