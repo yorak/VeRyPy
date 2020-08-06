@@ -86,13 +86,13 @@ def sequential_savings_init(D, d, C, L=None, minimize_K=False,
     
     if initialize_routes_with=="farthest" or initialize_routes_with=="closest":
         # build a ordered priority queue of potential route initialization nodes
-        seed_customers = range(1,N)
+        seed_customers = list(range(1,N))
         seed_customers.sort(reverse = initialize_routes_with=="closest",
                             key = lambda i: (D[0][i],i) )
     elif initialize_routes_with=="first":
-        seed_customers = range(1,N)
+        seed_customers = list(range(1,N))
     elif initialize_routes_with=="last":
-        seed_customers = range(N-1,-1,-1)
+        seed_customers = list(range(N-1,-1,-1))
     elif initialize_routes_with=="savings":
         # Calculate the savings A i,j, sort them, and generate a j list
         seed_customers = sum(

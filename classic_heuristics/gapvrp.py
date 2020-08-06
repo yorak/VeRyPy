@@ -431,7 +431,7 @@ def _end_of_thoroughfares_seed_points(points, D, d, C, K, trial=0):
     candidates_type = "cluster non-core"
     
     if __debug__:
-        log(DEBUG-3,"DBSCAN labels = %s"%str(zip(range(N),db.labels_)))
+        log(DEBUG-3,"DBSCAN labels = %s"%str(list(zip(range(N),db.labels_))))
         log(DEBUG-3,"DBSCAN core = %s"%str(db.core_sample_idxs_))
         log(DEBUG-2,"Select %d seed nodes from non-core nodes %s."%
             (min(len(candidate_idxs),K), str(candidate_idxs)))
@@ -702,7 +702,7 @@ def gap_init(points, D, d, C, L=None, st=None, K=None, minimize_K=True,
         elif L:
             # find a lower bound by checking how many visits from the TSP
             #  tour need to add to have any chance of making this L feasible.
-            _,tsp_f = solve_tsp(D, range(1,N))
+            _,tsp_f = solve_tsp(D, list(range(1,N)))
             shortest_depot_edges = list(D[0,1:])
             shortest_depot_edges.sort()
             startK = int(ceil(tsp_f/L))

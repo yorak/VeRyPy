@@ -15,6 +15,7 @@ and preparing the problem instance."""
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
 from __future__ import print_function
 from __future__ import division
+from builtins import range
 
 import numpy as np
 from math import pi
@@ -267,7 +268,7 @@ def complain_heuristic(routes,unrouted_nodes, #input / outputs
                 continue
             route1, r1l, r1d, _ = rd1
                   
-            for i in xrange(1,len(route1)-1):
+            for i in range(1,len(route1)-1):
                 replace_after = route1[i-1]
                 was_replaced = route1[i]
                 replace_before = route1[i+1]
@@ -543,7 +544,7 @@ def wren_holliday_init(points, D, d, C, L=None, minimize_K=False,
                                         np.array([avgy]))
             # to range [-pi, pi]
             if avg_phi>0:
-                least_dense_phi = avg_phi[0]-pi        
+                least_dense_phi = avg_phi[0]-pi
             else:
                 least_dense_phi = avg_phi[0]+pi
             

@@ -12,6 +12,9 @@ procedure from parallel_savings.py, built-in 3-opt heuristic, and numpy and
 scipy for reading and preparing the problem instance."""
 ###############################################################################
 
+# Written in Python 2.7, but try to maintain Python 3+ compatibility
+from builtins import range
+
 from parallel_savings import parallel_savings_init
 import numpy as np
 from local_search import LSOPT, do_local_search
@@ -40,8 +43,8 @@ def paessens_savings_function(D, g_multiplier, f_multiplier):
     n = N-1
     savings = [None]*((n*n-n)/2)
     idx = 0
-    for i in xrange(1,N):
-        for j in xrange(i+1,N):
+    for i in range(1,N):
+        for j in range(i+1,N):
             s = D[i,0]+D[0,j]\
                 -g_multiplier*D[i,j]\
                 +f_multiplier*abs(D[i,0]-D[0,j])

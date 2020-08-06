@@ -16,6 +16,7 @@ are needed for reading and preparing the problem instance."""
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
 from __future__ import print_function
 from __future__ import division
+from builtins import range
 
 from logging import log, DEBUG
 from util import routes2sol, objf
@@ -36,8 +37,8 @@ def clarke_wright_savings_function(D):
     n = N-1
     savings = [None]*int((n*n-n)/2)
     idx = 0
-    for i in xrange(1,N):
-        for j in xrange(i+1,N):
+    for i in range(1,N):
+        for j in range(i+1,N):
             s = D[i,0]+D[0,j]-D[i,j]
             savings[idx] = (s,-D[i,j],i,j)
             idx+=1
@@ -90,16 +91,16 @@ def parallel_savings_init(D, d, C, L=None, minimize_K=False,
     ignore_negative_savings = not minimize_K
     
     ## 1. make route for each customer
-    routes = [[i] for i in xrange(1,N)]
+    routes = [[i] for i in range(1,N)]
     route_demands = d[1:] if C else [0]*N
-    if L: route_costs = [D[0,i]+D[i,0] for i in xrange(1,N)]
+    if L: route_costs = [D[0,i]+D[i,0] for i in range(1,N)]
     
     try:
         ## 2. compute initial savings 
         savings = savings_callback(D)
         
         # zero based node indexing!
-        endnode_to_route = [0]+range(0,N-1)
+        endnode_to_route = [0]+list(range(0,N-1))
         
         ## 3. merge
         # Get potential merges best savings first (second element is secondary

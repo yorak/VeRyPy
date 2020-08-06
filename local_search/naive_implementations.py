@@ -17,6 +17,7 @@ Note: these are for educational use only as the objective function and feasibi-
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
 from __future__ import print_function
 from __future__ import division
+from builtins import range
 
 from itertools import groupby
 from time import time
@@ -93,9 +94,9 @@ def do_naive_2opt_move(solution,D,d,C,L,
             route_end+=1
         
         # all possible ways of reversing the intra route sequence of length 2+
-        for a in xrange(route_start, route_end):
+        for a in range(route_start, route_end):
             b = a+1
-            for c in xrange(a+2, route_end):
+            for c in range(a+2, route_end):
                 d = c+1
                 
                 # a->c b->d
@@ -148,11 +149,11 @@ def do_naive_2optstar_move(solution,D,d,C,L,
         best_delta = 0
         
     # all possible ways of reconnecting the sequences
-    for a in xrange(0, len(solution)-3):
+    for a in range(0, len(solution)-3):
         b = a+1
         left_mid_depot = b if solution[b]==0 else None
         right_mid_depot = left_mid_depot
-        for c in xrange(b, len(solution)-1):
+        for c in range(b, len(solution)-1):
             d = c+1
             if solution[c]==0:
                 if left_mid_depot is None:
@@ -242,14 +243,14 @@ def do_naive_3optstar_move(solution,D,demands,C,L,
         best_delta = 0
         
     # all possible ways of reconnecting the sequences
-    for a in xrange(0, len(solution)-3):
+    for a in range(0, len(solution)-3):
         b = a+1
         ab_left_mid_depot = b if solution[b]==0 else None
         ab_right_mid_depot = ab_left_mid_depot
         
-        for c in xrange(b, len(solution)-1):
+        for c in range(b, len(solution)-1):
             d = c+1
-            for e in xrange(d, len(solution)):
+            for e in range(d, len(solution)):
                 f = e+1
                 
                 #       ______________
@@ -328,7 +329,7 @@ def do_naive_1point_move(solution,D,d,C,L,
         if n==0:
             continue
             
-        for j in xrange(1,len(solution)-1):
+        for j in range(1,len(solution)-1):
             ansatz_sol = list(solution)
             ansatz_sol.remove(n)
             ansatz_sol.insert(j,n)
@@ -382,12 +383,12 @@ def do_naive_2point_move(solution,D,d,C,L,
     if not best_delta:
         best_delta = 0
     
-    for i in xrange(len(solution)):
+    for i in range(len(solution)):
         n1 = solution[i]
         if n1==0:
             continue
             
-        for j in xrange(1,len(solution)-1):
+        for j in range(1,len(solution)-1):
             n2 = solution[j]
             if n2==0:
                 continue

@@ -75,7 +75,7 @@ def _phase_one(lambda_multiplier, D,d,C,L, seed_f, rr):
     sol = []
     total_cost = 0.0
     
-    customer_nodes = range(1,N)
+    customer_nodes = list(range(1,N))
     if rr is not None:
         shuffle(customer_nodes)
         rr-=1
@@ -209,7 +209,7 @@ def _phase_two(mu_multiplier,route_seeds, D,d,C,L, rr,
     N = len(D)
     K = len(route_seeds)
 
-    customer_nodes = range(1,N)
+    customer_nodes = list(range(1,N))
     if rr is not None: 
         #->stochastic version, resolve the ties randomly
         shuffle(customer_nodes)
@@ -248,7 +248,7 @@ def _phase_two(mu_multiplier,route_seeds, D,d,C,L, rr,
         while unrouted_nodes:                
             ## Main while loop bookkeeping
             if not route_seed_idxs:
-                idxs = range(K)
+                idxs = list(range(K))
                 if rr is not None: #->stocastic version, construct routes in random order
                     shuffle(idxs)
                 route_seed_idxs = deque(idxs)

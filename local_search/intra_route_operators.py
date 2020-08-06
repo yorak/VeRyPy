@@ -39,6 +39,7 @@ improvement (delta) as 2-tuple or (None,None) if no improvement was found."""
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
 from __future__ import print_function
 from __future__ import division
+from builtins import range
 
 from local_search import LSOPT
 from config import COST_EPSILON as S_EPS
@@ -63,8 +64,8 @@ def do_2opt_move(route, D, strategy=LSOPT.FIRST_ACCEPT, best_delta=None):
     if not best_delta:
         best_delta = 0
     accept_move = False
-    for i in xrange(0,rN-1):
-        for j in xrange(i+1,rN-1):
+    for i in range(0,rN-1):
+        for j in range(i+1,rN-1):
             a = route[i]
             b = route[i+1]
             c = route[j]
@@ -99,9 +100,9 @@ def do_3opt_move(route, D, strategy=LSOPT.FIRST_ACCEPT, best_delta=None):
         best_delta = 0
     accept_move = False
     
-    for i in xrange(0,rN-1):
-        for j in xrange(i+1,rN-1):
-            for k in xrange(j+1,rN-1):
+    for i in range(0,rN-1):
+        for j in range(i+1,rN-1):
+            for k in range(j+1,rN-1):
 
                 # the edge endpoints
                 a = route[i]
@@ -265,8 +266,8 @@ def do_relocate_move(route, D, strategy=LSOPT.FIRST_ACCEPT, best_delta=None):
     if not best_delta:
         best_delta = 0
     accept_move = False
-    for i in xrange(1,rN-1):
-        for j in xrange(1,rN):
+    for i in range(1,rN-1):
+        for j in range(1,rN):
             if i==j or j==i-1:
                 continue
             
@@ -316,8 +317,8 @@ def do_exchange_move(route, D, strategy=LSOPT.FIRST_ACCEPT, best_delta=None):
     if not best_delta:
         best_delta = 0
     accept_move = False
-    for i in xrange(1,rN-1):
-        for j in xrange(i+1,rN-1):
+    for i in range(1,rN-1):
+        for j in range(i+1,rN-1):
             if i==j:
                 continue
             a = route[i-1]

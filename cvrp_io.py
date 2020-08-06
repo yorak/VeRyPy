@@ -8,6 +8,7 @@ generating new random instances.
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
 from __future__ import print_function
 from __future__ import division
+from builtins import range
 
 import os
 import re
@@ -261,7 +262,7 @@ def read_TSPLIB_CVRP(file_name):
                     section_pos = 0
                 elif 'NODE_COORD_SECTION' in line:
                     section = 'NODE_COORD_SECTION'
-                    points = [ [None, None] for i in xrange(N+1) ]
+                    points = [ [None, None] for i in range(N+1) ]
                     if edge_weight_type!='EXPLICIT':
                         # sometimes coordinates are incorrectly not given in 
                         #  DISPLAY_DATA_SECTION even if a matrix is defined.
@@ -270,7 +271,7 @@ def read_TSPLIB_CVRP(file_name):
                 elif 'DISPLAY_DATA_SECTION' in line:
                     if points is None:
                         section = 'DISPLAY_DATA_SECTION'
-                        dd_points = [ [None, None] for i in xrange(N+1) ]
+                        dd_points = [ [None, None] for i in range(N+1) ]
                         D_needs_update = False
                         section_pos = 0
                     else:
@@ -381,7 +382,7 @@ def read_TSPLIB_CVRP(file_name):
     if depot_ids and depot_ids[0]>1:
         # make sure depot is the 0
         idx_0 = depot_ids[0]-1
-        row_col_permutation = [idx_0]+range(0,idx_0)+range(idx_0+1,len(D))
+        row_col_permutation = [idx_0]+list(range(0,idx_0))+list(range(idx_0+1,len(D)))
         for i in range(N):
             D[:,i] = D[row_col_permutation,i]
         for i in range(N):
@@ -513,7 +514,7 @@ def write_TSPLIB_file(tsplib_file_path, D,
                       float_to_int_precision=None):
     
     if not selected_idxs:
-        selected_idxs=range(len(D))
+        selected_idxs=list(range(len(D)))
     write_cvrp = False
     if tsplib_file_path[-4:].lower()==".vrp":
         write_cvrp = True

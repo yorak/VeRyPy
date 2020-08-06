@@ -154,7 +154,7 @@ def _init_with_random(D,d,C,L):
     return random_sol, calculate_objective(random_sol, D)
 
 def _init_with_tsp(D,d,C,L):
-    route_tsp_sol, route_f = tsp_opt_algo(D, range(0,len(D)))
+    route_tsp_sol, route_f = tsp_opt_algo(D, list(range(0,len(D))))
     return route_tsp_sol+[0], route_f
 
 def _force_feasible(sol, D, d, C, L):

@@ -110,7 +110,7 @@ class TestVsVRPH(unittest.TestCase):
     def _test_ls_vs_vrhp_w_random_sol(self, vrph_heur, ls_heur,
                         times=10, routes=1):
         for i in range(times):
-            initial_sol = range(1,len(self.D))
+            initial_sol = list(range(1,len(self.D)))
             shuffle(initial_sol )
             initial_sol = [0]+initial_sol+[0]
             routes_to_create = routes-1
@@ -204,7 +204,7 @@ def _random_cvrp():
     return N, points, d, D, C
 
 def _get_random_solution(d,C):
-    nodes = range(1,len(d))
+    nodes = list(range(1,len(d)))
     shuffle(nodes)
     sol = [0]
     route_d = 0

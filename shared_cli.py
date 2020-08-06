@@ -204,7 +204,7 @@ def tsp_cli(tsp_f_name, tsp_f):
         P = cvrp_io.read_TSPLIB_CVRP(sys.argv[1])
         D = P.distance_matrix
         start_t = time()
-        tsp_sol, tsp_f = tsp_f(D, range(len(D)))
+        tsp_sol, tsp_f = tsp_f(D, list(range(len(D))))
         elapsed_t = time()-start_t
         print("Solved %s with %s in %.2f s"%(path.basename(sys.argv[1]), 
                                              tsp_f_name, elapsed_t))

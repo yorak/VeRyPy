@@ -319,7 +319,7 @@ class Test3Opt(unittest.TestCase):
             
     def smoke_test_3opt(self):
         N, points, _, _, D, _, _ = generate_CVRP(50, 40, 10, 5)
-        current_sol = range(N)
+        current_sol = list(range(N))
         while True:
             sol = self.move_op(current_sol ,D)
             if sol:

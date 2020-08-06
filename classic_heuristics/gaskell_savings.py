@@ -12,6 +12,9 @@ procedure from parallel_savings.py, built-in TSP solver, and numpy and scipy
 for reading and preparing the problem instance."""
 ###############################################################################
 
+# Written in Python 2.7, but try to maintain Python 3+ compatibility
+from builtins import range
+
 import numpy as np
 from util import objf, is_better_sol
 from parallel_savings import parallel_savings_init
@@ -30,8 +33,8 @@ def gaskell_lambda_savings_function(D):
     savings = [None]*((n*n-n)/2)
     idx = 0
     d_avg = np.average(D[0:])
-    for i in xrange(1,n+1):
-        for j in xrange(i+1,n+1):
+    for i in range(1,n+1):
+        for j in range(i+1,n+1):
             s_AB = D[i,0]+D[0,j]-D[i,j]
             lambda_AB = s_AB*(d_avg+abs(D[0,i]-D[0,j])-D[i,j])
             savings[idx] = (lambda_AB, -D[i,j], i,j)
@@ -44,8 +47,8 @@ def gaskell_pi_savings_function(D):
     n = len(D)-1
     savings = [None]*((n*n-n)/2)
     idx = 0
-    for i in xrange(1,n+1):
-        for j in xrange(i+1,n+1):
+    for i in range(1,n+1):
+        for j in range(i+1,n+1):
             pi_AB = D[i,0]+D[0,j]-2*D[i,j]
             savings[idx] = (pi_AB, -D[i,j], i,j)
             idx+=1            

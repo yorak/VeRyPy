@@ -15,6 +15,7 @@ problem instance."""
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
 from __future__ import print_function
 from __future__ import division
+from builtins import range
 
 import numpy as np
 from logging import log, DEBUG
@@ -104,9 +105,9 @@ def _partition_to_routes_with_cost_matrix(D, d, C, L, giant_tour,
     #  note that we cannot use floyd_warshall from scipy.sparse.csgraph, as 
     #  this initializes the i==i to 0, which is exactly the distance we are 
     #  interested in!
-    for i in xrange(N):
-        for j in xrange(N):
-            for k in xrange(N):
+    for i in range(N):
+        for j in range(N):
+            for k in range(N):
                 if sequence_D[i,j] > sequence_D[i,k]+sequence_D[k,j]:
                     sequence_D[i,j] = sequence_D[i,k]+sequence_D[k,j]
                     next_split[i,j] = next_split[i,k]
@@ -211,9 +212,9 @@ def route_first_cluster_second_init(D, d, C, L=None, minimize_K=False,
     """
     N = len(D)
     if N<=2:
-        return range(N)+[0]
+        return list(range(N))+[0]
     
-    giant_tour_sol, giant_tour_l  = tsp_gen_algo(D, range(1,N))
+    giant_tour_sol, giant_tour_l  = tsp_gen_algo(D, list(range(1,N)))
         
     if __debug__:
         log(DEBUG, "TSP tour solution %s (%.2f)"%(str(giant_tour_sol),giant_tour_l))

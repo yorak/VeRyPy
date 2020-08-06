@@ -7,6 +7,7 @@ checking their feasibility, and calculating the solution quality.
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
 from __future__ import print_function
 from __future__ import division
+from builtins import range
 
 from sys import stderr
 from itertools import groupby
@@ -249,7 +250,7 @@ def calculate_objective(sol, D):
     if hasattr(sol[0], '__iter__'):
         # routes are separately
         for route in sol:
-            f+= sum( D[route[i-1],route[i]] for i in xrange(1,len(route)))
+            f+= sum( D[route[i-1],route[i]] for i in range(1,len(route)))
             # sometimes a end or start (or both) visit to depot may be missing
             if route[0]!=0:
                 f+=D[0,route[0]]
@@ -257,7 +258,7 @@ def calculate_objective(sol, D):
                 f+=D[route[-1],0]
     else:
         # giant tour encoding
-        f = sum( D[sol[i-1],sol[i]] for i in xrange(1,len(sol)))
+        f = sum( D[sol[i-1],sol[i]] for i in range(1,len(sol)))
         f+=D[sol[-1], sol[0]]
     return f
 

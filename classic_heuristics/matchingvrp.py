@@ -16,6 +16,7 @@ reading and preparing the problem instance.
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
 from __future__ import print_function
 from __future__ import division
+from builtins import range
 
 from logging import log, DEBUG
 from signal import signal, SIGINT, default_int_handler
@@ -42,7 +43,7 @@ __status__ = "Development"
     
 def _mmp_add_cnts_sum(m, x_ij, x_ij_keys, w_ij, n):
     ## constraints
-    for k in xrange(0,n):
+    for k in range(0,n):
         active_vars = x_ij.sum(k,'*')
         if active_vars.size()>0:
             m.addConstr( active_vars == 1, "m_%d"%k )

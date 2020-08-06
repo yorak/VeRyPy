@@ -28,6 +28,9 @@ All operators return the new improved solution and the improvement (delta) as a
 2-tuple or (None,None) if no improvement was found."""
 ###############################################################################
 
+# Written in Python 2.7, but try to maintain Python 3+ compatibility
+from builtins import range
+
 from collections import namedtuple
 from local_search import LSOPT
 
@@ -439,7 +442,7 @@ def do_3optstar_move(solution, D, demands=None,
     cum_d = [0]*6
     cum_l = [0]*6
     
-    for i in xrange(0,sN-1):
+    for i in range(0,sN-1):
         # left and rightmost visits to the depot between i and j
         ldepot_12 = None
         rdepot_12 = None
@@ -451,7 +454,7 @@ def do_3optstar_move(solution, D, demands=None,
         end_n[1] = solution[i+1]
              
         
-        for j in xrange(i+1,sN-1):
+        for j in range(i+1,sN-1):
             if solution[j]==DEPOT:
                 if ldepot_12 is None:
                     ldepot_12 = j
@@ -475,7 +478,7 @@ def do_3optstar_move(solution, D, demands=None,
                 cum_l[1] = sol_data.rwd_l[i+1]\
                  -(sol_data.rwd_l[j]   if (ldepot_12 is None) else 0.0) 
                  
-            for k in xrange(j+1,sN-1):
+            for k in range(j+1,sN-1):
                 if solution[k]==DEPOT:
                     if ldepot_34 is None:
                         ldepot_34 = k

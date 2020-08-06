@@ -461,7 +461,7 @@ def sweep_init(coordinates, D, d, C, L=None, minimize_K=False,
     elif seed_node==SMALLEST_ANGLE:
         starts = [0]
     elif seed_node==BEST_ALTERNATIVE:
-        starts = range(0,N-1)
+        starts = list(range(0,N-1))
     elif type(seed_node) is int:
         # we interpret it as a node idx
         starts = [np.where(sweep[2]==abs(seed_node)%N)[0][0]]

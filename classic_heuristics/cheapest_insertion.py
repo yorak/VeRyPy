@@ -14,6 +14,7 @@ preparing the problem instance."""
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
 from __future__ import print_function
 from __future__ import division
+from builtins import range
 
 from collections import namedtuple
 from heapq import heappush, heappop
@@ -282,7 +283,7 @@ def cheapest_insertion_init(D, d, C, L=None, minimize_K=False,
     
     if initialize_routes_with=="farthest" or initialize_routes_with=="closest":
         # build a ordered priority queue of potential route initialization nodes
-        seed_customers = zip(D[0][1:], [(i,) for i in xrange(1,len(D))])
+        seed_customers = zip(D[0][1:], [(i,) for i in range(1,len(D))])
         seed_customers.sort(reverse = initialize_routes_with=="closest")
     elif initialize_routes_with=="strain":
         # use the strain function to calculate the first insertion
@@ -290,7 +291,7 @@ def cheapest_insertion_init(D, d, C, L=None, minimize_K=False,
         #  (\lambda-1)c_{oi}-c_{ij}+c_{ij}
         seed_customers = [
                 ((insertion_strain_callback(D, 0, i, j)[0], -D[i,j]), (i,j))
-                            for i in xrange(1,len(D)) for j in xrange(i,len(D))]
+                            for i in range(1,len(D)) for j in range(i,len(D))]
         seed_customers.sort(reverse=False)
         #(seed_customers)
     elif callable(initialize_routes_with):
@@ -299,7 +300,7 @@ def cheapest_insertion_init(D, d, C, L=None, minimize_K=False,
         raise ValueError("Unknown route initialization method '%s'"%initialize_routes_with)
         
     route_datas = [_initialize_new_route(seed_customers, unrouted, D, d)
-                   for k in xrange(emerging_route_count)]
+                   for k in range(emerging_route_count)]
     if __debug__:
         for ri, rd in enumerate(route_datas):
             log(DEBUG, "Initialized a new route #%d %s"%(ri, str(list(rd.route))))

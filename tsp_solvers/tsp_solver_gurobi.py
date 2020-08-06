@@ -3,6 +3,7 @@
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
 from __future__ import print_function
 from __future__ import division
+from builtins import range
 
 # MODIFIED FROM http://examples.gurobi.com/traveling-salesman-problem/
 
@@ -19,15 +20,15 @@ def _subtourelim(model, where):
     # make a list of edges selected in the solution
     X = model.cbGetSolution(model._vars)
     n = int(sqrt(len(X)))
-    selected = [(i,j) for i in xrange(n) for j in xrange(n) if X[(i,j)]>0.5]
+    selected = [(i,j) for i in range(n) for j in range(n) if X[(i,j)]>0.5]
 
     # find the shortest cycle in the selected edge list
     tour = _subtour(selected,n)
     if len(tour) < n:
       # add a subtour elimination constraint
       expr = quicksum(model._vars[tour[i], tour[j]]
-          for i in xrange(len(tour))
-              for j in xrange(i+1, len(tour)))
+          for i in range(len(tour))
+              for j in range(i+1, len(tour)))
       model.cbLazy(expr <= len(tour)-1)
 
 # closures that include n
@@ -36,7 +37,7 @@ def _subtour(edges,n):
   visited = [False]*n
   cycles = []
   costs = []
-  selected = [[] for i in xrange(n)]
+  selected = [[] for i in range(n)]
   for x,y in edges:
     selected[x].append(y)
   while True:
@@ -71,7 +72,7 @@ def solve_tsp_gurobi(D, selected_idxs):
             sol = list(selected_idxs)
             if sol[0]!=sol[-1]:
                 sol.append(sol[0])            
-            obj_f = sum( D[sol[i-1],sol[i]] for i in xrange(1,len(sol)) ) 
+            obj_f = sum( D[sol[i-1],sol[i]] for i in range(1,len(sol)) ) 
         return sol, obj_f 
         
     m = Model("TSP")
@@ -80,8 +81,8 @@ def solve_tsp_gurobi(D, selected_idxs):
     # Create variables    
     edgevars = {}
     
-    for i in xrange(n):
-       for j in xrange(i+1):
+    for i in range(n):
+       for j in range(i+1):
          from_node = selected_idxs[i]
          to_node = selected_idxs[j]
          edgevars[i,j] = m.addVar(obj=D[from_node, to_node], vtype=GRB.BINARY,
@@ -91,7 +92,7 @@ def solve_tsp_gurobi(D, selected_idxs):
     
     # Add degree-2 constraint, and forbid loops
     for i in range(n):
-      m.addConstr(quicksum(edgevars[i,j] for j in xrange(n)) == 2)
+      m.addConstr(quicksum(edgevars[i,j] for j in range(n)) == 2)
       edgevars [i,i].ub = 0
     m.update()
     
@@ -113,7 +114,7 @@ def solve_tsp_gurobi(D, selected_idxs):
         raise KeyboardInterrupt()
     
     solution = m.getAttr('x', edgevars)
-    selected = [(i,j) for i in xrange(n) for j in xrange(n) if solution[i,j] > 0.5]
+    selected = [(i,j) for i in range(n) for j in range(n) if solution[i,j] > 0.5]
     cycles = _subtour(selected, n)
     assert len(cycles) == n
     

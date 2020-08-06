@@ -8,6 +8,7 @@ implementations."""
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
 from __future__ import print_function
 from __future__ import division
+from builtins import range
 
 from itertools import groupby    
 from operator import itemgetter
@@ -23,7 +24,7 @@ __status__ = "Development"
   
 def is_sorted(l):
     """Checks if the list is sorted """
-    return all(l[i] <= l[i+1] for i in xrange(len(l)-1))
+    return all(l[i] <= l[i+1] for i in range(len(l)-1))
 
 def produce_nn_list(D):
     """Produces a list of lists, each list has 2-tupes of node indices and 
@@ -32,7 +33,7 @@ def produce_nn_list(D):
     n = len(D)
     # preprocess D to sorted_per_line_D
     NN_D = [None]*n
-    for i in xrange(n):
+    for i in range(n):
         # sort each row
         NN_D[i] = sorted(enumerate(D[i,:]), key=itemgetter(1))
     return NN_D
@@ -41,7 +42,7 @@ def objf(sol, D):
     """A quick procedure for calclulating the quality of an solution (or a 
     route). Assumes that the solution (or the route) contains all visits (incl. 
     the first and the last) to the depot."""
-    return sum(( D[sol[i-1],sol[i]] for i in xrange(1,len(sol))))
+    return sum(( D[sol[i-1],sol[i]] for i in range(1,len(sol))))
 
 def totald(sol, d):
     """A quick procedure for calclulating the total demand of a solution
@@ -85,7 +86,7 @@ def sol2edgeset(sol, symmetric=True):
     symmetric the tuples are directed from smaller to larger node value to 
     avoid duplicates."""
     edges = set()
-    for i in xrange(0,len(sol)-1):
+    for i in range(0,len(sol)-1):
         j = i+1
         if symmetric or sol[i]<sol[j]:
             edges.add( (sol[i], sol[j]) )

@@ -16,6 +16,7 @@ preparing the problem instance."""
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
 from __future__ import print_function
 from __future__ import division
+from builtins import range
 
 from logging import log, DEBUG
 
@@ -51,8 +52,8 @@ def supression_savings_function(D, suppressed, savings_cache=None):
         else:
             savings_cache = [None]*int((n*n-n)/2)
         idx = 0
-        for i in xrange(1,N):
-            for j in xrange(i+1,N):
+        for i in range(1,N):
+            for j in range(i+1,N):
                 if (i,j) in suppressed:
                     savings_cache[idx] = (0,-D[i,j],i,j)
                 else:
@@ -123,7 +124,7 @@ def suppression_savings_init(D,d,C,L, minimize_K=False, Lprime="auto"):
     savings_cache = []
     suppressed_f = lambda D:supression_savings_function(D,
                                 currently_suppressed_merges, savings_cache)
-    for Lcounter in xrange(Lprime):
+    for Lcounter in range(Lprime):
 
         sol, sol_f, sol_K = None, float('inf'), float('inf')
         try:

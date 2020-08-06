@@ -41,6 +41,7 @@ to the operator or (None,...,None) if no improvements were found."""
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
 from __future__ import print_function
 from __future__ import division
+from builtins import range
 
 from itertools import product, permutations
 
@@ -95,8 +96,8 @@ def do_2optstar_move(route1_data, route2_data, D, d=None,
     #print("REMOVEME: 2opt* on %s %s"%(list(route1_data.route), list(route2_data.route)) )
     
     
-    for i in xrange(0,len(route1_data.route)-1):
-        for j in xrange(0,len(route2_data.route)-1):
+    for i in range(0,len(route1_data.route)-1):
+        for j in range(0,len(route2_data.route)-1):
             a = route1_data.route[i]
             b = route1_data.route[i+1]
             c = route2_data.route[j]
@@ -297,12 +298,12 @@ def do_3optstar_2route_move(route1_data, route2_data, D, demands=None,
     cum_d = [0]*6
     cum_l = [0]*6
     
-    for i in xrange(0,len(route1_data.route)-1):
+    for i in range(0,len(route1_data.route)-1):
         end_n[0] = route1_data.route[i]
         end_n[1] = route1_data.route[i+1]
 
         # make it so that i<j
-        for j in xrange(i+1 ,len(route1_data.route)-1):
+        for j in range(i+1 ,len(route1_data.route)-1):
             
             # the edge endpoints
             end_n[2] = route2_data.route[j]
@@ -323,7 +324,7 @@ def do_3optstar_2route_move(route1_data, route2_data, D, demands=None,
                 cum_l[3] = route1_data.rwd_l[j+1]
                 
             
-            for k in xrange(0,len(route2_data.route)-1):
+            for k in range(0,len(route2_data.route)-1):
                 
                 # the edge endpoints
                 end_n[4] = route2_data.route[k]
@@ -453,12 +454,12 @@ def do_3optstar_3route_move(route1_data, route2_data, route3_data, D, demands=No
     cum_d = [0]*6
     cum_l = [0]*6
     
-    for i in xrange(0,len(route1_data.route)-1):
+    for i in range(0,len(route1_data.route)-1):
         end_n[0] = route1_data.route[i]
         end_n[1] = route1_data.route[i+1]
 
         # make it so that i<j if route1==route2
-        for j in xrange(0 ,len(route2_data.route)-1):
+        for j in range(0 ,len(route2_data.route)-1):
             
             # the edge endpoints
             end_n[2] = route2_data.route[j]
@@ -474,7 +475,7 @@ def do_3optstar_3route_move(route1_data, route2_data, route3_data, D, demands=No
                 cum_l[2] = route2_data.fwd_l[j]
                 cum_l[3] = route2_data.rwd_l[j+1]
             
-            for k in xrange(0,len(route3_data.route)-1):
+            for k in range(0,len(route3_data.route)-1):
                 
                 # the edge endpoints
                 end_n[4] = route3_data.route[k]
@@ -631,7 +632,7 @@ def do_1point_move(route1_data, route2_data, D, d=None,
     best_move = None
     accept_move = False
     
-    for i in xrange(1,len(route1)-1):
+    for i in range(1,len(route1)-1):
         remove_after = route1[i-1]
         to_move = route1[i]
         remove_before = route1[i+1]
@@ -644,7 +645,7 @@ def do_1point_move(route1_data, route2_data, D, d=None,
         if C and r2_d+d[to_move]-C_EPS>C:
             continue
 
-        for j in xrange(1,len(route2)):
+        for j in range(1,len(route2)):
             insert_after = route2[j-1]
             insert_before = route2[j]
             
@@ -714,14 +715,14 @@ def do_2point_move(route1_data, route2_data, D, d=None,
     best_move = None
     accept_move = False
     
-    for i in xrange(1,len(route1)-1):
+    for i in range(1,len(route1)-1):
         to_swap1 = route1[i]
 
         swap1_after = route1[i-1]
         swap1_before = route1[i+1]     
 
 
-        for j in xrange(1,len(route2)-1):
+        for j in range(1,len(route2)-1):
             to_swap2 = route2[j]
             
             # capacity constraint feasibility check 
@@ -824,7 +825,7 @@ def do_insert_move(unrouted, recieving_route_data, D,d=None,C=None,L=None,
         if strategy==LSOPT.BEST_ACCEPT or L:
             # need to find a place where it can be inserted (if at all)
             best_insert_delta = None
-            for i in xrange(1, len(ansatz_route)):
+            for i in range(1, len(ansatz_route)):
                 insert_after = ansatz_route[i-1]
                 insert_before = ansatz_route[i]
                 
@@ -1000,7 +1001,7 @@ def do_chain_move(route1_data, route2_data, route3_data, D, d=None,
     route2, r2_l, r2_d, _ = route2_data
     route3, r3_l, r3_d, _ = route3_data
     
-    for i in xrange(1,len(route1)-1):
+    for i in range(1,len(route1)-1):
         
         remove_after = route1[i-1]
         to_move = route1[i]
@@ -1010,7 +1011,7 @@ def do_chain_move(route1_data, route2_data, route3_data, D, d=None,
                         -D[remove_after,to_move]\
                         -D[to_move,remove_before]
         
-        for j in xrange(1,len(route2)-1):
+        for j in range(1,len(route2)-1):
             
             replace_after = route2[j-1]
             to_replace = route2[j]
@@ -1029,7 +1030,7 @@ def do_chain_move(route1_data, route2_data, route3_data, D, d=None,
             if L and r2_l+replace_delta>L:
                 continue
         
-            for k in xrange(1,len(route3)):
+            for k in range(1,len(route3)):
                 
                 insert_after = route3[k-1]
                 insert_before = route3[k]

@@ -15,6 +15,7 @@ used), and numpy and scipy for reading and preparing the problem instance."""
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
 from __future__ import print_function
 from __future__ import division
+from builtins import range
 
 from signal import signal, SIGINT, default_int_handler
 from collections import namedtuple
@@ -113,7 +114,7 @@ def _regain_feasibility(to_move, r1_delta, r2_delta, rd1_aftermove, ri1, ri2,
         new_r2_delta = float('inf')
         new_r2_l = 0.0
         best_j = None
-        for j in xrange(1,len(new_route2)):
+        for j in range(1,len(new_route2)):
             insert_after = new_route2[j-1]
             insert_before = new_route2[j]
             new_r2_l+=D[insert_after,insert_before]
@@ -187,7 +188,7 @@ def _generate_solution_relaxation_petals(
     
     relaxed_route_datas = []
     route_datas = RouteData.from_routes(routes, D, d)
-    route_indices = range(len(route_datas))
+    route_indices = list(range(len(route_datas)))
     
     # Try to move a customer from route 1 to route 2
     for ri1 in route_indices:        
@@ -283,7 +284,7 @@ def _generate_overconstrained_petals(
     
     sweep = get_sweep_from_cartesian_coordinates(points) 
     for direction in [1]:#, -1]:
-        for start in xrange(0,N-1):
+        for start in range(0,N-1):
             # Use Sweep to generate petals.
             route_datas = do_one_sweep(N, D, d, C, L, solve_tsp, 
                                        sweep, start, direction,
@@ -366,7 +367,7 @@ def _add_set_covering_constraints(m, N, K, X_j, X_j_keys, X_j_node_sets, X_j_for
     # c1, the convering constraint, each node mus be served exactly by 
     #  one route
     c1_constrs = []
-    for i in xrange(1,N):
+    for i in range(1,N):
         active_vars_sum = quicksum([X_j[j]
                                    for j, ns in enumerate(X_j_node_sets)
                                    if i in ns])
@@ -434,7 +435,7 @@ def _solve_set_covering(N, active_ptls, relaxed_ptls, forbidden_combos,
     nforbidden = len(forbidden_combos)
     
     # the order of the keys is important when we interpret the results
-    X_j_keys = range(nactive+nrelaxed)
+    X_j_keys = list(range(nactive+nrelaxed))
     # variables and the objective
     X_j_costs = active_ptls.costs+relaxed_ptls.costs
     X_j_node_sets = active_ptls.nodes+relaxed_ptls.nodes
@@ -526,7 +527,7 @@ def _log_debug_scp_info(ptl_set, nptl, routes_with_idxs, is_feasible, active_K):
 def _remove_multiserved(chosen_ptl_routes, D):
     """If the customer serve constraints are lifted, it is possible that 
     a customer is (unncessarily) served twice, fix the solution."""
-    served=[[] for i in xrange(len(D))]
+    served=[[] for i in range(len(D))]
     served_too_many_times = []
     nserved = 1 #depot served always
     for ri, r in enumerate(chosen_ptl_routes):
