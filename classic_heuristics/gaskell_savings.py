@@ -17,7 +17,7 @@ from builtins import range
 
 import numpy as np
 from util import objf, is_better_sol
-from parallel_savings import parallel_savings_init
+from classic_heuristics.parallel_savings import parallel_savings_init
 
 __author__ = "Jussi Rasku"
 __copyright__ = "Copyright 2018, Jussi Rasku"
@@ -30,7 +30,7 @@ __status__ = "Development"
 
 def gaskell_lambda_savings_function(D):
     n = len(D)-1
-    savings = [None]*((n*n-n)/2)
+    savings = [None]*int((n*n-n)/2)
     idx = 0
     d_avg = np.average(D[0:])
     for i in range(1,n+1):
@@ -45,7 +45,7 @@ def gaskell_lambda_savings_function(D):
 
 def gaskell_pi_savings_function(D):
     n = len(D)-1
-    savings = [None]*((n*n-n)/2)
+    savings = [None]*int((n*n-n)/2)
     idx = 0
     for i in range(1,n+1):
         for j in range(i+1,n+1):

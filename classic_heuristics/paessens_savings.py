@@ -15,7 +15,7 @@ scipy for reading and preparing the problem instance."""
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
 from builtins import range
 
-from parallel_savings import parallel_savings_init
+from classic_heuristics.parallel_savings import parallel_savings_init
 import numpy as np
 from local_search import LSOPT, do_local_search
 from local_search.intra_route_operators import do_3opt_move 
@@ -41,7 +41,7 @@ def paessens_savings_function(D, g_multiplier, f_multiplier):
     """
     N = len(D);
     n = N-1
-    savings = [None]*((n*n-n)/2)
+    savings = [None]*int((n*n-n)/2)
     idx = 0
     for i in range(1,N):
         for j in range(i+1,N):

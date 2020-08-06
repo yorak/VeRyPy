@@ -28,7 +28,7 @@ from orderedset import OrderedSet
 
 from routedata import RouteData
 from util import produce_nn_list
-from sweep import _step,sweep_init,BEST_ALTERNATIVE
+from classic_heuristics.sweep import _step,sweep_init,BEST_ALTERNATIVE
 
 from config import CAPACITY_EPSILON as C_EPS
 from config import COST_EPSILON as S_EPS
@@ -135,16 +135,16 @@ def _improvement_callback(route_data, callback_datastructures,
     
     # Get the insertion candidates
     try:
-        candidate_node_JJX = (node_idx for node_idx,_ in NN_D[prev_node_J]
-            if not routed[node_idx]).next()
+        candidate_node_JJX = next( (node_idx for node_idx,_ in NN_D[prev_node_J]
+            if not routed[node_idx]) )
     except StopIteration:
         if __debug__:
             log(DEBUG-2,"G&M Step 9, not enough unrouted nodes left for JJX.")
             log(DEBUG-2,"-> EXIT with no changes")
         return route_data, [], [], False    
     try:
-        candidate_node_JII = (node_idx for node_idx,_ in NN_D[candidate_node_JJX]
-            if (not routed[node_idx] and node_idx!=candidate_node_JJX)).next()
+        candidate_node_JII = next( (node_idx for node_idx,_ in NN_D[candidate_node_JJX]
+            if (not routed[node_idx] and node_idx!=candidate_node_JJX)) )
     except StopIteration:
         candidate_node_JII = None    
 
@@ -157,12 +157,12 @@ def _improvement_callback(route_data, callback_datastructures,
     
     ## G&M Step 9    
     
-    if not (D2-S_EPS<L and D2_demand-C_EPS<=C):
+    if not ((L and D2-S_EPS<L) and (C and D2_demand-C_EPS<=C)):
         if __debug__:
             log(DEBUG-2,"G&M Step 9, rejecting replacement of KII=n%d with JJX=n%d"%
                   (to_remove_node_KII, candidate_node_JJX))
             log(DEBUG-3," which would have formed a route %s (%.2f)"%(str(D2_route), D2))
-            if (D2_demand-C_EPS>C):
+            if (C and D2_demand-C_EPS>C):
                 log(DEBUG-3," violating the capacity constraint")
             else:
                 log(DEBUG-3," violating the maximum route cost constraint")
@@ -261,7 +261,7 @@ def _improvement_callback(route_data, callback_datastructures,
         D5_route_nodes.add(candidate_node_JII)
         D5_route,D5 = solve_tsp(D, list(D5_route_nodes))
         D5_demand = D2_demand+d[candidate_node_JII] if C else 0  
-        if not (D5-S_EPS<L and D5_demand-C_EPS<=C):
+        if not ((L and D5-S_EPS<L) and (C and D5_demand-C_EPS<=C)):
             if __debug__:
                 log(DEBUG-2, "G&M Step 13, rejecting replacement of KII=n%d with JJX=n%d and JII=n%d"%
                     (to_remove_node_KII, candidate_node_JJX, candidate_node_JII))

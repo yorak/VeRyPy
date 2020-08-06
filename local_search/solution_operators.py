@@ -29,6 +29,7 @@ All operators return the new improved solution and the improvement (delta) as a
 ###############################################################################
 
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
+from __future__ import print_function
 from builtins import range
 
 from collections import namedtuple
@@ -74,10 +75,10 @@ def _build_cumulative_lists(solution, D, d, direction):
         i+=direction
     
     if REMOVE_ME_DEBUG:
-        print "\t".join(str(n) for n in solution)
-        print "\t".join(str(v) for v in sol_cum_d)
-        print "\t".join(str(v) for v in sol_cum_l)
-        print 
+        print("\t".join(str(n) for n in solution))
+        print("\t".join(str(v) for v in sol_cum_d))
+        print("\t".join(str(v) for v in sol_cum_l))
+        print()
         
     return sol_cum_d, sol_cum_l
 
@@ -126,14 +127,14 @@ def _check_3opt_move(D, C, L, removed_weights, best_delta,
                     route_l = cum_l[curr_edge[0]]
                 
             if REMOVE_ME_DEBUG:
-                print "edge", "abcdef"[curr_edge[0]], "abcdef"[curr_edge[1]],\
+                print("edge", "abcdef"[curr_edge[0]], "abcdef"[curr_edge[1]],\
                       "positions", end_p[curr_edge[0]], end_p[curr_edge[1]],\
-                      "nodes", end_n[curr_edge[0]], end_n[curr_edge[1]]
-                print "PRE_CHECK d,l", route_d, route_l
+                      "nodes", end_n[curr_edge[0]], end_n[curr_edge[1]])
+                print("PRE_CHECK d,l", route_d, route_l)
             if C:
                 route_d += cum_d[curr_edge[1]]
                 if REMOVE_ME_DEBUG:
-                    print "POST_CHECK d", route_d
+                    print("POST_CHECK d", route_d)
                 if route_d-C_EPS>C:
                     feasible = False
                     break # edge loop
@@ -141,7 +142,7 @@ def _check_3opt_move(D, C, L, removed_weights, best_delta,
                 e_wt = D[end_n[curr_edge[0]],end_n[curr_edge[1]]]
                 route_l+=e_wt+cum_l[curr_edge[1]]
                 if REMOVE_ME_DEBUG:
-                    print "POST_CHECK l", route_l
+                    print("POST_CHECK l", route_l)
                 if route_l-S_EPS>L:
                     feasible = False
                     break # edge loop
@@ -150,7 +151,7 @@ def _check_3opt_move(D, C, L, removed_weights, best_delta,
                
         # store best feasible move
         if REMOVE_ME_DEBUG:
-            print "FEASIBLE\n" if feasible else "INFEASIBLE\n"
+            print("FEASIBLE\n" if feasible else "INFEASIBLE\n")
         if feasible:
             return delta
         
@@ -514,8 +515,8 @@ def do_3optstar_move(solution, D, demands=None,
                 #        i,j,k,C, L, sol_data, ldepot_12, ldepot_34)
                 #
                 #if REMOVE_ME_DEBUG:
-                #    print "\ncum_d: "+"\t".join(str(n) for n in cum_d)
-                #    print "cum_l: "+"\t".join(str(n) for n in cum_l)
+                #    print("\ncum_d: "+"\t".join(str(n) for n in cum_d))
+                #    print("cum_l: "+"\t".join(str(n) for n in cum_l))
                 
                 # After removing edges a-b, c-d, and e-f, try all of the 7
                 # combinations in which the segments can be reconnected.
@@ -570,8 +571,6 @@ def do_3optstar_move(solution, D, demands=None,
             break # i-loop
         
     if best_move:
-        #print best_move
-        
         best_move_idx, best_delta, cut_positions = best_move
         concat_recipe = MOVES_3OPTSTAR[best_move_idx].concat_recipe
         new_solution = []

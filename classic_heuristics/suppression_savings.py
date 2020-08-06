@@ -20,7 +20,7 @@ from builtins import range
 
 from logging import log, DEBUG
 
-from parallel_savings import parallel_savings_init
+from classic_heuristics.parallel_savings import parallel_savings_init
 from util import objf, is_better_sol
 
 __author__ = "Jussi Rasku"

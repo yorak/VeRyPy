@@ -15,10 +15,10 @@ MAX_MIP_SOLVER_RUNTIME = 60*10 # 10m
 
 MIP_SOLVER_THREADS = 1 # 0 is automatic (parallel computing)
 
-BENCHMARKS_BASEPATH = r"C:\Users\juherask\Dissertation\Phases\Benchmarks"
+BENCHMARKS_BASEPATH = r"~/Projects/VeRyPyModule/Benchmarks"
 
-LKH_EXE_PATH = r"C:\Users\juherask\Dissertation\Phases\Selection\solvers\lkh\lkh.exe"
+LKH_EXE_PATH = r"~/Projects/VeRyPyModule/TSPSolvers/LKH"
 LKH_EXACT_DISTANCES_PRECISION_DECIMALS = 1000.0 # of the form 0.123 
 
-ACOTSP_EXE_PATH = r"C:\Users\juherask\Dissertation\Phases\Selection\solvers\ACOTSP\acotsp.exe"
+ACOTSP_EXE_PATH = r"~/Projects/VeRyPyModule/TSPSolvers/acotsp"
 ACOTSP_EXACT_DISTANCES_PRECISION_DECIMALS = 1000.0 # of the form 0.123 

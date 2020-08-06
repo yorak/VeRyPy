@@ -21,7 +21,7 @@ import numpy as np
 from math import ceil
 from logging import log, DEBUG
 
-from nearest_neighbor import nearest_neighbor_init
+from classic_heuristics.nearest_neighbor import nearest_neighbor_init
 #from tsp_solvers.tsp_solver_ropt import solve_tsp_ropt as solve_tsp
 from tsp_solvers.tsp_solver_lkh import solve_tsp_lkh as solve_tsp
 from util import sol2routes, routes2sol, totald, objf

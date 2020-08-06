@@ -18,7 +18,7 @@ from __future__ import division
 
 from logging import log, DEBUG
 
-from cheapest_insertion import parametrized_insertion_criteria,\
+from classic_heuristics.cheapest_insertion import parametrized_insertion_criteria,\
                                cheapest_insertion_init
 from local_search import LSOPT, do_local_search
 from local_search.intra_route_operators import do_2opt_move

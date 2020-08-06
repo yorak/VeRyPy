@@ -53,16 +53,16 @@ def _first_seed(D, d, unrouted):
     return unrouted[0]
 
 def _farthest_seed(D, d, unrouted):
-    largest_D_0l_unrouted_idx = np.argmax( D[[0], unrouted] )
+    largest_D_0l_unrouted_idx = int(np.argmax( D[[0], unrouted] ))
     return unrouted[largest_D_0l_unrouted_idx]
 
 def _closest_seed(D, d, unrouted):
-    largest_D_0l_unrouted_idx = np.argmin( D[[0], unrouted] )
+    largest_D_0l_unrouted_idx = int(np.argmin( D[[0], unrouted] ))
     return unrouted[largest_D_0l_unrouted_idx]
 
 def _biggest_seed(D, d, unrouted):
     npd = np.array(d)
-    largest_d_unrouted_idx = np.argmax(npd[unrouted])
+    largest_d_unrouted_idx = int(np.argmax(npd[unrouted]))
     return unrouted[largest_d_unrouted_idx]
 
 def _phase_one(lambda_multiplier, D,d,C,L, seed_f, rr):
@@ -108,7 +108,7 @@ def _phase_one(lambda_multiplier, D,d,C,L, seed_f, rr):
             
             s_vals = (D[[0],unrouted]+lambda_multiplier*
                       D[unrouted,[route_seed_k]]).tolist()
-            savings =  zip(s_vals, unrouted)
+            savings = list(zip(s_vals, unrouted))
             savings.sort()
             for best_saving, i in savings:
                 ## Step 3: insert until feasibility is broken
@@ -325,8 +325,8 @@ def _phase_two(mu_multiplier,route_seeds, D,d,C,L, rr,
                 eps_prime = None
                 sigmas = -eps_bar
                 
-            col_to_node = [unrouted_nodes[c] for c in associated_cols]
-            sigma_ls = zip(sigmas.tolist(), col_to_node)
+            col_to_node = [unrouted_nodes[int(c)] for c in associated_cols]
+            sigma_ls = list(zip(sigmas.tolist(), col_to_node))
             sigma_ls.sort(reverse=True)
             
             if __debug__:

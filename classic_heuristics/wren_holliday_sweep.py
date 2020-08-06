@@ -22,7 +22,7 @@ from math import pi
 from itertools import permutations
 from logging import log, DEBUG
 
-from sweep import sweep_init, get_sweep_from_polar_coordinates,\
+from classic_heuristics.sweep import sweep_init, get_sweep_from_polar_coordinates,\
                   cart2pol, BEST_ALTERNATIVE
 from routedata import RouteData
          

@@ -7,6 +7,7 @@ from tempfile import NamedTemporaryFile
 from os import remove as remove_file
 from logging import log, DEBUG
 import numpy as np
+import sys
 
 from cvrp_io import write_TSPLIB_file    
 
@@ -68,7 +69,14 @@ def solve_tsp_lkh(D, selected_idxs,
     # 3. Call lkh
     command = [LKH_EXE_PATH, temp_parameter_file_path]
     p = Popen(command, stdout=PIPE, stdin=PIPE)
-    stdout_data = p.communicate(input=' ')[0]
+    
+    # In Python3 bytes go in and come out. Special handling is required.
+    #  (not pretty, but allows smoketests to pass on Py3)
+    if sys.version_info[0] == 3:
+        stdout_data = p.communicate(input=b' ')[0].decode('ascii')
+    else:
+        stdout_data = p.communicate(input=' ')[0]
+
     
     if __debug__:    
         log(DEBUG-3, stdout_data)

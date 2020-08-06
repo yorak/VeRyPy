@@ -118,7 +118,7 @@ def _new_potential_insertions(unrouted, D, d, C, L, rd, after, before,
         #sorting_key = (-strain, +D[after.value, customer]
         #                        +D[customer, before.value], -customer)
         
-        heappush( rd.potential_insertions, (sorting_key, insertion) )
+        heappush( rd.potential_insertions, (sorting_key, id(insertion), insertion) )
       
 
 def _seems_valid_insertion(insertion, route_current_d, unrouted, D, d, C):  
@@ -283,7 +283,7 @@ def cheapest_insertion_init(D, d, C, L=None, minimize_K=False,
     
     if initialize_routes_with=="farthest" or initialize_routes_with=="closest":
         # build a ordered priority queue of potential route initialization nodes
-        seed_customers = zip(D[0][1:], [(i,) for i in range(1,len(D))])
+        seed_customers = list(zip(D[0][1:], [(i,) for i in range(1,len(D))]))
         seed_customers.sort(reverse = initialize_routes_with=="closest")
     elif initialize_routes_with=="strain":
         # use the strain function to calculate the first insertion
@@ -316,7 +316,7 @@ def cheapest_insertion_init(D, d, C, L=None, minimize_K=False,
                 
             rd = route_datas[route_index]
             if __debug__:
-                log(DEBUG, "Inserting to route #%d %s"%(k, str(list(rd.route))))
+                log(DEBUG, "Inserting to route #%d %s"%(route_index, str(list(rd.route))))
             
             # Generate the list of insertion candidates just-in-time
             # (this avoids adding unnecessary candidates).
@@ -331,7 +331,7 @@ def cheapest_insertion_init(D, d, C, L=None, minimize_K=False,
             while len(rd.potential_insertions)>0:
                 insertion_succesfull = False
                 # unpack a best candidate from the insertion queue
-                _, insertion = heappop(rd.potential_insertions)
+                _, _, insertion = heappop(rd.potential_insertions)
                 
                 # Check if it *seems* OK to insert
                 # - The node has been already inserted somewhere
@@ -376,7 +376,7 @@ def cheapest_insertion_init(D, d, C, L=None, minimize_K=False,
             if insertions_exhausted and len(unrouted)>0:
                 if __debug__:
                     log(DEBUG,"Route #%d finished as %s (%.2f)"%
-                        (k, str(list(rd.route)), rd.cost))
+                        (route_index, str(list(rd.route)), rd.cost))
                 complete_routes.append(rd)
 
                 # Some seed initializations rely on the state of the completed
