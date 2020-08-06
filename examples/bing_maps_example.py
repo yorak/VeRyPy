@@ -49,6 +49,7 @@ import argparse
 
 # TODO: include as a CLI parameter
 TRAVEL_MODE = 'driving' #'walking'
+BING_DM_API_CUSTOMER_LIMIT = 50 # 50 x 50 = 2500
 
 from pprint import pprint
 import numpy as np
@@ -149,6 +150,12 @@ if args.f:
     if args.verbose:
         sys.stderr.write("INFO: Filling %d x %d distance matrix."%(len(locations), len(locations)))
 
+    if (len(locations)>BING_DM_API_CUSTOMER_LIMIT):
+        sys.stderr.write("ERROR: Bing Distance Matrix API is limited to a query with %d\n"%(BING_DM_API_CUSTOMER_LIMIT*BING_DM_API_CUSTOMER_LIMIT))
+        sys.stderr.write("distances. Hence, at most %d coordinates can be queried in one go.\n")
+        sys.stderr.write("Exiting.\n")
+        sys.exit(1)
+        
     D = getDistanceMatrix(locations, TRAVEL_MODE, mapApiKey)
     if args.o:
         pickle.dump(D, args.o)
