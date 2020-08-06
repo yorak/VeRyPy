@@ -64,7 +64,7 @@ TODO: Time complexity curves from the paper
 
 ## Quick Start
 
-Make sure that the VeRyPy is in PYTHONPATH. On linux the relevant command is
+Make sure that the VeRyPy is in your `PYTHONPATH`. On linux the relevant command is
 ```
 $ export PYTHONPATH=$PYTHONPATH:/home/jussi/Projects/CVRP:/home/jussi/Projects/CVRP/VeRyPy
 ```
@@ -81,7 +81,7 @@ $ python -O VeRyPy.py -a all E-n51-k5.vrp
 
 > Note: running with `python -O` entirely disables `__debug__` and logging.
 
-This simple Python code illustrates the API usage:
+An an alternative way of using VeRyPy, this simple Python code illustrates the API usage:
 ```python
 import cvrp_io
 from classic_heuristics.parallel_savings import parallel_savings_init
@@ -103,6 +103,8 @@ for route_idx, route in enumerate(sol2routes(solution)):
 <!-- TODO: Make sure it works -->
 
 <!-- TODO: A more comprehensive reference documentation can be found [here](/doc/). -->
+
+For API use, be sure to set the `PYTHONPATH` correctly.
 
 ### Dependencies and Installation
 
