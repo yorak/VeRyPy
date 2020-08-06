@@ -24,34 +24,51 @@ More specifically:
 To use it you need Bing maps API key. Get it here: https://www.bingmapsportal.com
 and place it into a text file named MyBingMapApi.key, where the script reads it."""
 
+# Written in Python 2.7, but try to maintain Python 3+ compatibility
+from __future__ import print_function
+from __future__ import division
+try:
+    from urllib.parse import urlparse, urlencode, quote
+    from urllib.request import urlopen, Request
+    from urllib.error import HTTPError
+except ImportError:
+    from urlparse import urlparse
+    from urllib import urlencode, quote
+    from urllib2 import urlopen, Request, HTTPError
+    
+import json
+import sys
+import pickle
+import argparse
+
 __author__ = "Jussi Rasku"
 __copyright__ = "Copyright 2020"
 __license__ = "MIT"
 __version__ = "1.0.0"
 __status__ = "Example"
 
-import urllib.request
-import json
-import sys
-import pickle
-import argparse
-
+# TODO: include as a CLI parameter
 TRAVEL_MODE = 'driving' #'walking'
-
 
 from pprint import pprint
 import numpy as np
 
 def completeDataWithGeocoding(addressData, BingMapsKey):
     reqData = dict(addressData)
-    reqData['locality'] = urllib.parse.quote(addressData['locality'].strip(), safe='')
-    reqData['addressLine'] = urllib.parse.quote(addressData['addressLine'].strip(), safe='')
+    reqData['locality'] = quote(addressData['locality'].strip(), safe='')
+    reqData['addressLine'] = quote(addressData['addressLine'].strip(), safe='')
     reqData['BingMapsKey'] = BingMapsKey
 
-    geogodeUrl =  ("http://dev.virtualearth.net/REST/v1/Locations?countryRegion={countryRegion}&locality={locality}&"+
-                   "postalCode={postalCode}&addressLine={addressLine}&maxResults=1&key={BingMapsKey}").format(**reqData)
-    request = urllib.request.Request(geogodeUrl)
-    response = urllib.request.urlopen(request)
+    geogodeUrl =  ("http://dev.virtualearth.net/REST/v1/Locations"+
+                   "?countryRegion="+str(reqData['countryRegion'])+
+                   "&locality="+str(reqData['locality'])+
+                   "&postalCode="+str(reqData['postalCode'])+
+                   "&addressLine="+str(reqData['addressLine'])+
+                   "&maxResults=1"+
+                   "&key="+str(reqData['BingMapsKey']))
+    #print(geogodeUrl)
+    request = Request(geogodeUrl)
+    response = urlopen(request)
     result = json.loads(response.read().decode(encoding='utf-8'))
     lat, lon = result['resourceSets'][0]['resources'][0]['point']['coordinates']
 
@@ -66,11 +83,14 @@ def getDistanceMatrix(addressDataList, travelMode, BingMapsAPIKey):
         coordinateList.append( str(ad['latitude'])+","+str(ad['longitude']) )
     coordinates = ";".join(coordinateList)
 
-    distanceUrl = "https://dev.virtualearth.net/REST/v1/Routes/DistanceMatrix?"+\
-        f"origins={coordinates}&destinations={coordinates}&"+\
-        f"travelMode={travelMode}&distanceUnit=km&key={BingMapsAPIKey}"
-    request = urllib.request.Request(distanceUrl)
-    response = urllib.request.urlopen(request)
+    distanceUrl = ("https://dev.virtualearth.net/REST/v1/Routes/DistanceMatrix"+
+        "?origins="+coordinates+"&destinations="+coordinates+
+        "&travelMode="+str(travelMode)+
+        "&distanceUnit=km"+
+        "&key="+str(BingMapsAPIKey))
+    #print(distanceUrl)
+    request = Request(distanceUrl)
+    response = urlopen(request)
     result = json.loads(response.read().decode(encoding='utf-8'))
     #pprint(result)
 
@@ -96,7 +116,7 @@ if args.f:
     try:
         mapApiKey = open('MyBingMapApi.key', mode='r').read().strip()
     except:
-        sys.stderr.write(f"ERROR: No file called \"MyBingMapApi.key\"\n")
+        sys.stderr.write("ERROR: No file called \"MyBingMapApi.key\"\n")
         sys.stderr.write("It is a text file that should contain your personal Microsoft Bing Maps API key.\n")
         sys.stderr.write("You can get one from here: https://www.bingmapsportal.com/\n")
         sys.stderr.write("Exiting.\n")
@@ -108,7 +128,7 @@ if args.f:
             continue
         parts = l.split('\t')
         if len(parts)<4 or len(parts)>5:
-            sys.stderr.write(f"ERROR: Invalid address data line \"{l}\"\n")
+            sys.stderr.write("ERROR: Invalid address data line \""+l+"\"\n")
             sys.stderr.write("Data lines should be in format: addressLine \\t postalCode \\t locality \\t countryRegion [\\t goodsDemand]\n")
             sys.stderr.write("Exiting.\n")
             sys.exit(1)
@@ -141,11 +161,11 @@ else:
     pass
 
 if args.C:
-    from VeRyPy.classic_heuristics.parallel_savings import parallel_savings_init
-    from VeRyPy.util import sol2routes
+    from classic_heuristics.parallel_savings import parallel_savings_init
+    from util import sol2routes
 
     if locations:
-        d = [location["demand"] for location in locations]
+        d = [loc["demand"] for loc in locations]
     else:
         d = [0.]+[1.0]*(len(D)-1)
         if args.verbose:
