@@ -47,12 +47,12 @@ import sys
 import pickle
 import argparse
 
-# TODO: include as a CLI parameter
-TRAVEL_MODE = 'driving' #'walking'
-BING_DM_API_CUSTOMER_LIMIT = 50 # 50 x 50 = 2500
-
 from pprint import pprint
 import numpy as np
+
+# TODO: include travel mode as a CLI parameter
+TRAVEL_MODE = 'driving' #'walking'
+BING_DM_API_CUSTOMER_LIMIT = 50 # 50 x 50 = 2500
 
 def completeDataWithGeocoding(addressData, BingMapsKey):
     reqData = dict(addressData)
@@ -101,7 +101,7 @@ def getDistanceMatrix(addressDataList, travelMode, BingMapsAPIKey):
         D[cell['originIndex'], cell['destinationIndex']] =  cell['travelDistance'] # could also be cell['travelDuration'] 
     return D
 
-# CLI
+## CLI specification ##
 parser = argparse.ArgumentParser(description=__doc__)
 group = parser.add_mutually_exclusive_group(required=True)
 group.add_argument('-f', type=argparse.FileType('r'), metavar="address_file", help='address file')
@@ -111,6 +111,7 @@ parser.add_argument('-o', type=argparse.FileType('wb'), metavar="output", help='
 parser.add_argument('-v', '--verbose', action='store_true', help='verbose output')
 args = parser.parse_args()
 
+## Read addresses from the file, geocode them, and compute the distance matrix using Bing maps API ##
 locations = []
 if args.f:
     mapApiKey = ""
@@ -162,11 +163,11 @@ if args.f:
     print("D = ", end="");pprint(D)
 elif args.D:
     D = pickle.load(args.D)
-    
 else:
     assert(False) # argparse should take care that we never arrive here
     pass
 
+## Solve the related CVRP using VeRyPy ##
 if args.C:
     from classic_heuristics.parallel_savings import parallel_savings_init
     from util import sol2routes
@@ -176,11 +177,12 @@ if args.C:
     else:
         d = [0.]+[1.0]*(len(D)-1)
         if args.verbose:
-            sys.stderr.write("Warning: Setting all goods demands to be 1.0 (no data).\n")
+            sys.stderr.write("WARNING: Setting all goods demands to be 1.0 (no data).\n")
     
     if args.verbose:
         sys.stderr.write("INFO: Solving a %d customer CVRP with Savings heuristic.\n"%(len(locations)-1))
-
+     
+    # Solve and print the resulting routes
     solution = parallel_savings_init(D=D, d=d, C=args.C)
     print("\nCorresponding CVRP solution is")
     for route_idx, route in enumerate(sol2routes(solution)):
