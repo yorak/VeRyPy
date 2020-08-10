@@ -44,6 +44,7 @@ Additionally, an ensemble of relatively simple heuristics can be an effective an
 * Imports TSPLIB compatible CVRP and TSP files
 * Exports VRPH compatible solutions 
 * Visualizer for many of the 15 heuristics 
+* Included is [an example](examples/bing_maps_example.py) that uses [Bing maps API](https://www.bingmapsportal.com/) to use street addresses, calculate distances in a real road network, and solve the related CVRP truck/delivery dispatching task.
 * Most of the algorithms are able to solve CVRP instances up to 1000 customers in under an hour
 * The fastest of the algorithms can tackle problems with over 10 000 customers in a reasonable time
 
@@ -63,14 +64,24 @@ TODO: Time complexity curves from the paper
 
 ## Quick Start
 
-The command line use assumes TSPLIB formatted files (assuming VeRyPy is in your PYTHONPATH):
+Make sure that the VeRyPy is in your `PYTHONPATH`. On linux the relevant command is
+```
+$ export PYTHONPATH=$PYTHONPATH:/home/jussi/Projects/CVRP:/home/jussi/Projects/CVRP/VeRyPy
+```
+and on Windows 
+```
+> set PYTHONPATH=%PYTHONPATH%;C:\users\jussi\Projects\CVRP;C:\users\jussi\Projects\CVRP\VeRyPy
+```
+Be sure to modify the paths as necessary.
+
+The command line use of VeRyPy assumes TSPLIB formatted files (assuming VeRyPy is in your PYTHONPATH):
 ```bash
 $ python -O VeRyPy.py -a all E-n51-k5.vrp
 ```
 
 > Note: running with `python -O` entirely disables `__debug__` and logging.
 
-This simple Python code illustrates the API usage:
+An an alternative way of using VeRyPy, this simple Python code illustrates the API usage:
 ```python
 import cvrp_io
 from classic_heuristics.parallel_savings import parallel_savings_init
@@ -92,6 +103,8 @@ for route_idx, route in enumerate(sol2routes(solution)):
 <!-- TODO: Make sure it works -->
 
 <!-- TODO: A more comprehensive reference documentation can be found [here](/doc/). -->
+
+For API use, be sure to set the `PYTHONPATH` correctly.
 
 ### Dependencies and Installation
 
