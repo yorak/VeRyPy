@@ -54,10 +54,13 @@ class ReplicationBase(unittest.TestCase):
                 unique_rfn = rfn.replace("_results.txt", "_results%d.txt"%nbr)
                 nbr+=1
             ReplicationBase.result_file = open(unique_rfn, "w")
+        else:
+            print("WARNING: the directory \"%s\", which is the target for the replication results, does not exist."%raw_result_path)
     
     @classmethod
     def tearDownClass(cls):
-        ReplicationBase.result_file.close()
+        if (ReplicationBase.result_file):
+            ReplicationBase.result_file.close()
         
     def setUp(self):
         """ This is meant to be overridden in derived unittsest class """
