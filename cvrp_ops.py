@@ -29,6 +29,7 @@ __status__ = "Development"
 
 
 def _is_all_integer_array(D):
+    # Do not listen to pylint, np has equal all right.
     return np.all(np.equal(np.mod(D, 1), 0))
 
 def _list_trim(l, e):
@@ -118,7 +119,7 @@ def check_solution_feasibility(solution, D, d=None,
         if covering[node]:
             if node!=0:
                 if print_violations:
-                    print("CONSTRAINT VIOLATION: customer n%n is served twice"%node, file=stderr)
+                    print("CONSTRAINT VIOLATION: customer n%d is served twice"%node, file=stderr)
                 covering_feasibility = False
         else:
             covering[node]=1

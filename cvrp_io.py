@@ -33,7 +33,7 @@ __status__ = "Development"
 
 ################################################################################
 
-k_re = re.compile("-k([0-9]+)[\.-]")
+k_re = re.compile(r"-k([0-9]+)[\.-]")
 
 def _haversine(pt1, pt2):
     """from http://stackoverflow.com/questions/4913349/
@@ -199,7 +199,7 @@ def read_TSPLIB_CVRP(file_name):
     with open(file_name, "r") as f:
         section = None
         section_pos = 0
-        ij_section_pos = None
+        ij_section_pos = {'i':0,'j':0}
         N=0
         C=None
         
@@ -455,7 +455,7 @@ def generate_CVRP(N, C, muC, sdC, regular=False, R=200.0):
     demands.append(0)
     sumc = 0.0
     alpha = pi/4.0
-    for i in range(N):
+    for _ in range(N):
         if regular:
             alpha+=(2*pi/N)
             r = R

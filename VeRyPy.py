@@ -70,7 +70,7 @@ algo_name_aliases = {
         "pi":"pi",   "parallelinsertion":"pi", "parallelcheapestinsertion":"pi",
         
         # maximum mathcing heuristics
-        "mbsa":"mbsa",   "dv89-mbsa":"mbsa", "mbsa":"mbsa", "matching":"mbsa",
+        "mbsa":"mbsa",   "dv89-mbsa":"mbsa", "matching":"mbsa",
                      "maximummatching":"mbsa", "mm":"mbsa",
                      "desrochersverhoog":"mbsa",
         
@@ -209,7 +209,7 @@ def _build_algorithm_help():
     algo_shorthands = sorted(list(set(algo_name_aliases.values())-set(["all","classical"])))
     algo_name_descriptors = get_algorithms(algo_shorthands)
     htxt = ""
-    for key, algo_name, algo_desc, algo_func in algo_name_descriptors:
+    for key, algo_name, algo_desc, _ in algo_name_descriptors:
         htxt+=key+" : "+algo_name+" : "+algo_desc+"\n"
     return htxt
 
@@ -303,7 +303,7 @@ def main(overridden_args=None):
     for pfn in files_to_solve:
         bn = path.basename(pfn).replace(".vrp","").replace(".tsp","").replace(".pickle","")
         
-	try:
+        try:
            N, points, dd_points, d, D, C, ewt, K, L, st = pickle.load( open( pfn, "rb" ) )
         except:
            N, points, dd_points, d, D, C, ewt = cvrp_io.read_TSPLIB_CVRP(pfn)
@@ -326,7 +326,7 @@ def main(overridden_args=None):
         # Bake service time to D (if needed)
         D_c = cvrp_ops.D2D_c(D, st) if st else D
         
-        for algo_abbreviation, algo_name, algo_desc, algo_f in algos:
+        for algo_abbreviation, algo_name, _, algo_f in algos:
             if not app_args.minimal_output:
                 print("Solving %s with %s"%(bn, algo_name))
             start_t = time()
@@ -366,9 +366,9 @@ def main(overridden_args=None):
                     sol = cvrp_ops.normalize_solution(sol)
                         
                     if app_args.show_solution_cost:
-                        ls_sol_q = cvrp_ops.calculate_solution_quality(sol, D_c)
+                        ls_sol_q = cvrp_ops.calculate_objective(sol, D_c)
                     else:
-                        ls_sol_q = cvrp_ops.calculate_solution_quality(sol, D)
+                        ls_sol_q = cvrp_ops.calculate_objective(sol, D)
                     if ls_sol_q<sol_q:
                         if not app_args.minimal_output:
                             print(" improved by %.2f%%."%(1-ls_sol_q/sol_q))
@@ -452,7 +452,7 @@ def main(overridden_args=None):
             if PRINT_INSTANCE_DATA:            
                 print("\t",end="")
                 print("\t".join( str(e) for e in instance_data[problem] ),end="")
-            for algo, result in sorted(algo_results.items()):
+            for _, result in sorted(algo_results.items()):
                 print("\t", result,end="")
             print()
     sys.stdout.flush()
