@@ -197,16 +197,18 @@ def read_TSPLIB_CVRP(file_name):
         journal on computing, 3(4):376-384
     """
     with open(file_name, "r") as f:
+        # pylint: disable=unsubscriptable-object
+        
         section = None
         section_pos = 0
         ij_section_pos = {'i':0,'j':0}
         N=0
         C=None
         
-        points = None  # pylint disable=unsubscriptable-object
-        dd_points = None  # pylint disable=unsubscriptable-object
-        demands = None  # pylint disable=unsubscriptable-object
-        D = None  # pylint disable=unsubscriptable-object
+        points = None  
+        dd_points = None
+        demands = None
+        D = None
         D_needs_update = False     
         edge_weight_type = None
         edge_weight_format = None
@@ -347,7 +349,7 @@ def read_TSPLIB_CVRP(file_name):
                     elif  section == 'DEMAND_SECTION':
                         demand = line.split()
                         c = float( demand[1] )
-                        demands[section_pos] = c
+                        demands[section_pos] = c # pylint: disable=unsupported-assignment-operation
                         section_pos+=1
                     elif  section == 'DEPOT_SECTION': 
                         value = int(line)

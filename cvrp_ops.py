@@ -29,8 +29,7 @@ __status__ = "Development"
 
 
 def _is_all_integer_array(D):
-    # Do not listen to pylint, np has equal all right.
-    return np.all(np.equal(np.mod(D, 1), 0))
+    return np.all(np.equal(np.mod(D, 1), 0)) # pylint: disable=no-member
 
 def _list_trim(l, e):
     """ works like string trimming but for lists """
