@@ -203,10 +203,10 @@ def read_TSPLIB_CVRP(file_name):
         N=0
         C=None
         
-        points = None
-        dd_points = None
-        demands = None
-        D = None
+        points = None  # pylint disable=unsubscriptable-object
+        dd_points = None  # pylint disable=unsubscriptable-object
+        demands = None  # pylint disable=unsubscriptable-object
+        D = None  # pylint disable=unsubscriptable-object
         D_needs_update = False     
         edge_weight_type = None
         edge_weight_format = None
