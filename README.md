@@ -14,11 +14,13 @@ Ve Ry Py
 <!-- TODO: https://www.smartfile.com/blog/testing-python-with-travis-ci/ -->
 <!-- [![Travis](https://img.shields.io/travis/zalandoresearch/flair.svg)](https://travis-ci.org/zalandoresearch/flair) -->
 
-VeRyPy is an **easy** to use **Python** library of classical Capacitated **Vehicle Routing Problem** (CVRP) algorithms. The enclosed implemented algorithms can also be used to solve travelling salesman problems (TSP). The code files are published with the very permissive MIT license and are very loosely coupled so that you can take just the algorithms or the functionality you need in your studies, in your research project, or to solve the logistics planning problem you are facing. 
+*Save your effort and avoid reimplementing the best-known classical VRP heuristic algorithms by using VeRyPy.*
+
+VeRyPy is an **easy** to use **Python** library of classical Capacitated **Vehicle Routing Problem** (CVRP) algorithms. The enclosed implemented algorithms can also be used to solve travelling salesman problems (TSP). The code files are published with the very permissive MIT license and are very loosely coupled so that you can take just the algorithms or the functionality you need in your studies, in your academic research project, or to solve the real-world logistics planning problems you are facing. 
 
 ## Introduction
 
-Compared to the existing heuristic and metaheuristic open source VRP libraries such as [VRPH](https://projects.coin-or.org/VRPH), [Google OR-Tools](https://developers.google.com/optimization/), and others, the focus in VeRyPy has been in reusability of the code and in replicating the existing results from the literature. Hence, there is no architecture astronautery in VeRyPy - instead, the focus is entirely on the Python functions implementing the classical algorithms. The lightness of the framework is very much intentional. Many existing libraries are complex beasts to reason about and understand which limits their use in a more exploratory setting.
+Compared to the existing heuristic and metaheuristic open source VRP libraries such as [VRPH](https://projects.coin-or.org/VRPH), [Google OR-Tools](https://developers.google.com/optimization/), the focus in VeRyPy has been in reusability of the code and in faithful recreation of the original algorithms. This is why the algorithm codes can replicate the existing results from the literature. Also, there is no architecture astronautery in VeRyPy - instead, the focus is entirely on the Python functions implementing the classical algorithms. The lightness of the framework is very much intentional-Many existing libraries are complex beasts to reason about and understand which limits their use in a more exploratory setting.
 
 However, please note that the limitations of VeRyPy are also related to the main aims of this project, that is, of replication and simplicity: it is not the fastest, the most sophisticated, nor the most effective library for solving these problems. But, if you are looking for something simple, VeRyPy might be just the perfect fit!
 
