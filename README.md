@@ -39,7 +39,7 @@ Additionally, an ensemble of relatively simple heuristics can be an effective an
   * intra route: 2-opt, 3-opt, relocate, exchange
   * inter route: insert, 2-opt*, 3-opt*<sup>1</sup>, one-point-move, two-point-swap, redistribute, chain
 * Wrappers for [LKH](http://akira.ruc.dk/~keld/research/LKH/), [ACOTSP](http://www.aco-metaheuristic.org/aco-code/public-software.html), and [Gurobi TSP](https://www.gurobi.com/documentation/8.1/examples/tsp_py.html) solvers
-* Command Line user Interface (CLI) for using the library and the separate algorithms
+* Command Line user Interface (CLI) for using the library and algorithm codes
 * Integration, replication, and even some unit tests
 * Imports TSPLIB compatible CVRP and TSP files
 * Exports VRPH compatible solutions 
