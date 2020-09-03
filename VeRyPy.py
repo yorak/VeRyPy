@@ -362,7 +362,7 @@ def main(overridden_args=None):
                     if not app_args.minimal_output:
                         print("Postoptimize with %s ..."%
                               ", ".join(app_args.local_search_operators),end="")
-                    sol = do_local_search(app_args.ls_ops, sol, D, d, C, L)
+                    sol = do_local_search(ls_ops, sol, D, d, C, L)
                     sol = cvrp_ops.normalize_solution(sol)
                         
                     if app_args.show_solution_cost:
