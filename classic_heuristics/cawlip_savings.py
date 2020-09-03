@@ -11,7 +11,7 @@ procedure from parallel_savings.py, built-in 2-opt and 2-opt* heuristics,
 and numpy and scipy for reading and preparing the problem instance."""
 ###############################################################################
 
-from parallel_savings import parallel_savings_init
+from classic_heuristics.parallel_savings import parallel_savings_init
 from local_search import LSOPT, do_local_search
 from local_search.intra_route_operators import do_2opt_move 
 #from local_search.inter_route_operators import do_2optstar_move 
