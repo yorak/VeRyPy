@@ -60,6 +60,8 @@ algo_name_aliases = {
                      "suppression":"ims",
                      "iterativemergesuppression":"ims",
                      "mergesuppressionsavings":"ims",
+        "ps2o":"ps2o", "rt79-ps":"ps2o", "cawlip":"ps2o",
+                     "savingswith2opt":"ps2o", 
         
         # insertion heuristics
         "si":"si",   "ci":"si",
