@@ -220,7 +220,7 @@ def main(overridden_args=None):
     
     parser = ArgumentParser(description="Solve some .vrp problems with the algorithms built into VeRyPy.")
     parser.add_argument('-l', dest='list_algorithms', help="List the available heuristics and quit", action="store_true")
-    parser.add_argument('-v', dest='verbosity', help="Set the verbosity level (to completely disable debug output, run this script with 'python -O')", type=int, default=None)
+    parser.add_argument('-v', dest='verbosity', help="Set the verbosity level (to completely disable debug output, run this script with 'python -O')", type=int, default=-1)
     parser.add_argument('-a', dest='active_algorithms', help="Algorithm to apply (argument can be set multiple times to enable multiple algorithms, or one can use 'all' or 'classical')", action='append')    
     parser.add_argument('-b', dest='objective', choices=['c', 'cost', 'K', 'vehicles'], help="Primary optimization oBjective (default is cost)", default="cost")
     parser.add_argument('-m', dest='minimal_output', help="Overrides the output options and prints only one line CSV report per solved instance", action="store_true")
@@ -290,7 +290,7 @@ def main(overridden_args=None):
                 ls_ops.append(do_3opt_move)
     
     # verbosity
-    if app_args.verbosity is not None:
+    if app_args.verbosity >= 0:
         shared_cli.set_logger_level(app_args.verbosity)
 
     # minimal header
