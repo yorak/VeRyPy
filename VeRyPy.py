@@ -109,6 +109,12 @@ algo_name_aliases = {
 }
 
 def get_algorithms(names):
+    has_gurobi = True
+    try:
+        import gurobipy
+    except:
+        has_gurobi = False
+    
     # get algorithms
     algos = []
     for algo_name in names:
@@ -156,9 +162,12 @@ def get_algorithms(names):
                 from classic_heuristics.cheapest_insertion import get_pi_algorithm
                 algos.append( ("pi",)+get_pi_algorithm() )
             if algo_name in ["mbsa", "all", "classical"]:
-                #"mbsa":"Desrochers and Verhoog (1989) matching based savings algorithm"
-                from classic_heuristics.matchingvrp import get_mm_algorithm
-                algos.append( ("mbsa",)+get_mm_algorithm())
+                if not has_gurobi:
+                    print("WARNING: mbsa heuristic is not available (gurobipy is not installed).", file=sys.stderr)
+                else:
+                    #"mbsa":"Desrochers and Verhoog (1989) matching based savings algorithm"
+                    from classic_heuristics.matchingvrp import get_mm_algorithm
+                    algos.append( ("mbsa",)+get_mm_algorithm())
             if algo_name in ["cmt", "all", "classical"]:
                 #"cmt":"Christofides, Mingozzi & Toth (1979) two phase heuristic"
                 from classic_heuristics.cmt_2phase import get_cmt2p_algorithm
@@ -192,13 +201,19 @@ def get_algorithms(names):
                 from classic_heuristics.rfcs import get_rfcs_algorithm
                 algos.append( ("rfcs",)+get_rfcs_algorithm()) 
             if algo_name in ["gap", "all", "classical"]:
-                #"gap":"Fisher & Jaikumar (1981) generalized assignment problem heuristic"
-                from classic_heuristics.gapvrp import get_gap_algorithm
-                algos.append( ("gap",)+get_gap_algorithm() )
+                if not has_gurobi:
+                    print("WARNING: gap heuristic is not available (gurobipy is not installed).", file=sys.stderr)
+                else:
+                    #"gap":"Fisher & Jaikumar (1981) generalized assignment problem heuristic"
+                    from classic_heuristics.gapvrp import get_gap_algorithm
+                    algos.append( ("gap",)+get_gap_algorithm() )
             if algo_name in ["ptl", "all", "classical"]:
-                #"ptl":"Foster and Ryan (1976) Petal algorithm"
-                from classic_heuristics.petalvrp import get_ptl_algorithm
-                algos.append( ("ptl",)+get_ptl_algorithm() )  
+                if not has_gurobi:
+                    print("WARNING: ptl heuristic is not available (gurobipy is not installed).", file=sys.stderr)
+                else:                    
+                    #"ptl":"Foster and Ryan (1976) Petal algorithm"
+                    from classic_heuristics.petalvrp import get_ptl_algorithm
+                    algos.append( ("ptl",)+get_ptl_algorithm() )  
             if algo_name in ["lr3o", "all", "classical"]:
                 #"lr3o":"Stewart and Golden (1982) LR3OPT heuristic"
                 from classic_heuristics.lr3opt import get_lr3opt_algorithm
