@@ -26,7 +26,7 @@ from gurobipy import Model, GRB, LinExpr, GurobiError
 #from tsp_solvers.tsp_solver_ropt import solve_tsp_ropt as solve_tsp
 #from tsp_solvers.tsp_solver_lkh import solve_tsp_lkh as solve_tsp
 from tsp_solvers.tsp_solver_gurobi import solve_tsp_gurobi as solve_tsp
-from sweep import get_sweep_from_cartesian_coordinates, bisect_angle
+from classic_heuristics.sweep import get_sweep_from_cartesian_coordinates, bisect_angle
 from cvrp_io import calculate_D
 from util import is_better_sol, totald
 from config import MAX_MIP_SOLVER_RUNTIME, MIP_SOLVER_THREADS
