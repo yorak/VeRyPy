@@ -4,9 +4,9 @@
 and LKH as experimentally it was found out to be time-optimal."""
 ###############################################################################
 
-from tsp_solver_ropt import solve_tsp_ropt
-from tsp_solver_lkh import solve_tsp_lkh
-from tsp_solver_gurobi import solve_tsp_gurobi
+from tsp_solvers.tsp_solver_ropt import solve_tsp_ropt
+from tsp_solvers.tsp_solver_lkh import solve_tsp_lkh
+from tsp_solvers.tsp_solver_gurobi import solve_tsp_gurobi
 
 def solve_tsp_fast(D, selected_idxs):
     if len(selected_idxs)<5:
