@@ -24,7 +24,7 @@ from logging import log, DEBUG
 
 from gurobipy import Model, GRB, GurobiError, quicksum
 
-from sweep import do_one_sweep, get_sweep_from_cartesian_coordinates
+from classic_heuristics.sweep import do_one_sweep, get_sweep_from_cartesian_coordinates
 #from local_search import ITEROPT
 from tsp_solvers.tsp_solver_fast import solve_tsp_fast as solve_tsp  
 #from tsp_solvers.tsp_solver_gurobi import solve_tsp_gurobi as solve_tsp
