@@ -1,0 +1,5 @@
+llist==0.6
+natsort==7.1.0
+numpy==1.19.4
+orderedset==2.0.3
+scipy==1.6.0
