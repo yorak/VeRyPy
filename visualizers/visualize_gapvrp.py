@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
-from shared_visualize import visualize_procedure,normalize_to_rect,VISUALIZE
+from shared_visualize import visualize_cli, visualize_procedure, VISUALIZE
 
 MAKE_ANIM = True
 
@@ -18,7 +18,7 @@ seed_candidates_re = re.compile("[Ss]elect [0-9]+ seed nodes from .+? nodes = (\
 #    not illustrate the reason for the incoplete sweep (the TSP sol violated 
 #    the L constraint)
 
-def _process_debug_line(line, normalization_parameters, currentK,
+def _process_gap_debug_line(line, normalization_parameters, currentK,
                        #output here
                        rays, active_nodes, active_ray_idxs,
                        points_of_interest,
@@ -82,5 +82,7 @@ def _process_debug_line(line, normalization_parameters, currentK,
     return changed, newK
     
 if __name__=="__main__":
-    visualize_procedure("gapvrp", selector=VISUALIZE.ALL, make_anim=MAKE_ANIM, 
-              process_debug_line_callback = _process_debug_line)
+    algo_output, problem_name, keep_files = visualize_cli("gapvrp")
+    visualize_procedure(algo_output, "gapvrp", problem_name, selector=VISUALIZE.ALL,
+              make_anim=MAKE_ANIM, keep_files=keep_files,
+              process_debug_line_callback = _process_gap_debug_line)

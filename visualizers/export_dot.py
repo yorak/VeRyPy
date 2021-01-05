@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+# Written in Python 2.7, but try to maintain Python 3+ compatibility
+from __future__ import print_function
+from __future__ import division
+
 from math import sin, cos, log
 
 # used to compute rays and their bounding box (bb)
@@ -40,10 +44,11 @@ def print_solution_edges(routes, output_handle, color=None):
         for v in route:
             if prev_v is not None:
                 if color:
-                    print >>output_handle, '    n%04d--n%04d [color="%s"];'%\
-                        (prev_v, v, color)  
+                    print('    n%04d--n%04d [color="%s"];'%(prev_v, v, color),
+                          file=output_handle)  
                 else:
-                    print >>output_handle, '    n%04d--n%04d;'%(prev_v, v)  
+                    print('    n%04d--n%04d;'%(prev_v, v),
+                          file=output_handle)  
             prev_v = v
         
 def output_dot(output_handle, npts, active_point_idxs=None,
@@ -62,30 +67,34 @@ def output_dot(output_handle, npts, active_point_idxs=None,
     label_length = int((log(abs(len(npts)),10)+1e-15))+1
     label_format = "%0"+str(label_length)+"d"
 
-    print >>output_handle, """Graph G {"""
+    print("""Graph G {""", file=output_handle)  
     if label:
-        print >>output_handle, 'label="%s"'%label
-    print >>output_handle,"""node [shape=circle width=.4 fixedsize=true];
-    n0000 [fillcolor=black style=filled fontcolor=white""",
-    print >>output_handle, 'label="'+label_format%0+'" pos="%f,%f!"];'%(npts[0][X], npts[0][Y])
+        print('label="%s"'%label, file=output_handle)
+    print("node [shape=circle width=.4 fixedsize=true];", file=output_handle)
+    print("n0000 [fillcolor=black style=filled fontcolor=white", 
+          file=output_handle, end=" ") 
+    print('label="'+label_format%0+'" pos="%f,%f!"];'%(npts[0][X], npts[0][Y]),
+          file=output_handle)
     for i in range(1,len(npts)):
         if active_point_idxs and i in active_point_idxs:
-            print >>output_handle, '    n%04d [shape=doublecircle label="'%i+\
-                label_format%i+'" pos="%f,%f!"];'%(npts[i][X], npts[i][Y])    
+            print('    n%04d [shape=doublecircle label="'%i+
+                  label_format%i+'" pos="%f,%f!"];'%(npts[i][X], npts[i][Y]),
+                  file=output_handle)    
         else:
-            print >>output_handle, '    n%04d [label="'%i+label_format%i+\
-                '" pos="%f,%f!"];'%(npts[i][X], npts[i][Y])      
-    print >>output_handle, ""
+            print('    n%04d [label="'%i+label_format%i+
+                  '" pos="%f,%f!"];'%(npts[i][X], npts[i][Y]),
+                  file=output_handle)      
+    print("", file=output_handle)
         
     if rays is not None:
-        print >>output_handle, """ur [shape=none label="" pos="%f,%f!" ];"""%\
-               (max_x+BB_PADDING, max_y+BB_PADDING)
-        print >>output_handle, """lr [shape=none label="" pos="%f,%f!" ];"""%\
-               (max_x+BB_PADDING, min_y-BB_PADDING)
-        print >>output_handle, """ul [shape=none label="" pos="%f,%f!" ];"""%\
-               (min_x-BB_PADDING, max_y+BB_PADDING)
-        print >>output_handle, """ll [shape=none label="" pos="%f,%f!" ];"""%\
-               (min_x-BB_PADDING, min_y-BB_PADDING)
+        print("""ur [shape=none label="" pos="%f,%f!" ];"""%
+              (max_x+BB_PADDING, max_y+BB_PADDING), file=output_handle)
+        print("""lr [shape=none label="" pos="%f,%f!" ];"""%
+              (max_x+BB_PADDING, min_y-BB_PADDING), file=output_handle)
+        print("""ul [shape=none label="" pos="%f,%f!" ];"""%
+              (min_x-BB_PADDING, max_y+BB_PADDING), file=output_handle)
+        print("""ll [shape=none label="" pos="%f,%f!" ];"""%
+              (min_x-BB_PADDING, min_y-BB_PADDING), file=output_handle)
                 
         b1 = (max_x+BB_PADDING,None)
         b2 = (min_x-BB_PADDING,None)
@@ -106,30 +115,28 @@ def output_dot(output_handle, npts, active_point_idxs=None,
                 
                 if isect:
                     intersection_n+=1
-                    #print >>output_handle, """is%d [shape=point label="" pos="%f,%f!" ];"""%\
-                    #(intersection_n, isect[0], isect[1])
+                    #print("""is%d [shape=point label="" pos="%f,%f!" ];"""%(intersection_n, isect[0], isect[1]), file=output_handle)
                     
                     isect_ray_len_sqrd = _segment_length_squared( (from_pt, isect) )
                     if isect_ray_len_sqrd<ray_len_sqrd:
                         to_pt = isect
                         ray_len_sqrd = isect_ray_len_sqrd
             
-            #print "ray_endpoint", ri, ray_alpha, "x,y", to_pt[X], to_pt[Y]
+            #print("ray_endpoint", ri, ray_alpha, "x,y", to_pt[X], to_pt[Y])
             
             # hidden endpoint of the ray
-            print >>output_handle, """    r%04d [shape=none label="" pos="%f,%f!" ];"""%\
-                (ri, to_pt[X], to_pt[Y])
+            print("""    r%04d [shape=none label="" pos="%f,%f!" ];"""%
+                  (ri, to_pt[X], to_pt[Y]), file=output_handle)
             # draw ray
             if ri in active_ray_idxs:
-                print >>output_handle, "    n%04d--r%04d [style=dashed];"%(0,ri)
+                print("    n%04d--r%04d [style=dashed];"%(0,ri), file=output_handle)
             else:
-                print >>output_handle, "    n%04d--r%04d [style=dotted];"%(0,ri)
+                print("    n%04d--r%04d [style=dotted];"%(0,ri), file=output_handle)
            
     if points_of_interest:
         for pi, poi in enumerate(points_of_interest):
-            print >>output_handle, \
-                """    poi%04d [fontsize=20 shape=none label=<<b>×</b>> pos="%f,%f!" ];"""%\
-                (pi, poi[X], poi[Y])
+            print("""    poi%04d [fontsize=20 shape=none label=<<b>×</b>> pos="%f,%f!" ];"""%
+                  (pi, poi[X], poi[Y]), file=output_handle)
       
     if gray_routes:
         print_solution_edges(gray_routes, output_handle, "gray")
@@ -138,4 +145,4 @@ def output_dot(output_handle, npts, active_point_idxs=None,
     if black_routes:
         print_solution_edges(black_routes, output_handle)
     
-    print >>output_handle, "}"
+    print("}", file=output_handle)

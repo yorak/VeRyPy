@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from shared_visualize import visualize_procedure,VISUALIZE
+from shared_visualize import visualize_cli, visualize_procedure, VISUALIZE
 from visualize_sweep import _process_debug_line as _process_sweep_debug_line
 import re
 
@@ -11,7 +11,7 @@ JJX_node_re = re.compile("JJX=n([0-9]+)")
 JII_node_re = re.compile("JII=n([0-9]+)")
 route_re = re.compile("(\[[0-9, ]+\])")
               
-def _process_debug_line(line, normalization_parameters, currentK,
+def _process_gms_debug_line(line, normalization_parameters, currentK,
                        #output here
                        rays, active_nodes, active_ray_idxs,
                        points_of_interest,
@@ -72,5 +72,7 @@ def _process_debug_line(line, normalization_parameters, currentK,
     return changed, newK
 
 if __name__=="__main__":
-    visualize_procedure("gillet_miller_sweep", selector=VISUALIZE.ALL, make_anim=MAKE_ANIM, 
-              process_debug_line_callback = _process_debug_line)
+    algo_output, problem_name, keep_files = visualize_cli("gillet_miller_sweep")
+    visualize_procedure(algo_output, "gillet_miller_sweep", problem_name, selector=VISUALIZE.ALL,
+              make_anim=MAKE_ANIM, keep_files=keep_files,
+              process_debug_line_callback = _process_gms_debug_line)

@@ -1,19 +1,20 @@
 # -*- coding: utf-8 -*-
-# -*- coding: utf-8 -*-
 
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
 from __future__ import print_function
 from __future__ import division
 
 import subprocess
+import argparse
 from export_dot import BB_HALF_SIZE, output_dot
 from os import makedirs, path
 from shutil import copyfile
 from sys import stderr, argv, exit, version_info
 
-GRAPHVIZ_NEATO_EXE = r"C:\Program Files (x86)\Graphviz\bin\neato.exe"
-GIFSICLE_EXE = r"C:\MyTemp\LocalApplications\gifsicle-1.88-win64\gifsicle.exe"
-PYTHON_EXE = r"C:\Anaconda2\python.exe"
+# Exoect these to be found from the PATH, edit if not
+GRAPHVIZ_NEATO_EXE = r"neato"
+GIFSICLE_EXE = r"gifsicle"
+PYTHON_EXE = r"python"
 
 class VISUALIZE:
     # flags that can be given to visualize_procedure. e.g. EMPTY|SOLUTION
@@ -28,39 +29,50 @@ INTERMEDIATE_STATE_ANIM_FRAMES = 3
 END_STATE_ANIM_FRAMES = 4
 MAX_STEPS = 100
 
-def visualize_procedure(algo_name, selector=VISUALIZE.ALL, make_anim=True, 
-              process_debug_line_callback = None):
-                  
-    file_path = argv[-1]
-    file_ext = file_path.lower()[-4:]
-    if not (path.isfile(file_path) and (file_ext==".vrp"  or file_ext==".txt")):
-        print(r"usage: visualize_X <path/to/problem_file.vrp|/path/to/output_file.txt>", file=stderr)
-        print(r" outputs to EXISTING folder ./output/X/, where", file=stderr)
-        print(r" X is the name of the algorithm (e.g. sweep).", file=stderr)
+def visualize_cli(algo_name):
+
+    parser = argparse.ArgumentParser(description="Produces animated gif to a folder ./output")
+    parser.add_argument('file_path', help="/path/to/problem_file.vrp OR /path/to/algo_raw_output_file.txt")
+    parser.add_argument('-k', dest='keep_files', help="Keep intermediate dot and gif files.", action='store_true')
+    args = parser.parse_args()
+
+    file_base, file_ext = path.splitext(args.file_path)
+    file_ext = file_ext.lower()
+    file_base = path.basename(file_base)
+
+    if not (path.isfile(args.file_path) or (file_ext!=".vrp" and file_ext!=".txt")):
+        parser.print_help(stderr)
         exit()
-    
+
     # "-v", "3" set the verbosity to print EVERYTHING
     # "-1" print only one try
     
     if file_ext==".vrp":
-        algo_path = path.join("..","classic_heuristics", "%s.py"%algo_name)
-        subpargs = [PYTHON_EXE, algo_path, "-1", "-v", "3", argv[-1]]
-        proc = subprocess.Popen(subpargs , stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        pathname = path.dirname(argv[0])        
+        algo_path = path.abspath(path.join(pathname, "..", "classic_heuristics", "%s.py"%algo_name))
+        subpargs = [PYTHON_EXE, algo_path, "-1", "-v", "3", args.file_path]
+        #print("CALL", " ".join(subpargs))
+        p = subprocess.Popen(subpargs , stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         
         # In Python3 bytes go in and come out. Special handling is required.
         if version_info[0] >= 3:
             out = p.communicate()[0].decode('ascii')
         else:
             out = p.communicate()[0]
-
+        
         #print(out)
         #print(" ".join(subpargs))
     else:
-        with open(file_path, 'r' ) as precalculated_output_file:
+        with open(args.file_path, 'r' ) as precalculated_output_file:
             out = precalculated_output_file.read()
     
-        
-    output_folder = "output/%s"%algo_name
+    return (out, file_base, args.keep_files)
+
+def visualize_procedure(algo_output, algo_name, data_name, selector=VISUALIZE.ALL,
+              make_anim=True, keep_files=False,
+              process_debug_line_callback = None):
+
+    output_folder = path.join("output",algo_name)
     if not path.exists(output_folder):
         makedirs(output_folder) 
             
@@ -71,7 +83,7 @@ def visualize_procedure(algo_name, selector=VISUALIZE.ALL, make_anim=True,
     additional_points = []
     
     # read the problem specifiers (or load from file)
-    for line in out.split("\n"):
+    for line in algo_output.split("\n"):
         if "POINTS:" in line:
             points = eval(line.split(":")[1])
             max(zip(points))
@@ -89,15 +101,16 @@ def visualize_procedure(algo_name, selector=VISUALIZE.ALL, make_anim=True,
         print(r"ERROR: the vrp file does not have coordinates!", file=stderr)
     
     dot_files = []
-   
+    gif_files = []
+    
     nparams = get_normalization_params(points+additional_points, (-BB_HALF_SIZE,BB_HALF_SIZE), keep_aspect_ratio=True)
-    npts = normalize_to_rect(points, nparams)
+    scaled_points = list(normalize_to_rect(points, nparams))
     
     if selector&VISUALIZE.EMPTY:
         # write the initial state
         print("write step 0 (initial state)")
-        with open(output_folder+"/i00_0000_gapvrp_initial.dot", "w") as initial_fh:
-            output_dot(initial_fh, npts, rays=[])
+        with open(path.join(output_folder, "i00_000000_gapvrp_initial.dot"), "w") as initial_fh:
+            output_dot(initial_fh, scaled_points, rays=[], label="START")
             dot_files.append(initial_fh.name)
     
     step = 1
@@ -115,7 +128,7 @@ def visualize_procedure(algo_name, selector=VISUALIZE.ALL, make_anim=True,
     labels = []
     
     if process_debug_line_callback:  
-        for line in out.split("\n"):
+        for line in algo_output.split("\n"):
             print(line)
             newK = None
             if "DEBUG:" in line and process_debug_line_callback:
@@ -134,12 +147,14 @@ def visualize_procedure(algo_name, selector=VISUALIZE.ALL, make_anim=True,
                             state_steps = INTERMEDIATE_STATE_ANIM_FRAMES
                         for i in range(state_steps):
                             print("write step %d"%step)
-                            dfn = output_folder+"/k%02d"%K+\
-                                  ("" if trial==0 else ("_t%04d"%trial))+\
-                                  "_%06d_gapvrp_step.dot"%step
+                            dfn = ("k%02d"%K+
+                                   ("" if trial==0 else ("_t%04d"%trial))+
+                                   "_%06d_gapvrp_step.dot"%step)
+                            dfnp = path.join(output_folder, dfn)
+                                            
                             
-                            with open(dfn, "w") as step_fh:
-                                output_dot(step_fh, npts, active_point_idxs=active_nodes,
+                            with open(dfnp, "w") as step_fh:
+                                output_dot(step_fh, scaled_points, active_point_idxs=active_nodes,
                                        rays=rays, active_ray_idxs=active_ray_idxs,
                                        points_of_interest=points_of_interest,
                                        gray_routes=candidate_routes,
@@ -174,11 +189,12 @@ def visualize_procedure(algo_name, selector=VISUALIZE.ALL, make_anim=True,
         routes = [[0]+list(group)+[0] for k, group in groupby(sol, lambda x:x==0) if not k]
         if selector&VISUALIZE.SOLUTION:
             print("write final solution")
-            with open(output_folder+"/k%02d_%04d_gapvrp_final.dot"%(final_K,step+1), "w") as step_fh:
-                output_dot(step_fh, npts, active_point_idxs=None,
+            dotfp = path.join(output_folder,"k%02d_%06d_gapvrp_final.dot"%(final_K,step+1))
+            with open(dotfp, "w") as step_fh:
+                output_dot(step_fh, scaled_points, active_point_idxs=None,
                        rays=rays, active_ray_idxs=active_ray_idxs,
                        points_of_interest=points_of_interest,
-                       black_routes=routes)
+                       black_routes=routes, label="STOP")
                 dot_files.append(step_fh.name)
                 step_fh.close()
     print("\n")
@@ -213,16 +229,43 @@ def visualize_procedure(algo_name, selector=VISUALIZE.ALL, make_anim=True,
         print("convert plot %d to gif "%step)
         ofn = dfn.replace(".dot", ".gif")
         subprocess.call([GRAPHVIZ_NEATO_EXE, "-Tgif", "-o",  path.abspath(ofn), path.abspath(dfn)])
+        gif_files.append(ofn)
     print("\n")        
     
     if make_anim:
         ## to gif anim
-        print
-        if not path.exists(output_folder+"/anims"):
-            makedirs(output_folder+"/anims") 
-        with open(output_folder+"/anims/%s_anim.gif"%algo_name, "w") as animf:
-            print("convert gifs to anim")
-            subprocess.call([GIFSICLE_EXE, "--delay=33", "--loop",  output_folder+"/*.gif"], stdout=animf)
+        print()
+        anims_dir = "output"
+        if not path.exists(anims_dir):
+            makedirs(anims_dir) 
+        
+        gif_input_files_path = path.join(output_folder, "*.gif") # all outputted gif files. 
+        anim_output_file_path = path.join(anims_dir, "%s_%s_anim.gif"%(algo_name, data_name))
+        print("Converting gifs to anim ...", end="")
+        call_gifsicle = [GIFSICLE_EXE, "--delay=33", "--loop", 
+                         path.abspath(gif_input_files_path),
+                         "-o", path.abspath(anim_output_file_path)]
+        #print(" ".join(call_gifsicle))
+        # Call with shell=Trye to use shell wildcard expands.
+        if subprocess.call(" ".join(call_gifsicle), shell=True)==0:
+            print("DONE!")
+            print("Final gif animation written to file", anim_output_file_path)
+        else:
+            print("FAIL!")
+        
+        if not keep_files:
+            removed_cnt = 0
+            for tempf in dot_files+gif_files:
+                if path.isfile(tempf):
+                    try:
+                        os.remove(tempf)
+                    except:
+                        pass
+                    finally:
+                        removed_cnt+=1
+            print("Cleaned up %d of %d temp gif/dot files."%
+                  (removed_cnt,len(dot_files)+len(gif_files)))
+
             
     print("\nall done, ktxhbye")
     

@@ -345,6 +345,10 @@ def lr3opt_init(D, d, C, L,
                 if __debug__:
                     log(DEBUG, "Found improving LR3OPT move leading to %s (%.2f)"%
                         (new_sol, calculate_objective(new_sol,D)))
+                    log(DEBUG-2, "However, routes %s remain infeasible."%
+                        [r for r in sol2routes(new_sol) if not fast_constraint_check(r,D,d,C,L)])
+                        
+                    
                 sol = new_sol
                 c_lambda_incs = 0
 

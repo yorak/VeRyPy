@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 
 import re
-from shared_visualize import visualize_procedure,VISUALIZE
+from shared_visualize import visualize_cli, visualize_procedure, VISUALIZE
 
 MAKE_ANIM = True
 
 node_re = re.compile("\sn([0-9]+)\s")
 #tsp_re = re.compile("Got TSP solution \((-?[0-9]+\.[0-9]+)\) = (\[.*?\])")
-complete_re = re.compile("route (\[.*?\]) \((-?[0-9]+\.[0-9]+)\) complete.")
+init_re = re.compile("Initialize route #([0-9]+) with n([0-9]+), resulting to (\[.*?\])")
+complete_re = re.compile("storing route #([0-9]+) as (\[.*?\])")
 insert_re = re.compile("Inserted n([0-9]+) to create a route (\[.*?\]).")
-constraint_re = re.compile("Insertion would break ([CL]) constraint.")
 parallel_re = re.compile("Parallel route building with seeds (\[.*?\])")
 
-def _process_debug_line(line, normalization_parameters, currentK,
+def _process_nn_debug_line(line, normalization_parameters, currentK,
                        #output here
                        rays, active_nodes, active_ray_idxs,
                        points_of_interest,
@@ -21,13 +21,18 @@ def _process_debug_line(line, normalization_parameters, currentK,
     newK = None
     changed = False
     
-    imo = insert_re.search(line)
-    cmo = constraint_re.search(line)
-    rmo = complete_re.search(line)
-    pmo = parallel_re.search(line)
-    
-    #print candidate_routes
-    if imo:
+    nmo = init_re.search(line)
+    imo = None #insert_re.search(line)
+    cmo = None #constraint_re.search(line)
+    rmo = None #complete_re.search(line)
+    pmo = None #parallel_re.search(line)
+    raise NotImplementedError # TODO: the re's must match to the nn output!
+
+    if nmo:
+        candidate_route = eval(nmo.group(3))
+        candidate_routes.append( candidate_route )
+        changed = True
+    elif imo:
         #inserted_node = int(imo.group(1))
         candidate_route = eval(imo.group(2))
         candidate_routes[:] = [candidate_route+[0]]
@@ -63,14 +68,12 @@ def _process_debug_line(line, normalization_parameters, currentK,
     elif "Sequential route bulding" in line:
         newK=0
         
-    
-        
-    
-        
     #print "VGV:", line,
     #print "VGV:", changed, newK
     return changed, newK
     
 if __name__=="__main__":
-    visualize_procedure("nn", selector=VISUALIZE.ALL, make_anim=MAKE_ANIM, 
-              process_debug_line_callback = _process_debug_line)
+    algo_output, problem_name, keep_files = visualize_cli("nearest_neighbor")
+    visualize_procedure(algo_output, "nearest_neighbor", problem_name, selector=VISUALIZE.ALL,
+              make_anim=MAKE_ANIM, keep_files=keep_files,
+              process_debug_line_callback = _process_nn_debug_line)

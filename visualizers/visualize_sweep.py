@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
-from shared_visualize import visualize_procedure,VISUALIZE
+from shared_visualize import visualize_cli, visualize_procedure, VISUALIZE
 from collections import OrderedDict
 from math import pi 
 
@@ -18,7 +18,7 @@ L_violation_re = re.compile("L constraint was violated, removed n([0-9]+) from t
 # global state
 ray_cache = OrderedDict()
 
-def _process_debug_line(line, normalization_parameters, currentK,
+def _process_sweep_debug_line(line, normalization_parameters, currentK,
                        #output here
                        rays, active_nodes, active_ray_idxs,
                        points_of_interest,
@@ -111,5 +111,7 @@ def _process_debug_line(line, normalization_parameters, currentK,
     return False, None
     
 if __name__=="__main__":
-    visualize_procedure("sweep", selector=VISUALIZE.ALL, make_anim=MAKE_ANIM, 
-              process_debug_line_callback = _process_debug_line)
+    algo_output, problem_name, keep_files = visualize_cli("sweep")
+    visualize_procedure(algo_output, "sweep", problem_name, selector=VISUALIZE.ALL,
+              make_anim=MAKE_ANIM, keep_files=keep_files,
+              process_debug_line_callback = _process_sweep_debug_line)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
-from shared_visualize import visualize_procedure,VISUALIZE
+from shared_visualize import visualize_cli, visualize_procedure, VISUALIZE
 from util import sol2routes
 
 MAKE_ANIM = True
@@ -11,7 +11,7 @@ popped_re = re.compile("Popped savings s_\{([0-9]+),([0-9]+)\}")
 merged_re = re.compile("Merged, resulting solution is (\[.*?\])")
 
 to_restore_routes=[]
-def _process_debug_line(line, normalization_parameters, currentK,
+def _process_savings_debug_line(line, normalization_parameters, currentK,
                        #output here
                        rays, active_nodes, active_ray_idxs,
                        points_of_interest,
@@ -73,5 +73,7 @@ def _process_debug_line(line, normalization_parameters, currentK,
     return changed, newK
     
 if __name__=="__main__":
-    visualize_procedure("parallel_savings", selector=VISUALIZE.ALL, make_anim=MAKE_ANIM, 
-              process_debug_line_callback = _process_debug_line)
+    algo_output, problem_name, keep_files = visualize_cli("parallel_savings")
+    visualize_procedure(algo_output, "parallel_savings", problem_name, selector=VISUALIZE.ALL,
+              make_anim=MAKE_ANIM, keep_files=keep_files,
+              process_debug_line_callback = _process_savings_debug_line)

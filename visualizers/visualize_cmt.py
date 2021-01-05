@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 
 import re
-from shared_visualize import visualize_procedure,VISUALIZE
+from shared_visualize import visualize_cli, visualize_procedure, VISUALIZE
 
 MAKE_ANIM = True
 
-node_re = re.compile("\sn([0-9]+)\s")
+node_re = re.compile("\sn([0-9]+)(?:\s|$)")
 #tsp_re = re.compile("Got TSP solution \((-?[0-9]+\.[0-9]+)\) = (\[.*?\])")
 complete_re = re.compile("route (\[.*?\]) \((-?[0-9]+\.[0-9]+)\) complete.")
 insert_re = re.compile("Inserted n([0-9]+) to create a route (\[.*?\]).")
 constraint_re = re.compile("Insertion would break ([CL]) constraint.")
 parallel_re = re.compile("Parallel route building with seeds (\[.*?\])")
 
-def _process_debug_line(line, normalization_parameters, currentK,
+def _process_cmt_debug_line(line, normalization_parameters, currentK,
                        #output here
                        rays, active_nodes, active_ray_idxs,
                        points_of_interest,
@@ -58,7 +58,12 @@ def _process_debug_line(line, normalization_parameters, currentK,
         changed = True
     elif "Check feasibility of inserting" in line:
         mo = node_re.search(line)
-        candidate_routes[-1].insert(-1, int(mo.group(1)))
+        node_to_try_and_insert = int(mo.group(1))
+        if not candidate_routes:
+            # We continue (there was a tie!), reverse infeasiblity
+            candidate_routes[:] = [ infeasible_routes[-1][:-2]+[0] ]
+            infeasible_routes[:] = []
+        candidate_routes[-1].insert(-1, node_to_try_and_insert)
         changed = False
     elif "Sequential route bulding" in line:
         newK=0
@@ -68,5 +73,7 @@ def _process_debug_line(line, normalization_parameters, currentK,
     return changed, newK
     
 if __name__=="__main__":
-    visualize_procedure("cmt_2phase", selector=VISUALIZE.ALL, make_anim=MAKE_ANIM, 
-              process_debug_line_callback = _process_debug_line)
+    algo_output, problem_name, keep_files = visualize_cli("cmt_2phase")
+    visualize_procedure(algo_output, "cmt_2phase", problem_name, selector=VISUALIZE.ALL,
+              make_anim=MAKE_ANIM, keep_files=keep_files,
+              process_debug_line_callback = _process_cmt_debug_line)
