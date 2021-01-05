@@ -1,17 +1,24 @@
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
 from __future__ import print_function
 from __future__ import division
+from sys import stderr
 
 from subprocess import Popen, PIPE
 from tempfile import NamedTemporaryFile
-from os import remove as remove_file
 from logging import log, DEBUG
 import numpy as np
 import sys
+import os
 
 from cvrp_io import write_TSPLIB_file    
 
 from config import LKH_EXE_PATH, LKH_EXACT_DISTANCES_PRECISION_DECIMALS
+
+# Make sure we have access to LKH executable (download, comiple, and modify config.py).
+if not os.path.isfile(LKH_EXE_PATH):
+    raise ImportError("No LKH executable found at \"%s\" (the path is defined in config.py)"%LKH_EXE_PATH) 
+if not os.access(LKH_EXE_PATH, os.X_OK):
+    raise ImportError("LKH executable is not set executable") 
 
 def solve_tsp_lkh(D, selected_idxs,
                   float_accuracy = LKH_EXACT_DISTANCES_PRECISION_DECIMALS,
@@ -113,9 +120,9 @@ def solve_tsp_lkh(D, selected_idxs,
         if not depot_found:
             sol+=[sol[0]]
         
-    remove_file(temp_problem_file_path) 
-    remove_file(temp_parameter_file_path) 
-    remove_file(temp_output_file_path) 
+    os.remove(temp_problem_file_path) 
+    os.remove(temp_parameter_file_path) 
+    os.remove(temp_output_file_path) 
     
     if are_float_distances:
         obj_f = obj_f/float_accuracy;

@@ -16,14 +16,22 @@ problem instance.
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
 from __future__ import print_function
 from __future__ import division
+from sys import stderr
 
 import numpy as np
 from math import ceil
 from logging import log, DEBUG
 
 from classic_heuristics.nearest_neighbor import nearest_neighbor_init
-#from tsp_solvers.tsp_solver_ropt import solve_tsp_ropt as solve_tsp
-from tsp_solvers.tsp_solver_lkh import solve_tsp_lkh as solve_tsp
+
+try:
+    # Intead of the outdated TSP heuristic described in Tyagi (1968) just use LKH.
+    from tsp_solvers.tsp_solver_lkh import solve_tsp_lkh as solve_tsp
+except ImportError:
+    print("WARNING: could not use the external TSP solver (probably the executable is not found). "+
+          "Relying on internal TSP solver and the results may differ from those that were published.", file=stderr)
+    from tsp_solvers.tsp_solver_ropt import solve_tsp_ropt as solve_tsp
+
 from util import sol2routes, routes2sol, totald, objf
 
 from config import CAPACITY_EPSILON as C_EPS

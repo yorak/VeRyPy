@@ -20,6 +20,7 @@ from logging import log, DEBUG
 
 # for the original stochastic version (needs to be enabled separately)
 from random import shuffle
+from sys import stderr
 
 # One of the few non standard-lib additions, used in algorithm's second 
 #  phase to keep track of the non-routed nodes. Install it e.g. with:
@@ -28,10 +29,17 @@ from random import shuffle
 #
 from orderedset import OrderedSet
 
-from tsp_solvers.tsp_solver_ropt import solve_tsp_ropt as solve_tsp
-#from tsp_solvers.tsp_solver_lkh import solve_tsp_lkh as solve_tsp
-#from tsp_solvers.tsp_solver_gurobi import solve_tsp_gurobi as solve_tsp
-#from tsp_solvers.tsp_solver_acotsp import solve_tsp_acotsp as solve_tsp
+try:
+    ## For tiny instances you might want to get the optimal solution
+    #from tsp_solvers.tsp_solver_gurobi import solve_tsp_gurobi as solve_tsp
+    ## This is the default TSP solver. Used mainly if L constraint is set.
+    from tsp_solvers.tsp_solver_lkh import solve_tsp_lkh as solve_tsp
+    ## For largest instances we have reserved an option to rely rely on a CUSTOM acotsp 
+    #from tsp_solvers.tsp_solver_acotsp import solve_tsp_acotsp as solve_tsp
+except ImportError:
+    print("WARNING: could not use the external TSP solver (probably the executable is not found). "+
+          "Relying on internal TSP solver and the results may differ from those that were published.", file=stderr)
+    from tsp_solvers.tsp_solver_ropt import solve_tsp_ropt as solve_tsp
 
 from util import is_better_sol, routes2sol, without_empty_routes, objf
 from config import COST_EPSILON as S_EPS

@@ -16,12 +16,23 @@ problem instance."""
 from __future__ import print_function
 from __future__ import division
 from builtins import range
+from sys import stderr
 
 import numpy as np
 from logging import log, DEBUG
 
-from tsp_solvers.tsp_solver_lkh import solve_tsp_lkh as solve_tsp_intial
+try:
+    # The original implementation of Beasley (1983) generated multiple 2-optimal initial
+    #  solutions. We just generate one that is very, very good with state-of-the-art TSP
+    #  solver LKH.
+    from tsp_solvers.tsp_solver_lkh import solve_tsp_lkh as solve_tsp_intial
+except ImportError:
+    print("WARNING: could not use the external TSP solver (probably the executable is not found). "+
+          "Relying on internal TSP solver and the results may differ from those that were published.", file=stderr)
+    from tsp_solvers.tsp_solver_ropt import solve_tsp_ropt as solve_tsp_intial
+# Always use built-in TSP solver to guarantee 2 and 3-optimality of single routes.
 from tsp_solvers.tsp_solver_ropt import solve_tsp_2opt, solve_tsp_3opt
+
 from config import CAPACITY_EPSILON as C_EPS
 from config import COST_EPSILON as S_EPS
 

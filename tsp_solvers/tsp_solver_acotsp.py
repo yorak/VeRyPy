@@ -1,17 +1,23 @@
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
 from __future__ import print_function
 from __future__ import division
+from sys import stderr
 
 from subprocess import Popen, PIPE
 from tempfile import NamedTemporaryFile
-from os import remove as remove_file
-from os import devnull
 import re
+import os
 
 import numpy as np
 
 from cvrp_io import write_TSPLIB_file
 from config import ACOTSP_EXE_PATH, ACOTSP_EXACT_DISTANCES_PRECISION_DECIMALS
+
+# Make sure we have access to LKH executable (download, comiple, and modify config.py).
+if not os.path.isfile(ACOTSP_EXE_PATH):
+    raise ImportError("No acotsp executable found at \"%s\" (the path is defined in config.py)"%ACOTSP_EXE_PATH) 
+if not os.access(ACOTSP_EXE_PATH, os.X_OK):
+    raise ImportError("acotsp executable is not set executable") 
 
 def solve_tsp_acotsp(D, selected_idxs,
                   float_accuracy = ACOTSP_EXACT_DISTANCES_PRECISION_DECIMALS,
@@ -78,7 +84,7 @@ def solve_tsp_acotsp(D, selected_idxs,
         command = [ACOTSP_EXE_PATH, "--quiet", "-i", temp_problem_file_path]
     else:
         # use only local 2-opt+3-opt local search
-        nul_f = open(devnull, 'w')
+        nul_f = open(os.devnull, 'w')
         command = [ACOTSP_EXE_PATH,
                    "-r", "1", # one try is enough without ants (determnistic)
                    "-m", "1", # one (deteministic) ant is still needed 
@@ -116,7 +122,7 @@ def solve_tsp_acotsp(D, selected_idxs,
             if are_float_distances:
                 best_obj = best_obj/float_accuracy;  
   
-    remove_file(temp_problem_file_path) 
+    os.remove(temp_problem_file_path) 
     return sol, sol_f
     
 if __name__=="__main__":

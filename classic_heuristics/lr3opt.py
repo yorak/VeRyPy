@@ -17,8 +17,18 @@ import numpy as np
 from logging import log, DEBUG
 from random import shuffle
 from functools import partial
+from sys import stderr
 
-from tsp_solvers.tsp_solver_lkh import solve_tsp_lkh as tsp_opt_algo
+try:
+    # The original algorithm of Stewart & Golden (1984) was stochastic and used restarts
+    #  with multiple random TSP solutions. For a deterministic variant, we use LKH to get
+    #  a single high quality TSP solution.
+    from tsp_solvers.tsp_solver_lkh import solve_tsp_lkh as solve_tsp
+except ImportError:
+    print("WARNING: could not use the external TSP solver (probably the executable is not found). "+
+          "Relying on internal TSP solver and the results may differ from those that were published.", file=stderr)
+    from tsp_solvers.tsp_solver_ropt import solve_tsp_ropt as solve_tsp
+    
 
 from cvrp_ops import fast_constraint_check, calculate_objective, normalize_solution
 from local_search.solution_operators import do_3optstar_move
@@ -154,7 +164,7 @@ def _init_with_random(D,d,C,L):
     return random_sol, calculate_objective(random_sol, D)
 
 def _init_with_tsp(D,d,C,L):
-    route_tsp_sol, route_f = tsp_opt_algo(D, list(range(0,len(D))))
+    route_tsp_sol, route_f = solve_tsp(D, list(range(0,len(D))))
     return route_tsp_sol+[0], route_f
 
 def _force_feasible(sol, D, d, C, L):
