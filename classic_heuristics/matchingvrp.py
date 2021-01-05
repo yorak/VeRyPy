@@ -17,6 +17,7 @@ reading and preparing the problem instance.
 from __future__ import print_function
 from __future__ import division
 from builtins import range
+from sys import stderr
 
 from logging import log, DEBUG
 from signal import signal, SIGINT, default_int_handler
@@ -24,9 +25,17 @@ from signal import signal, SIGINT, default_int_handler
 # this uses Gurobi to solve the maximum matching problem
 from gurobipy import Model, GRB, GurobiError                         
 
-#from tsp_solvers.tsp_solver_lkh import solve_tsp_lkh as default_solve_tsp  
-from tsp_solvers.tsp_solver_gurobi import solve_tsp_gurobi as default_solve_tsp
-#from tsp_solvers.tsp_solver_ropt import solve_tsp_ropt as default_solve_tsp
+try:
+    # The algoritm uses Gurobi to solve the TSPs of the maximum matching problem.
+    from tsp_solvers.tsp_solver_gurobi import solve_tsp_gurobi as default_solve_tsp
+    ## For very large instances one can optionally use faster LKH or acotsp local search.
+    #from tsp_solvers.tsp_solver_lkh import solve_tsp_lkh as default_solve_tsp  
+    #from tsp_solvers.tsp_solver_acotsp import solve_tsp_acotsp as default_solve_tsp
+except ImportError:
+    print("WARNING: could not use the external TSP solver (probably the executable is not found). "+
+          "Relying on internal TSP solver and the results may differ from those that were published.", file=stderr)
+    from tsp_solvers.tsp_solver_ropt import solve_tsp_ropt as default_solve_tsp
+
 from util import objf
 
 from config import MAX_MIP_SOLVER_RUNTIME, MIP_SOLVER_THREADS

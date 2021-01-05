@@ -19,13 +19,24 @@ from signal import signal, SIGINT, default_int_handler
 from collections import namedtuple
 from math import pi, ceil
 from logging import log, DEBUG, WARNING
+from sys import stderr
 
 import numpy as np
 from gurobipy import Model, GRB, LinExpr, GurobiError
 
-#from tsp_solvers.tsp_solver_ropt import solve_tsp_ropt as solve_tsp
-#from tsp_solvers.tsp_solver_lkh import solve_tsp_lkh as solve_tsp
-from tsp_solvers.tsp_solver_gurobi import solve_tsp_gurobi as solve_tsp
+try:
+    ## For reasonably sized instances you might want to get the optimal TSP solution
+    ## with Gurobi. This is also the default used in Rasku et al. (2019) experiments.
+    from tsp_solvers.tsp_solver_gurobi import solve_tsp_gurobi as solve_tsp
+    ## For larger instances you might want to use ether of the faster TSP solvers.
+    #from tsp_solvers.tsp_solver_lkh import solve_tsp_lkh as solve_tsp
+    #from tsp_solvers.tsp_solver_acotsp import solve_tsp_acotsp as solve_tsp
+except ImportError:
+    print("WARNING: could not use the external TSP solver (probably the executable is not found). "+
+          "Relying on internal TSP solver and the results may differ from those that were published.", file=stderr)
+    from tsp_solvers.tsp_solver_ropt import solve_tsp_ropt as solve_tsp
+
+
 from classic_heuristics.sweep import get_sweep_from_cartesian_coordinates, bisect_angle
 from cvrp_io import calculate_D
 from util import is_better_sol, totald
