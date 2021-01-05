@@ -79,7 +79,7 @@ def solve_tsp_lkh(D, selected_idxs,
     
     # In Python3 bytes go in and come out. Special handling is required.
     #  (not pretty, but allows smoketests to pass on Py3)
-    if sys.version_info[0] == 3:
+    if sys.version_info[0] >= 3:
         stdout_data = p.communicate(input=b' ')[0].decode('ascii')
     else:
         stdout_data = p.communicate(input=' ')[0]

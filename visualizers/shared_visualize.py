@@ -9,7 +9,7 @@ import subprocess
 from export_dot import BB_HALF_SIZE, output_dot
 from os import makedirs, path
 from shutil import copyfile
-from sys import stderr, argv, exit
+from sys import stderr, argv, exit, version_info
 
 GRAPHVIZ_NEATO_EXE = r"C:\Program Files (x86)\Graphviz\bin\neato.exe"
 GIFSICLE_EXE = r"C:\MyTemp\LocalApplications\gifsicle-1.88-win64\gifsicle.exe"
@@ -46,7 +46,13 @@ def visualize_procedure(algo_name, selector=VISUALIZE.ALL, make_anim=True,
         algo_path = path.join("..","classic_heuristics", "%s.py"%algo_name)
         subpargs = [PYTHON_EXE, algo_path, "-1", "-v", "3", argv[-1]]
         proc = subprocess.Popen(subpargs , stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out = str(proc.communicate()[0])
+        
+        # In Python3 bytes go in and come out. Special handling is required.
+        if version_info[0] >= 3:
+            out = p.communicate()[0].decode('ascii')
+        else:
+            out = p.communicate()[0]
+
         #print(out)
         #print(" ".join(subpargs))
     else:

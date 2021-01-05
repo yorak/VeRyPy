@@ -1,7 +1,7 @@
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
 from __future__ import print_function
 from __future__ import division
-from sys import stderr
+from sys import stderr, version_info
 
 from subprocess import Popen, PIPE
 from tempfile import NamedTemporaryFile
@@ -96,7 +96,13 @@ def solve_tsp_acotsp(D, selected_idxs,
                    "--quiet", # in 1.03 disables writing the files
                    "-i", temp_problem_file_path]
     p = Popen(command, stdout=PIPE, stdin=PIPE, stderr=nul_f)
-    stdout_data = p.communicate(input=' ')[0]
+    # In Python3 bytes go in and come out. Special handling is required.
+    #  (not pretty, but allows smoketests to pass on Py3)
+    if version_info[0] >= 3:
+        stdout_data = p.communicate(input=b' ')[0].decode('ascii')
+    else:
+        stdout_data = p.communicate(input=' ')[0]
+
   
     #if __debug__:    
         #print(stdout_data)
