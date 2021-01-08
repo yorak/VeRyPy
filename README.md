@@ -64,6 +64,12 @@ TODO: Time complexity curves from the paper
 ![Gillet & Miller Sweep heuristic solving a 22 customer problem instance from Gaskell](doc/GM_sweep_anim_02-Gaskell2-E023-k5g_ccw.gif)
 *Example of Gillet & Miller Sweep heuristic solving a 22 customer problem instance from Gaskell*
 
+## Citing VeRyPy
+
+If you find VeRyPy useful in your research and use it to produce results for your publications please consider citing it as:
+
+> Rasku, J., Kärkkäinen, T., & Musliu, N. (2019). Meta-Survey and Implementations of Classical Capacitated Vehicle Routing Heuristics with Reproduced Results. *In Toward Automatic Customization of Vehicle Routing Systems*. JYU Dissertations 113, University of Jyväskylä, Finland.
+
 ## Quick Start
 
 Make sure that the VeRyPy is in your `PYTHONPATH`. On linux the relevant command is
@@ -138,12 +144,6 @@ If you are itching to get started, please refer to the todo list below:
 * [Implement the inter-route 3-opt*](https://github.com/yorak/VeRyPy/issues/5#issue-665048120) that only operates on the selected 2 or 3 routes (as opposed to the proven solution-based version can be used as an reference). This work has been started, but not completed.
 * Consider verifing the support for asymmetric problems. Most of the algorithms should support this already, but more tests should be written to verify this.
 * Consider adding support for time windows (VRPTW). This would probably lead to a major refactoring, but could be an interesting exercise.
-
-## Citing VeRyPy
-
-If you find VeRyPy useful in your research and use it to produce results for your publications please consider citing it as:
-
-> Rasku J., Musliu N., and Kärkkäinen T. (2019) Meta-Survey and Implementations of Classic Capacitated Vehicle Routing Heuristics with Reproductions of Earlier Results. Manuscript. University of Jyväskylä, Finland.
 
 
 ## Implemented Heuristics with References
