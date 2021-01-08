@@ -68,7 +68,7 @@ TODO: Time complexity curves from the paper
 
 If you find VeRyPy useful in your research and use it to produce results for your publications please consider citing it as:
 
-> Rasku, J., Kärkkäinen, T., & Musliu, N. (2019). Meta-Survey and Implementations of Classical Capacitated Vehicle Routing Heuristics with Reproduced Results. *In Toward Automatic Customization of Vehicle Routing Systems*. JYU Dissertations 113, University of Jyväskylä, Finland.
+> Rasku, J., Kärkkäinen, T., & Musliu, N. (2019). Meta-Survey and Implementations of Classical Capacitated Vehicle Routing Heuristics with Reproduced Results. In J. Rasku, *Toward Automatic Customization of Vehicle Routing Systems* (pp. 133-260). JYU Dissertations 113, University of Jyväskylä, Finland.
 
 ## Quick Start
 
