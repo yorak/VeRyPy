@@ -234,7 +234,7 @@ def do_naive_3optstar_move(solution,D,demands,C,L,
     """
     
     # The implementation is incomplete, sorry!
-    raise NotImplemented
+    raise NotImplementedError
     
     sol_f = objf(solution, D)
     best_sol = None
@@ -312,8 +312,8 @@ def do_naive_3optstar_move(solution,D,demands,C,L,
     #do_chain_move:3
 
 def do_naive_1point_move(solution,D,d,C,L,
-                                 strategy=LSOPT.BEST_ACCEPT,
-                                 best_delta=None):
+                         strategy=LSOPT.BEST_ACCEPT,
+                         best_delta=None):
     """ This is an educational version of the one point/relocate move.
     A customer is moved to the different position of the same or different
     route if it improves the solution.
@@ -325,7 +325,7 @@ def do_naive_1point_move(solution,D,d,C,L,
     if not best_delta:
         best_delta = 0
     
-    for i, n in enumerate(solution):
+    for n in solution:
         if n==0:
             continue
             

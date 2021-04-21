@@ -7,9 +7,9 @@ TSPLIB formatted problem instance file with a single heuristic algorithm and
 printing the resulting solution route by route."""
 ###############################################################################
 
-from VeRyPy import cvrp_io
-from VeRyPy.classic_heuristics.parallel_savings import parallel_savings_init
-from VeRyPy.util import sol2routes
+import cvrp_io
+from classic_heuristics.parallel_savings import parallel_savings_init
+from util import sol2routes
 
 E_n51_k5_path = r"E-n51-k5.vrp"
 

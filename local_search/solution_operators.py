@@ -105,6 +105,7 @@ def _check_3opt_move(D, C, L, removed_weights, best_delta,
        
         # Constraint checks
         feasible = True
+        # pylint: disable=unsubscriptable-object
         prev_edge = None
         route_d = 0
         route_l = 0
