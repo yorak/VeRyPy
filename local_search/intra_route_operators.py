@@ -27,6 +27,9 @@ improvement (delta) as 2-tuple or (None,None) if no improvement was found."""
 ###############################################################################
 
 #TODO:
+# - support for asymmetric distances, the loops in 2-opt and 3-opt could keep
+#    track of the mid segments cost in reverse order with neglible performance
+#    impact (no added loops, just update the reverse segment cost on each iter).
 # - improve performance
 #  - use doubly linked list (dllist) as the data structure for the routes
 #  - calculate nearest neighbour list of the route nodes and iterate trough it
@@ -70,6 +73,13 @@ def do_2opt_move(route, D, strategy=LSOPT.FIRST_ACCEPT, best_delta=None):
             b = route[i+1]
             c = route[j]
             d = route[j+1]
+            
+            # a->c b->d( 2-opt move )
+            #        _____
+            #       /     \
+            # >--a  b-<-c  -->d
+            #     \____/ 
+            
             # For edges a-b and c-d, try if savings could be made by traveling 
             #  from a-c and b-d (effectively reversing the chain from
             #  b to c).
