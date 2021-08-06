@@ -105,7 +105,8 @@ def sequential_savings_init(D, d, C, L=None, minimize_K=False,
     else:
         raise ValueError("No such route initialization method")
     
-    ## 2. Initialize a single emerging route and make all feasible merges on it
+    ## 2. Initialize a single emerging route at a time and then make all
+    ##     feasible merges on it before moving on to the next one.
     
     solution = [0]
     savings = None
@@ -158,7 +159,7 @@ def sequential_savings_init(D, d, C, L=None, minimize_K=False,
                 if not (do_left_merge or do_right_merge):
                     if __debug__:
                         log(DEBUG-1,("Reject merge because the %d"%i)+
-                                      "is no longer next to the depot.")
+                                     "is no longer next to the depot.")
                     continue #next savings
                    
                 if L:
