@@ -13,6 +13,9 @@ and preparing the problem instance.
 """
 ###############################################################################
 
+# Written in Python 2.7, but try to maintain Python 3+ compatibility
+from __future__ import print_function
+
 import numpy as np
 from logging import log, DEBUG
 from random import shuffle
