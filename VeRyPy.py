@@ -163,7 +163,7 @@ def get_algorithms(names):
                 algos.append( ("pi",)+get_pi_algorithm() )
             if algo_name in ["mbsa", "all", "classical"]:
                 if not has_gurobi:
-                    print("WARNING: mbsa heuristic is not available (gurobipy is not installed).", file=sys.stderr)
+                    print("WARNING: [mbsa/DV89-MM] heuristic is not available (gurobipy is not installed).", file=sys.stderr)
                 else:
                     #"mbsa":"Desrochers and Verhoog (1989) matching based savings algorithm"
                     from classic_heuristics.matchingvrp import get_mm_algorithm
@@ -202,14 +202,14 @@ def get_algorithms(names):
                 algos.append( ("rfcs",)+get_rfcs_algorithm()) 
             if algo_name in ["gap", "all", "classical"]:
                 if not has_gurobi:
-                    print("WARNING: gap heuristic is not available (gurobipy is not installed).", file=sys.stderr)
+                    print("WARNING: [gap/FJ81-GAP] heuristic is not available (gurobipy is not installed).", file=sys.stderr)
                 else:
                     #"gap":"Fisher & Jaikumar (1981) generalized assignment problem heuristic"
                     from classic_heuristics.gapvrp import get_gap_algorithm
                     algos.append( ("gap",)+get_gap_algorithm() )
             if algo_name in ["ptl", "all", "classical"]:
                 if not has_gurobi:
-                    print("WARNING: ptl heuristic is not available (gurobipy is not installed).", file=sys.stderr)
+                    print("WARNING: [ptl/FR76-1PTL] heuristic is not available (gurobipy is not installed).", file=sys.stderr)
                 else:                    
                     #"ptl":"Foster and Ryan (1976) Petal algorithm"
                     from classic_heuristics.petalvrp import get_ptl_algorithm
