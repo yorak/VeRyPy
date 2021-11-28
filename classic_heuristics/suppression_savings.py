@@ -122,16 +122,21 @@ def suppression_savings_init(D,d,C,L, minimize_K=False, Lprime="auto"):
     
     currently_suppressed_merges = set()
     savings_cache = []
-    suppressed_f = lambda D:supression_savings_function(D,
+    suppressed_f = lambda D, ctrs:supression_savings_function(D,
                                 currently_suppressed_merges, savings_cache)
     for Lcounter in range(Lprime):
 
         sol, sol_f, sol_K = None, float('inf'), float('inf')
         try:
+            # Convert legacy call to new VRPTW supported init
+            ctrs = {}
+            if C: ctrs['C']=C
+            if L: ctrs['L']=L
+            
             # On later invocations of parallel_savings_init, suppressed_f 
             #  generates an different set of savings values (suppressing some 
             #  the first/best of the previous iteration).
-            sol = parallel_savings_init(D,d,C,L, minimize_K, suppressed_f)
+            sol = parallel_savings_init(D,d,ctrs, minimize_K, suppressed_f)
             sol_f = objf(sol, D)
             sol_K = sol.count(0)-1
         except KeyboardInterrupt as e: # or SIGINT

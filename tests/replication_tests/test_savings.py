@@ -18,12 +18,24 @@ from local_search.intra_route_operators import do_3opt_move
 
 from replicationbase import ReplicationBase, REPRO_QUALITY_LEVELS
 
+def classical_init_to_ctrs_parameter(C,L):
+    """ Convert legacy call to new VRPTW supported init
+    (for now only for parallel_savings_init) """
+    ctrs = {}
+    if C: ctrs['C']=C
+    if L: ctrs['L']=L
+    return ctrs
+
 class TestSavingsGaskell1967Replications(ReplicationBase):
     
     def setUp(self):
+        
+
         self.algorithms = [
             ("savings:multiple", lambda pts, D,d,C,L,st:\
-                parallel_savings_init(D,d,C,L, minimize_K=True)),
+                parallel_savings_init(D,d,
+                classical_init_to_ctrs_parameter(C,L),
+                minimize_K=True)),
             ("savings:sequential", lambda pts, D,d,C,L,st:\
                 sequential_savings_init(D,d,C,L, minimize_K=True,
                                         initialize_routes_with = "farthest")),
@@ -81,7 +93,8 @@ class TestSavingsCWEilonEtAl1971Replications(ReplicationBase):
     def setUp(self):
         self.algorithms = [
             ("savings:multiple", lambda pts, D,d,C,L,st:\
-                parallel_savings_init(D,d,C,L)),]
+                parallel_savings_init(D,d,
+                                      classical_init_to_ctrs_parameter(C,L))),]
 
         self.problem_names =  [
             "01-eil7.vrp",
@@ -120,13 +133,16 @@ class TestSavingsPaessensReplications(ReplicationBase):
     def setUp(self):
         self.algorithms = [
             ("clarke_wright_savings", lambda pts, D,d,C,L,st:\
-                parallel_savings_init(D,d,C,L)),
+                parallel_savings_init(D,d,
+                                      classical_init_to_ctrs_parameter(C,L))),
             ("paessens_savings_M1", lambda pts, D,d,C,L,st:\
                 paessens_savings_init(D,d,C,L,strategy="M1", do_3opt=False)),
             ("paessens_savings_M4", lambda pts, D,d,C,L,st:\
                 paessens_savings_init(D,d,C,L,strategy="M4", do_3opt=False)),
             ("clarke_wright_savings_3OPT", lambda pts, D,d,C,L,st:\
-                do_local_search([do_3opt_move], parallel_savings_init(D,d,C,L),
+                do_local_search([do_3opt_move],
+                parallel_savings_init(D,d,
+                                      classical_init_to_ctrs_parameter(C,L)),
                              D, d, C, L, operator_strategy=LSOPT.BEST_ACCEPT)),
             ("paessens_savings_M1_3OPT", lambda pts, D,d,C,L,st:\
                  paessens_savings_init(D,d,C,L,strategy="M1", do_3opt=True)),

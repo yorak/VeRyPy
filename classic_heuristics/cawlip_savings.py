@@ -40,8 +40,11 @@ def cawlip_savings_init(D,d,C,L,minimize_K=False):
     #  over all iterations. It is OK like this, but do not use/store the 
     #  lambda after this loop.
     
-
-    sol = parallel_savings_init(D,d,C,L,minimize_K)
+    # Convert legacy call to new VRPTW supported init
+    ctrs = {}
+    if C: ctrs['C']=C
+    if L: ctrs['L']=L
+    sol = parallel_savings_init(D,d,ctrs,minimize_K)
     
     sol = do_local_search([do_2opt_move],#, do_2optstar_move],
                           sol, D, d, C, L, LSOPT.BEST_ACCEPT)

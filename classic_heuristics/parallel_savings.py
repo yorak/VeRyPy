@@ -32,7 +32,7 @@ __email__ = "jussi.rasku@jyu.fi"
 __status__ = "Development"
 
 
-def clarke_wright_savings_function(D):
+def clarke_wright_savings_function(D, ctrs):
     N = len(D)
     n = N-1
     savings = [None]*int((n*n-n)/2)
@@ -45,7 +45,7 @@ def clarke_wright_savings_function(D):
     savings.sort(reverse=True)
     return savings 
 
-def parallel_savings_init(D, d, C, L=None, minimize_K=False,
+def parallel_savings_init(D, d, ctrs, minimize_K=False,
                           savings_callback=clarke_wright_savings_function):
     """
     Implementation of the basic savings algorithm / construction heuristic for
@@ -57,8 +57,10 @@ def parallel_savings_init(D, d, C, L=None, minimize_K=False,
     
     * D is a numpy ndarray (or equvalent) of the full 2D distance matrix.
     * d is a list of demands. d[0] should be 0.0 as it is the depot.
-    * C is the capacity constraint limit for the identical vehicles.
-    * L is the optional constraint for the maximum route length/duration/cost.
+    * C is a dict containing the constraints. Usually some combination of:
+        - "C" is the capacity constraint limit for the identical vehicles.
+        - "L" is the optional constraint for the maximum route length/duration.
+        - "TWs" a list of timewindow pairs for each customer (0 being the depot)
     
     * minimize_K sets the primary optimization objective. If set to True, it is
        the minimum number of routes. If set to False (default) the algorithm 
@@ -92,12 +94,12 @@ def parallel_savings_init(D, d, C, L=None, minimize_K=False,
     
     ## 1. make route for each customer
     routes = [[i] for i in range(1,N)]
-    route_demands = d[1:] if C else [0]*N
-    if L: route_costs = [D[0,i]+D[i,0] for i in range(1,N)]
+    route_demands = d[1:] if ('C' in ctrs) else [0]*N
+    if ('L' in ctrs): route_costs = [D[0,i]+D[i,0] for i in range(1,N)]
     
     try:
         ## 2. compute initial savings 
-        savings = savings_callback(D)
+        savings = savings_callback(D, ctrs)
         
         # zero based node indexing!
         endnode_to_route = [0]+list(range(0,N-1))
@@ -130,27 +132,27 @@ def parallel_savings_init(D, d, C, L=None, minimize_K=False,
                              (right_route, str(routes[right_route])))
                 
             # check capacity constraint validity
-            if C:
+            if ('C' in ctrs):
                 merged_demand = route_demands[left_route]+route_demands[right_route]
-                if merged_demand-C_EPS > C:
+                if merged_demand-C_EPS > ctrs['C']:
                     if __debug__:
                         log(DEBUG-1, "Reject merge due to "+
                             "capacity constraint violation")
                     continue
             # if there are route cost constraint, check its validity        
-            if L:
+            if ('L' in ctrs):
                 merged_cost = route_costs[left_route]-D[0,i]+\
                                 route_costs[right_route]-D[0,j]+\
                                 D[i,j]
-                if merged_cost-S_EPS > L:
+                if merged_cost-S_EPS > ctrs['L']:
                     if __debug__:
                         log(DEBUG-1, "Reject merge due to "+
                             "maximum route length constraint violation")
                     continue
             
             # update bookkeeping only on the recieving (left) route
-            if C: route_demands[left_route] = merged_demand
-            if L: route_costs[left_route] = merged_cost
+            if ('C' in ctrs): route_demands[left_route] = merged_demand
+            if ('L' in ctrs): route_costs[left_route] = merged_cost
                 
             # merging is done based on the joined endpoints, reverse the 
             #  merged routes as necessary
@@ -189,7 +191,11 @@ def get_ps_algorithm():
     algo_name = "CW64-PS"
     algo_desc = "Clarke & Wright (1964) parallel savings algorithm"
     def call_init(points, D, d, C, L, st, wtt, single, minimize_K):
-        return parallel_savings_init(D,d,C,L,minimize_K)
+        # Convert legacy call to new VRPTW supported init
+        ctrs = {}
+        if C: ctrs['C']=C
+        if L: ctrs['L']=L
+        return parallel_savings_init(D,d,ctrs,minimize_K)
     return (algo_name, algo_desc, call_init)
     
 if __name__=="__main__":

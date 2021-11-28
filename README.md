@@ -99,10 +99,13 @@ E_n51_k5_path = r"E-n51-k5.vrp"
 
 problem = cvrp_io.read_TSPLIB_CVRP(E_n51_k5_path)
 
+constaints = {'C': problem.capacity_constraint}
+# Note, as opposed to the rest of the heuristics,
+#  the parallel_savings_init uses the new type of constraint dict!
 solution = parallel_savings_init(
     D=problem.distance_matrix, 
     d=problem.customer_demands, 
-    C=problem.capacity_constraint)
+    ctrs=constaints)
 
 for route_idx, route in enumerate(sol2routes(solution)):
     print("Route #%d : %s"%(route_idx+1, route))
