@@ -37,7 +37,7 @@ try:
     ## For largest instances we have reserved an option to rely rely on a CUSTOM acotsp 
     #from tsp_solvers.tsp_solver_acotsp import solve_tsp_acotsp as solve_tsp
 except ImportError:
-    print("WARNING: could not use the external TSP solver (probably the executable is not found). "+
+    print("WARNING: [cmt/CMT79-2P] can't use the external TSP solver (executable is not found?). "+
           "Relying on internal TSP solver and the results may differ from those that were published.", file=stderr)
     from tsp_solvers.tsp_solver_ropt import solve_tsp_ropt as solve_tsp
 

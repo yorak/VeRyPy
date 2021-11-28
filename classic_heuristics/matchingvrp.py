@@ -32,7 +32,7 @@ try:
     #from tsp_solvers.tsp_solver_lkh import solve_tsp_lkh as default_solve_tsp  
     #from tsp_solvers.tsp_solver_acotsp import solve_tsp_acotsp as default_solve_tsp
 except ImportError:
-    print("WARNING: could not use the external TSP solver (probably the executable is not found). "+
+    print("WARNING: [mbsa/DV89-MM] can't use the external TSP solver (executable is not found?). "+
           "Relying on internal TSP solver and the results may differ from those that were published.", file=stderr)
     from tsp_solvers.tsp_solver_ropt import solve_tsp_ropt as default_solve_tsp
 

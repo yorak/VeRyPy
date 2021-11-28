@@ -27,7 +27,7 @@ try:
     #  solver LKH.
     from tsp_solvers.tsp_solver_lkh import solve_tsp_lkh as solve_tsp_intial
 except ImportError:
-    print("WARNING: could not use the external TSP solver (probably the executable is not found). "+
+    print("WARNING: [rfcs/Be83-RFCS] can't use the external TSP solver (executable is not found?). "+
           "Relying on internal TSP solver and the results may differ from those that were published.", file=stderr)
     from tsp_solvers.tsp_solver_ropt import solve_tsp_ropt as solve_tsp_intial
 # Always use built-in TSP solver to guarantee 2 and 3-optimality of single routes.
