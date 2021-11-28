@@ -98,9 +98,9 @@ def vrptw_savings_init(D,d,ctrs,minimize_K=False):
 # ---------------------------------------------------------------------
 # Wrapper for the command line user interface (CLI)
 def get_gs_algorithm():
-    algo_name = r"So87-PS|VRPTW"
+    algo_name = r"PS|VRPTW"
     algo_desc = r"Parallel savings algorithm for asymmetric distances "+\
-                r"with Solomon (1987) VRPTW criteria"
+                r"with selectable(?) VRPTW criteria"
     def call_init(points, D, d, C, L, st, wtt, single, minimize_K):
         # Convert legacy call to new VRPTW supported init
         ctrs = {}
