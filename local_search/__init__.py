@@ -88,6 +88,7 @@ def do_local_search(ls_ops, sol, D, d, C, L=None,
         ls_op_idx = 0
         while ls_op_idx<len(ls_ops):
             ls_op = ls_ops[ls_op_idx]
+            # TODO: For full Python 3.X replace this with modern approach.
             ls_op_args = getargspec(ls_op)[0]
             route_count = ls_op_args.index('D')
             op_order_sensitive = ls_op in ROUTE_ORDER_SENSITIVE_OPERATORS
