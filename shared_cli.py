@@ -195,7 +195,29 @@ def set_logger_level(level, logfile=None):
             fileloghandler.setLevel(logging.DEBUG-level)
             fileloghandler.setFormatter( logging.Formatter("%(levelname)s:%(message)s") )
             logging.getLogger('').addHandler(fileloghandler)
- 
+
+def enable_function_tracing():
+    """ Overkill for any other situation but a very deep deep debugging.
+
+    Shows a complete list of all functions that get called during the invocation
+    of the program!
+
+    Code is from https://stackoverflow.com/a/8315566/1788710 . One can refer to
+    that for more details on this Python magic!
+    """
+    def tracefunc(frame, event, arg, indent=[0], blacklist=["<lambda>", "<genexpr>"]):
+       con = frame.f_code.co_name
+       if con in blacklist:
+           return tracefunc
+       if event == "call":
+           indent[0] += 2
+           print("-" * indent[0] + "> call function", con)
+       elif event == "return":
+           print("<" + "-" * indent[0], "exit function", con)
+           indent[0] -= 2
+       return tracefunc
+    sys.setprofile(tracefunc)
+
 def tsp_cli(tsp_f_name, tsp_f):
     # import here so that the function can be used without these dependencies
     from util import objf

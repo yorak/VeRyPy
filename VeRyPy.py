@@ -308,6 +308,10 @@ def main(overridden_args=None):
     if app_args.verbosity >= 0:
         shared_cli.set_logger_level(app_args.verbosity)
 
+        # Magic number :) for very very very detailed debugging.
+        if app_args.verbosity >= 10:
+            shared_cli.enable_function_tracing()
+
     # minimal header
     if app_args.minimal_output:
         print("algo;problem;is_feasible;f;K;t")
