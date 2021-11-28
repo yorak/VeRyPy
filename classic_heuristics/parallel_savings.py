@@ -19,7 +19,7 @@ from __future__ import division
 from builtins import range
 
 from logging import log, DEBUG
-from util import routes2sol, objf
+from util import TW, routes2sol, objf
 from config import CAPACITY_EPSILON as C_EPS
 from config import COST_EPSILON as S_EPS
 
@@ -95,7 +95,8 @@ def parallel_savings_init(D, d, ctrs, minimize_K=False,
     ## 1. make route for each customer
     routes = [[i] for i in range(1,N)]
     route_demands = d[1:] if ('C' in ctrs) else [0]*N
-    if ('L' in ctrs): route_costs = [D[0,i]+D[i,0] for i in range(1,N)]
+    if ('L' in ctrs or 'TWs' in ctrs):
+        route_costs = [D[0,i]+D[i,0] for i in range(1,N)]
     
     try:
         ## 2. compute initial savings 
@@ -149,10 +150,25 @@ def parallel_savings_init(D, d, ctrs, minimize_K=False,
                         log(DEBUG-1, "Reject merge due to "+
                             "maximum route length constraint violation")
                     continue
+
+            if ('TWs' in ctrs):
+                merged_route_cost_at_j = route_costs[left_route]\
+                                -D[0,i]-D[0,j]+D[i,j]
+                arrives_early = merged_route_cost_at_j<ctrs[j][TW.OPEN]
+                arrives_late = merged_route_cost_at_j>ctrs[j][TW.CLOSE]
+
+                if (not ctrs[j][TW.CAN_WAIT] and arrives_early) or arrives_late:
+                    if __debug__:
+                        log(DEBUG-1, "Reject merge due to it being outside"+
+                            "of allowed time windows.")
+                    continue
+
+                raise NotImplementedError("This is not yet implemented")
             
             # update bookkeeping only on the recieving (left) route
             if ('C' in ctrs): route_demands[left_route] = merged_demand
-            if ('L' in ctrs): route_costs[left_route] = merged_cost
+            if ('L' in ctrs or 'TWs' in ctrs):
+                route_costs[left_route] = merged_cost
                 
             # merging is done based on the joined endpoints, reverse the 
             #  merged routes as necessary

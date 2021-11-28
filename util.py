@@ -21,7 +21,13 @@ __maintainer__ = "Jussi Rasku"
 __email__ = "jussi.rasku@jyu.fi"
 __status__ = "Development"
 
-  
+
+class TW:
+    """ Indices to the TW constraint tuple """
+    OPEN = 0
+    CLOSE = 1   
+    CAN_WAIT = 2
+
 def is_sorted(l):
     """Checks if the list is sorted """
     return all(l[i] <= l[i+1] for i in range(len(l)-1))

@@ -16,7 +16,7 @@ for reading and preparing the problem instance."""
 from builtins import range
 
 import numpy as np
-from util import objf, is_better_sol
+from util import TW, objf, is_better_sol
 from classic_heuristics.parallel_savings import parallel_savings_init
 
 __author__ = "Jussi Rasku"
@@ -27,28 +27,24 @@ __maintainer__ = "Jussi Rasku"
 __email__ = "jussi.rasku@jyu.fi"
 __status__ = "Development"
 
-TW_OPEN = 0
-TW_CLOSE = 1
-
 
 def placeholder_vrptw_savings_f(D, ctrs):
     n = len(D)-1
     savings = []
     # Note, VRPTW is asymmetric, we need to consider full D
-    for i in range(1,n+2):
-        for j in range(1,n+2):
+    for i in range(1,n+1):
+        for j in range(1,n+1):
+            raise NotImplemented("Please implement me to enable TW support.")
             if i==j: continue
 
-
-            raise NotImplemented("Please implement me to enable TW support.")
-
             s_D = D[i,0]+D[0,j]-D[i,j]
-            s_t = None # TODO: Implement some way of describing "closeness" in 
+            s_t = 0    # TODO: Implement some way of describing "closeness" in 
                        #  time between two points (i and j) for *s_t* using
-                       #   ctrs['TWs'][i][TW_OPEN]
-                       #   ctrs['TWs'][i][TW_CLOSE]
-                       #   ctrs['TWs'][j][TW_OPEN]
-                       #   ctrs['TWs'][j][TW_CLOSE]
+                       #   ctrs['TWs'][i][TW.OPEN]
+                       #   ctrs['TWs'][i][TW.CLOSE]
+                       #   ctrs['TWs'][j][TW.OPEN]
+                       #   ctrs['TWs'][j][TW.CLOSE]
+                       #   ctrs['TWs'][j][TW.CAN_WAIT]
                        #   and possibly D[i,j]
                        # Note that it should be comparable to s_D so that neither
                        #  dominates!
@@ -56,7 +52,7 @@ def placeholder_vrptw_savings_f(D, ctrs):
                        # The -D[i,j] is a tiebraker in case two potential merges
                        #  have a same savings value. It also can consider TWs
                        #  if one so wishes.
-            savings.append( (s_d+s_d,-D[i,j],i,j) )
+            savings.append( (s_D+s_t,-D[i,j],i,j) )
     savings.sort(reverse=True)
 
     return savings 
