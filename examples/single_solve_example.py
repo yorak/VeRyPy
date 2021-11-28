@@ -18,7 +18,7 @@ problem = cvrp_io.read_TSPLIB_CVRP(E_n51_k5_path)
 solution = parallel_savings_init(
     D=problem.distance_matrix, 
     d=problem.customer_demands, 
-    C=problem.capacity_constraint)
+    ctrs={'C':problem.capacity_constraint})
 
 for route_idx, route in enumerate(sol2routes(solution)):
     print("Route #%d : %s"%(route_idx+1, route))

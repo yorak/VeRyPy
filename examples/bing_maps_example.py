@@ -183,7 +183,7 @@ if args.C:
         sys.stderr.write("INFO: Solving a %d customer CVRP with Savings heuristic.\n"%(len(locations)-1))
      
     # Solve and print the resulting routes
-    solution = parallel_savings_init(D=D, d=d, C=args.C)
+    solution = parallel_savings_init(D=D, d=d, ctrs={'C':args.C})
     print("\nCorresponding CVRP solution is")
     for route_idx, route in enumerate(sol2routes(solution)):
         print("Route #%d : %s"%(route_idx+1, route))

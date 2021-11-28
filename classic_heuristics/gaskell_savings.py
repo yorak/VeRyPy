@@ -3,7 +3,7 @@
 ###############################################################################
 """ This file is a part of the VeRyPy classical vehicle routing problem
 heuristic library and provides implementations of the Gaskell (1967)
-\pi and \lambda savings functions for parallel (as in multiple route)
+\\pi and \\lambda savings functions for parallel (as in multiple route)
 savings heuristic.
 
 The script is callable and can be used as a standalone solver for TSPLIB 
@@ -28,7 +28,7 @@ __email__ = "jussi.rasku@jyu.fi"
 __status__ = "Development"
 
 
-def gaskell_lambda_savings_function(D):
+def gaskell_lambda_savings_function(D, ctrs):
     n = len(D)-1
     savings = [None]*int((n*n-n)/2)
     idx = 0
@@ -43,7 +43,7 @@ def gaskell_lambda_savings_function(D):
 
     return savings 
 
-def gaskell_pi_savings_function(D):
+def gaskell_pi_savings_function(D, ctrs):
     n = len(D)-1
     savings = [None]*int((n*n-n)/2)
     idx = 0
@@ -94,7 +94,11 @@ def gaskell_savings_init(D,d,C,L, minimize_K=False, savings_method="both"):
     for sav_f in savings_functions:
         sol, sol_f, sol_K = None, float('inf'), float('inf')
         try:
-            sol = parallel_savings_init(D,d,C,L,minimize_K,sav_f)
+            # Convert legacy call to new VRPTW supported init
+            ctrs = {}
+            if C: ctrs['C']=C
+            if L: ctrs['L']=L
+            sol = parallel_savings_init(D,d,ctrs,minimize_K,sav_f)
         except KeyboardInterrupt as e:  #or SIGINT
             # lambda or pi was interrupted
             if len(e.args)>0 and type(e.args[0]) is list:

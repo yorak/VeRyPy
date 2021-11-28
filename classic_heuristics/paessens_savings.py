@@ -103,11 +103,15 @@ def paessens_savings_init(D,d,C,L, minimize_K=False,
         # Note: this is not a proper closure. Variables g and f are shared
         #  over all iterations. It is OK like this, but do not use/store the 
         #  lambda after this loop.
-        gf_savings = lambda D: paessens_savings_function(D, g, f)
+        gf_savings = lambda D, ctrs: paessens_savings_function(D, g, f)
         
         sol, sol_f, sol_K = None, float('inf'), float('inf')
         try:
-            sol = parallel_savings_init(D,d,C,L,minimize_K, gf_savings)
+            # Convert legacy call to new VRPTW supported init
+            ctrs = {}
+            if C: ctrs['C']=C
+            if L: ctrs['L']=L
+            sol = parallel_savings_init(D,d,ctrs,minimize_K, gf_savings)
             if do_3opt:
                 sol = do_local_search([do_3opt_move], sol, D, d, C, L,
                                       LSOPT.BEST_ACCEPT)
