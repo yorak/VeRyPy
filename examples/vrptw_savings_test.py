@@ -17,7 +17,7 @@ from shared_cli import print_solution_statistics
 
 # Show all logging (very verbose)
 import logging
-logging.basicConfig(level=logging.DEBUG-2)
+#logging.basicConfig(level=logging.DEBUG-2)
 
 # Load a sample problem (manually converted Solomon 1987 instance)
 N, points, _, d, D, C, _ = cvrp_io.read_TSPLIB_CVRP("examples/C101.25.vrp")
@@ -32,28 +32,29 @@ ctrs = {
 }
 
 sol = parallel_savings_init(D_c, d, ctrs)
-print("The solution using non TW sensitive savings function was:")
+print("1) The solution using non TW sensitive savings function was:")
 print_solution_statistics(sol, D, D_c, d, C, None, TWs, st, verbosity=2 )
-print()
+print("\n")
 
 #exit()
 
 # Just make sure it works by using savings function with random values
 best_random_sol = None
 best_random_cost = float('inf')
-for i in range(10):
-    sol = vrptw_savings_init(D_c, d, ctrs)
+for i in range(1000):
+    sol = vrptw_savings_init(D_c, d, ctrs, debug_with_random_savings=True)
     cost = objf(sol, D)
     if cost<best_random_cost:
         best_random_sol = sol
         best_random_cost = cost
 
-print("The solution using TW specific savings function was:")
+print("2) The solution using TW specific savings function was:")
 print_solution_statistics(best_random_sol, D, D_c, d, C, None, TWs, st, verbosity=2 )
-print()
+print("\n")
 
 # Try with the soon (TM) to be implemented actual TW specific savings function
 sol = vrptw_savings_init(D_c, d, ctrs, debug_with_random_savings=False)
-print("The solution using TW specific savings function was:")
-print_solution_statistics(best_random_sol, D, D_c, d, C, None, TWs, st, verbosity=2 )
+print(sol)
+print("3) The solution using TW specific savings function was:")
+print_solution_statistics(sol, D, D_c, d, C, None, TWs, st, verbosity=2 )
 print()

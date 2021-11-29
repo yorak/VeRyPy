@@ -47,13 +47,13 @@ def clarke_wright_savings_function(D, ctrs):
 
 def parallel_savings_init(D, d, ctrs, minimize_K=False,
                           savings_callback=clarke_wright_savings_function):
-    """
-    Implementation of the basic savings algorithm / construction heuristic for
-    capaciated vehicle routing problems with symmetric distances (see, e.g.
-    Clarke-Wright (1964)). This is the parallel route version, aka. best
-    feasible merge version, that builds all of the routes in the solution in
-    parallel making always the best possible merge (according to varied savings
-    criteria, see below).
+    r""" Implementation of the basic savings algorithm / construction heuristic 
+    for capaciated vehicle routing problems with symmetric distances (see, e.g.
+    Clarke-Wright (1964)).
+    
+    This is the parallel route version, aka. best feasible merge version, that
+    builds all of the routes in the solution in parallel making always the best
+    possible merge (according to varied savings criteria, see below).
     
     * D is a numpy ndarray (or equvalent) of the full 2D distance matrix.
     * d is a list of demands. d[0] should be 0.0 as it is the depot.
@@ -71,12 +71,14 @@ def parallel_savings_init(D, d, ctrs, minimize_K=False,
        led to improved solution.
    
     * optional savings_callback is a function of the signature:
+
         sorted([(s_11,x_11,i_1,j_1)...(s_ij,x_ij,i,j)...(s_nn,x_nn,n,n) ]) =
             savings_callback(D)
+
       where the returned (sorted!) list contains savings (that is, how much 
        solution cost approximately improves if a route merge with an edge
        (i,j) is made). This should be calculated for each i \in {1..n},
-       j \in {i+1..n}, where n is the number of customers. The x is a secondary
+       j \\in {i+1..n}, where n is the number of customers. The x is a secondary
        sorting criterion but otherwise ignored by the savings heuristic.
       The default is to use the Clarke Wright savings criterion.
         
@@ -153,7 +155,7 @@ def parallel_savings_init(D, d, ctrs, minimize_K=False,
                     if __debug__:
                         log(DEBUG-1, "Reject merge due to it being outside "+
                             "of allowed time windows.")
-                    continue
+                    continue # from the next savings
                 
                 j_tw_open = ctrs['TWs'][j][TW.OPEN]
                 merged_wait_time_at_j = max(0, j_tw_open-arrival_cost_at_j)
@@ -163,6 +165,7 @@ def parallel_savings_init(D, d, ctrs, minimize_K=False,
                 updated_wait_times = {j:merged_wait_time_at_j}
                 arrival_cost_at_k = arrival_cost_at_j+merged_wait_time_at_j
                 prev_k = j
+                right_hand_side_violation = False
                 for k in routes[right_route]:
                     arrival_cost_at_k+=D[prev_k,k]
                     arrives_late = arrival_cost_at_k-S_EPS>ctrs['TWs'][k][TW.CLOSE]
@@ -171,12 +174,15 @@ def parallel_savings_init(D, d, ctrs, minimize_K=False,
                         if __debug__:
                             log(DEBUG-1, "Reject merge due to it causing being "
                                 " late of the later time windows.")
-                        continue
+                        right_hand_side_violation = True
+                        break
                     
                     k_tw_open = ctrs['TWs'][k][TW.OPEN]
                     updated_wait_times[k]=max(0, k_tw_open-arrival_cost_at_k)
                     arrival_cost_at_k+=updated_wait_times[k]
                     prev_k = k
+                if right_hand_side_violation:
+                    continue # from the next savings
                     
 
                 merged_cost = arrival_cost_at_j+merged_wait_time_at_j\
@@ -185,9 +191,11 @@ def parallel_savings_init(D, d, ctrs, minimize_K=False,
                 
             # if there are route cost constraint, check its validity        
             if ('L' in ctrs):
-                merged_cost = route_costs[left_route]-D[0,i]+\
-                                route_costs[right_route]-D[0,j]+\
-                                D[i,j]
+                if (not 'TWs' in ctrs):
+                    merged_cost = route_costs[left_route]-D[0,i]+\
+                                  route_costs[right_route]-D[0,j]+\
+                                  D[i,j]
+
                 if merged_cost-S_EPS > ctrs['L']:
                     if __debug__:
                         log(DEBUG-1, "Reject merge due to "+
@@ -203,7 +211,7 @@ def parallel_savings_init(D, d, ctrs, minimize_K=False,
                 for k, uwt in updated_wait_times.items():
                     wait_times[k] = uwt
                 route_costs[left_route] = merged_cost
-            elif ('L' in ctrs):
+            if ('L' in ctrs):
                 route_costs[left_route] = merged_cost
             
             # TODO: VRPTW. Uhh. No. What to do here???

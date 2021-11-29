@@ -29,7 +29,9 @@ __status__ = "Development"
 
 
 def random_vrptw_savings_f(D, ctrs):
-    from random import random 
+    from random import random, seed
+    from datetime import datetime
+    seed(datetime.now())
     
     n = len(D)-1
     savings = [None]*(n*n-n)
@@ -41,6 +43,9 @@ def random_vrptw_savings_f(D, ctrs):
             if i==j: continue        
             savings[idx] = (random(), random(), i, j)
             idx+=1
+    
+    savings.sort(reverse=True)
+    return savings
 
 
 def placeholder_vrptw_savings_f(D, ctrs):
@@ -50,7 +55,8 @@ def placeholder_vrptw_savings_f(D, ctrs):
     # Note, VRPTW is asymmetric, we need to consider full D
     for i in range(1,n+1):
         for j in range(1,n+1):
-            ##raise NotImplemented("Please implement me to enable TW support.")
+            raise NotImplementedError("Please implement with TW specific savings function.")
+            
             if i==j: continue
 
             s_D = D[i,0]+D[0,j]-D[i,j]
@@ -69,8 +75,8 @@ def placeholder_vrptw_savings_f(D, ctrs):
                        #  if one so wishes.
             savings[idx] = (s_D+s_t,-D[i,j],i,j)
             idx+=1
-    savings.sort(reverse=True)
 
+    savings.sort(reverse=True)
     return savings 
 
 def vrptw_savings_init(D,d,ctrs, debug_with_random_savings=False, minimize_K=False):
@@ -106,7 +112,8 @@ def vrptw_savings_init(D,d,ctrs, debug_with_random_savings=False, minimize_K=Fal
         if (debug_with_random_savings):
             sol = parallel_savings_init(D,d,ctrs,minimize_K,random_vrptw_savings_f)
         else:
-            sol = parallel_savings_init(D,d,ctrs,minimize_K,placeholder_vrptw_savings_f)
+            print("use placeholder")
+            sol = parallel_savings_init(D,d,ctrs,minimize_K, placeholder_vrptw_savings_f)
     except KeyboardInterrupt as e:  #or SIGINT
         # lambda or pi was interrupted
         if len(e.args)>0 and type(e.args[0]) is list:
