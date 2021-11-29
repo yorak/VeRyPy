@@ -209,10 +209,12 @@ def parallel_savings_init(D, d, ctrs, minimize_K=False,
             # TODO: VRPTW. Uhh. No. What to do here???
             # merging is done based on the joined endpoints, reverse the 
             #  merged routes as necessary
-            if routes[left_route][0]==i:
-                routes[left_route].reverse()
-            if routes[right_route][-1]==j:
-                routes[right_route].reverse()
+            if (not 'TWs' in ctrs):
+                if routes[left_route][0]==i:
+                    routes[left_route].reverse()
+                if routes[right_route][-1]==j:
+                    routes[right_route].reverse()
+                    
             # the nodes that become midroute points cannot be merged
             if len(routes[left_route])>1:
                 endnode_to_route[ routes[left_route][-1] ] = None

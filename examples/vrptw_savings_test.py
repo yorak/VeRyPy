@@ -17,7 +17,7 @@ from shared_cli import print_solution_statistics
 
 # Show all logging (very verbose)
 import logging
-#logging.basicConfig(level=logging.DEBUG-2)
+logging.basicConfig(level=logging.DEBUG-2)
 
 # Load a sample problem (manually converted Solomon 1987 instance)
 N, points, _, d, D, C, _ = cvrp_io.read_TSPLIB_CVRP("examples/C101.25.vrp")
@@ -35,6 +35,8 @@ sol = parallel_savings_init(D_c, d, ctrs)
 print("The solution using non TW sensitive savings function was:")
 print_solution_statistics(sol, D, D_c, d, C, None, TWs, st, verbosity=2 )
 print()
+
+#exit()
 
 # Just make sure it works by using savings function with random values
 best_random_sol = None
