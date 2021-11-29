@@ -29,6 +29,10 @@ __status__ = "Development"
 
 
 def random_vrptw_savings_f(D, ctrs):
+    """ TODO: This is just a dummy savings function for testing. Please remove
+    it from the code when placeholder_vrptw_savings_f (or several) have been
+    implemented. """
+
     from random import random, seed
     from datetime import datetime
     seed(datetime.now())
@@ -49,6 +53,11 @@ def random_vrptw_savings_f(D, ctrs):
 
 
 def placeholder_vrptw_savings_f(D, ctrs):
+    """ TODO: implement according to Solomon 1987 or some other source that
+    has proposed VRPTW savings criteria. Please only rely to well known, well
+    cited criteria with experimental data to keep this in line with the ethos
+    of VeRyPy."""
+
     n = len(D)-1
     savings = [None]*(n*n-n)
     idx = 0
