@@ -13,6 +13,7 @@ from sys import stderr
 from itertools import groupby
 from config import COST_EPSILON as S_EPS
 from config import CAPACITY_EPSILON as C_EPS
+from util import TW
 
 import numpy as np
 
@@ -84,7 +85,7 @@ def generate_missing_coordinates(for_D):
     return points, edge_weight_type    
     
 def check_solution_feasibility(solution, D, d=None,
-                               C=None, L=None, print_violations=False):
+                               C=None, L=None, TWs=None, print_violations=False):
     """ This checks if the solution is feasible. This feasibility checker also
      supports solutions that do not have 0 as their first node as long as there
      is at least one visit to the depot (0).
@@ -110,6 +111,7 @@ def check_solution_feasibility(solution, D, d=None,
     covering_feasibility = True
     capacity_feasibility = True
     route_cost_feasibility = True
+    timewindow_feasibility = True
     
     # some algorighms do not have the 0 as the first node, but start
     #  mid-route point (that is, solution[-1]->solution[0] is an edge)
@@ -128,10 +130,14 @@ def check_solution_feasibility(solution, D, d=None,
         if L:
             tail_l += D[prev_node, node]
             prev_node = node
+        
         # Depot
         if (node==0):
             start_node = i
             break
+
+        if TWs:
+            raise NotImplementedError("mid-route starting solution feasiblity checking is not supported for problems with time windows")
     
     c = 0.0
     l = 0.0
@@ -152,14 +158,27 @@ def check_solution_feasibility(solution, D, d=None,
                 if print_violations:
                     print("CONSTRAINT VIOLATION: capacity is exceeded by %.2f"%(c-C), file=stderr)
                 capacity_feasibility = False
-            
-        if L:
+
+        if L or TWs:
             l += D[prev_node, node]
+
+            if TWs:
+                node_tw_open = TWs[node][TW.OPEN]
+                wait_time = max(0, node_tw_open-l)
+                l += wait_time
+
+                if l-S_EPS>TWs[node][TW.CLOSE]:
+                    if print_violations:
+                        print("CONSTRAINT VIOLATION: arriving too late, that is at %.2f to time window %.2f, at node %d"%(l, TWs[node][TW.CLOSE], node), file=stderr)
+                    timewindow_feasibility =  False
+                
             prev_node = node
-            if node==0 and l-S_EPS>L:
+            if L and node==0 and l-S_EPS>L:
                 if print_violations:
                     print("CONSTRAINT VIOLATION: maximum route cost is exceeded by %.2f"%(l-L), file=stderr)
                 route_cost_feasibility =  False
+        
+        
 
         if node==0:
             c = 0.0
@@ -182,7 +201,7 @@ def check_solution_feasibility(solution, D, d=None,
             print("CONSTRAINT VIOLATION: maximum route cost is exceeded by %.2f"%(l-L), file=stderr)
         route_cost_feasibility = False
     
-    return (covering_feasibility, capacity_feasibility, route_cost_feasibility)
+    return (covering_feasibility, capacity_feasibility, route_cost_feasibility, timewindow_feasibility)
 
 def check_route_feasibility(routes, D=None, d=None, C=None, L=None):
     

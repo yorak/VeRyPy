@@ -84,7 +84,7 @@ class TestGilletMillerSweep(unittest.TestCase):
         #cvrp_io.write_TSPLIB_file("tiny_7_pt_problem.vrp", D, d, C, L)
         
         sol = gillet_miller_init(pts,D_c,d,C,L)
-        self.assertTrue(check_solution_feasibility(sol, D_c, d, C, L),"Should produce feasible solution")
+        self.assertTrue(all(check_solution_feasibility(sol, D_c, d, C, L)),"Should produce feasible solution")
         
 
 class TestMillerSolutions(unittest.TestCase):

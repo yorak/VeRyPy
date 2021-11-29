@@ -437,7 +437,7 @@ def main(overridden_args=None):
                 
                 solution_print_verbosity = 3 if app_args.print_route_stat else 1
                 shared_cli.print_solution_statistics(sol, D, D_c, d,
-                                                     C, L, st,
+                                                     C, L, None, st,
                                                      solution_print_verbosity)
                     
                 if app_args.print_vrph_sol:

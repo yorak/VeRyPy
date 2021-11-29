@@ -196,7 +196,7 @@ def read_TSPLIB_CVRP(file_name):
     Reinelt, G. (1991). Tsplib a traveling salesman problem library. ORSA 
         journal on computing, 3(4):376-384
     """
-    with open(file_name, "r") as f:
+    with open(file_name, "r") as fh:
         # pylint: disable=unsubscriptable-object
         
         section = None
@@ -215,8 +215,7 @@ def read_TSPLIB_CVRP(file_name):
         
         depot_ids = []
         
-        while 1:
-            line = f.readline().strip()
+        for line in fh.readlines():
             if not line:
                 continue
             
@@ -243,9 +242,6 @@ def read_TSPLIB_CVRP(file_name):
             
             # Section handling
             else:
-                if 'EOF' in line:
-                    break
-            
                 if 'EDGE_WEIGHT_SECTION' in line:
                     section = 'EDGE_WEIGHT_SECTION'
                     D = np.zeros((N+1,N+1))
@@ -279,7 +275,11 @@ def read_TSPLIB_CVRP(file_name):
                     else:
                         section = ''
                 elif 'SVC_TIME_SECTION' in line:
+                    # Ignored section, see read_TSBLIB_additional_constraints
                     section = 'SVC_TIME_SECTION'
+                elif 'TIME_WINDOW_SECTION' in line:
+                    # Ignored section, see read_TSBLIB_additional_constraints
+                    section = 'TIME_WINDOW_SECTION' 
                 else:
                     if section == 'EDGE_WEIGHT_SECTION':
                         distances = line.split() 
@@ -358,7 +358,7 @@ def read_TSPLIB_CVRP(file_name):
                             if len(depot_ids)>1:
                                 raise IOError("multi depot problems not supported")
                     
-        f.close()
+        fh.close()
         
         if edge_weight_type=='EXPLICIT' and not (
                 ((edge_weight_format in ['FULL_MATRIX', 'LOWER_ROW', 'LOWER_DIAG_ROW']) and \
@@ -464,7 +464,7 @@ def read_TSBLIB_additional_constraints(custom_tsplib_file):
             if "TIME_WINDOW_SECTION" in l:
                 if not N:
                     raise IOError("DIMENSION of the problem is not given before TIME_WINDOW_SECTION")
-                TWs = [ (0, float('inf')) for i in range(N+1) ]
+                TWs = [ (0, float('inf')) for i in range(N) ]
                 reading_section = "TIME_WINDOW_SECTION"
                 continue
 
@@ -482,11 +482,12 @@ def read_TSBLIB_additional_constraints(custom_tsplib_file):
                 parts = l.split()
                 if len(parts)!=3:
                     raise IOError("Only single time window per customer is supported")
-                i = int( parts[0] )-1 # We use 0 based indexing (0 is the depot)
+                # TSPLIB uses 1 and we 0 based indexing (where 0 is the depot)
+                i = int( parts[0] )-1 
                 tw_opens =  parse_tw(parts[1])
                 tw_closes =  parse_tw(parts[2])
                 TWs[i] = (tw_opens, tw_closes)
-                    
+ 
     return K, L, ST, TWs
  
 def generate_CVRP(N, C, muC, sdC, regular=False, R=200.0):

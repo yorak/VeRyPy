@@ -65,10 +65,11 @@ class TestSmokeWithSimple7pProblem(unittest.TestCase):
             sol_f = objf(sol, D_c)
            
             print("SOLUTION %s (%.2f)"%(sol,objf(sol,D_c)))
-            cover_ok,capa_ok,rlen_ok = check_solution_feasibility(sol,D_c,d,C,L)
+            cover_ok,capa_ok,rlen_ok,_ = check_solution_feasibility(sol,D_c,d,C,L)
             self.assertTrue( cover_ok, str(sol)+" is not a valid solution")
             self.assertTrue( capa_ok, str(sol)+" violates C constraint" )
             self.assertTrue( rlen_ok, str(sol)+" violates L constraint"  )
+            #self.assertTrue( tws_ok, str(sol)+" violates L constraint"  )
             
             
             if L:

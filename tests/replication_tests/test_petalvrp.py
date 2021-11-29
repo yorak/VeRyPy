@@ -461,7 +461,7 @@ class TestFosterRyanReplications(ReplicationBase):
             ref_sol_f = int(objf(ref_sol, D_c))
             ref_sol_k = ref_sol.count(0)-1
             
-            cover_ok, capa_ok, rlen_ok = check_solution_feasibility(ref_sol, D,d,C,L,True)
+            cover_ok, capa_ok, rlen_ok, tw_ok = check_solution_feasibility(ref_sol, D,d,C,L,print_violations=True)
             self.assertTrue( cover_ok, "Must be a valid solution")
             self.assertTrue( capa_ok, "Must not violate the C constraint" )
             self.assertTrue( rlen_ok, "Must not violate the L constraint"  )

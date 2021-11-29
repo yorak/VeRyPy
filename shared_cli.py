@@ -41,11 +41,11 @@ def print_problem_information(points, D, d, C, L, service_time, tightness=None, 
         print("D:", D)
         
     
-def print_solution_statistics(sol, D, D_cost, d, C, L=None, service_time=None,
+def print_solution_statistics(sol, D, D_cost, d, C, L=None, TWs=None, service_time=None,
                               verbosity=-1):
     print("\nSOLUTION:", sol)
-    cover_ok,capa_ok,rlen_ok = cvrp_ops.check_solution_feasibility(
-                                          sol, D_cost,d,C,L,True)
+    cover_ok,capa_ok,rlen_ok,tws_ok = cvrp_ops.check_solution_feasibility(
+                                          sol, D_cost,d,C,L,TWs, True)
     
     if verbosity>1:
         print("ALL SERVED:", cover_ok)   
@@ -53,8 +53,10 @@ def print_solution_statistics(sol, D, D_cost, d, C, L=None, service_time=None,
             print("IS C FEASIBLE:", capa_ok)
         if L:
             print("IS L FEASIBLE:", rlen_ok)
+        if TWs:
+            print("IS TW FEASIBLE:", tws_ok)
     else:
-        print("FEASIBLE:", cover_ok and capa_ok and rlen_ok)
+        print("FEASIBLE:", cover_ok and capa_ok and rlen_ok and tws_ok)
     print("SOLUTION K:", sol.count(0)-1)
     
     sol_f = None if D is None else objf(sol, D) 
@@ -151,7 +153,7 @@ def read_and_solve_a_problem(problem_instance_path, with_algorithm_function,
             
     if verbosity>=0 and best_sol:
         n_best_sol = cvrp_ops.normalize_solution(best_sol)
-        print_solution_statistics(n_best_sol, D, D_c, d, C, L, st, verbosity=verbosity)
+        print_solution_statistics(n_best_sol, D, D_c, d, C, L, None, st, verbosity=verbosity)
     
     if interrupted:
         raise KeyboardInterrupt()
@@ -308,7 +310,7 @@ def cli(init_name, init_desc, init_f):
             if interrupted:
                 break
                 
-        print_solution_statistics(best_sol, D, D_c, d, C, L, st, verbosity=verbosity)
+        print_solution_statistics(best_sol, D, D_c, d, C, L, None, st, verbosity=verbosity)
     
     problem_file_list = get_a_problem_file_list([sys.argv[-1]])
     if not problem_file_list or "-h" in sys.argv or "--help" in sys.argv:

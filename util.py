@@ -25,8 +25,7 @@ __status__ = "Development"
 class TW:
     """ Indices to the TW constraint tuple """
     OPEN = 0
-    CLOSE = 1   
-    CAN_WAIT = 2
+    CLOSE = 1 
 
 def is_sorted(l):
     """Checks if the list is sorted """

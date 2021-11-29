@@ -134,10 +134,11 @@ class ReplicationBase(unittest.TestCase):
         elapsedt = endt - startt
         
         if __debug__:
-            print_solution_statistics(sol, D, D_c, d, C, L,service_time)
+            print_solution_statistics(sol, D, D_c, d, C, L, None, service_time)
         
         
-        cover_ok, capa_ok, rlen_ok = check_solution_feasibility(sol, D,d,C,L,True)
+        cover_ok, capa_ok, rlen_ok, tws_ok = \
+            check_solution_feasibility(sol, D,d,C,L,print_violationsTrue)
         if not suppress_constraint_check:
             self.assertTrue( cover_ok, "Must be a valid solution")
             self.assertTrue( capa_ok, "Must not violate the C constraint" )

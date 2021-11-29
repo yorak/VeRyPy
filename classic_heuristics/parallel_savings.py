@@ -91,11 +91,14 @@ def parallel_savings_init(D, d, ctrs, minimize_K=False,
     """
     N = len(D)
     ignore_negative_savings = not minimize_K
-    
+
     ## 1. make route for each customer
     routes = [[i] for i in range(1,N)]
     route_demands = d[1:] if ('C' in ctrs) else [0]*N
-    if ('L' in ctrs or 'TWs' in ctrs):
+    if ('TWs' in ctrs):
+        wait_times = [max(0, ctrs['TWs'][i][TW.OPEN]-D[0,i]) for i in range(0,N)]
+        route_costs = [D[0,i]+wait_times[i]+D[i,0] for i in range(1,N)]
+    elif ('L' in ctrs):
         route_costs = [D[0,i]+D[i,0] for i in range(1,N)]
     
     try:
@@ -116,7 +119,8 @@ def parallel_savings_init(D, d, ctrs, minimize_K=False,
                 cw_saving = D[i,0]+D[0,j]-D[i,j]
                 if cw_saving<0.0:
                     break
-                
+            
+            # "left" and "right" are names by convention, no real orderings
             left_route = endnode_to_route[i]
             right_route = endnode_to_route[j]
             
@@ -140,6 +144,45 @@ def parallel_savings_init(D, d, ctrs, minimize_K=False,
                         log(DEBUG-1, "Reject merge due to "+
                             "capacity constraint violation")
                     continue
+            # check time window constraits
+            if ('TWs' in ctrs):
+                arrival_cost_at_j = route_costs[left_route]-D[0,i]+D[i,j]
+                arrives_late = arrival_cost_at_j-S_EPS>ctrs['TWs'][j][TW.CLOSE]
+
+                if arrives_late:
+                    if __debug__:
+                        log(DEBUG-1, "Reject merge due to it being outside "+
+                            "of allowed time windows.")
+                    continue
+                
+                j_tw_open = ctrs['TWs'][j][TW.OPEN]
+                merged_wait_time_at_j = max(0, j_tw_open-arrival_cost_at_j)
+
+                # Recalculate wait times and route duration (cost) and check for
+                #  TW constraints for the right hand side of the merge.
+                updated_wait_times = {j:merged_wait_time_at_j}
+                arrival_cost_at_k = arrival_cost_at_j+merged_wait_time_at_j
+                prev_k = j
+                for k in routes[right_route]:
+                    arrival_cost_at_k+=D[prev_k,k]
+                    arrives_late = arrival_cost_at_k-S_EPS>ctrs['TWs'][k][TW.CLOSE]
+
+                    if arrives_late:
+                        if __debug__:
+                            log(DEBUG-1, "Reject merge due to it causing being "
+                                " late of the later time windows.")
+                        continue
+                    
+                    k_tw_open = ctrs['TWs'][k][TW.OPEN]
+                    updated_wait_times[k]=max(0, k_tw_open-arrival_cost_at_k)
+                    arrival_cost_at_k+=updated_wait_times[k]
+                    prev_k = k
+                    
+
+                merged_cost = arrival_cost_at_j+merged_wait_time_at_j\
+                              +arrival_cost_at_k+D[prev_k, 0]
+                
+                
             # if there are route cost constraint, check its validity        
             if ('L' in ctrs):
                 merged_cost = route_costs[left_route]-D[0,i]+\
@@ -151,32 +194,25 @@ def parallel_savings_init(D, d, ctrs, minimize_K=False,
                             "maximum route length constraint violation")
                     continue
 
-            if ('TWs' in ctrs):
-                merged_route_cost_at_j = route_costs[left_route]\
-                                -D[0,i]-D[0,j]+D[i,j]
-                arrives_early = merged_route_cost_at_j<ctrs[j][TW.OPEN]
-                arrives_late = merged_route_cost_at_j>ctrs[j][TW.CLOSE]
-
-                if (not ctrs[j][TW.CAN_WAIT] and arrives_early) or arrives_late:
-                    if __debug__:
-                        log(DEBUG-1, "Reject merge due to it being outside"+
-                            "of allowed time windows.")
-                    continue
-
-                raise NotImplementedError("This is not yet implemented")
+            
             
             # update bookkeeping only on the recieving (left) route
+            #  right hand route is no more
             if ('C' in ctrs): route_demands[left_route] = merged_demand
-            if ('L' in ctrs or 'TWs' in ctrs):
+            if ('TWs' in ctrs):
+                for k, uwt in updated_wait_times.items():
+                    wait_times[k] = uwt
                 route_costs[left_route] = merged_cost
-                
+            elif ('L' in ctrs):
+                route_costs[left_route] = merged_cost
+            
+            # TODO: VRPTW. Uhh. No. What to do here???
             # merging is done based on the joined endpoints, reverse the 
             #  merged routes as necessary
             if routes[left_route][0]==i:
                 routes[left_route].reverse()
             if routes[right_route][-1]==j:
                 routes[right_route].reverse()
-    
             # the nodes that become midroute points cannot be merged
             if len(routes[left_route])>1:
                 endnode_to_route[ routes[left_route][-1] ] = None
