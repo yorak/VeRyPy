@@ -196,7 +196,7 @@ def read_TSPLIB_CVRP(file_name):
     Reinelt, G. (1991). Tsplib a traveling salesman problem library. ORSA 
         journal on computing, 3(4):376-384
     """
-    with open(file_name, "r") as f:
+    with open(file_name, "r") as fh:
         # pylint: disable=unsubscriptable-object
         
         section = None
@@ -215,8 +215,9 @@ def read_TSPLIB_CVRP(file_name):
         
         depot_ids = []
         
-        while 1:
-            line = f.readline().strip()
+        for l in fh.readlines():
+            line = l.strip()
+
             if not line:
                 continue
             
@@ -358,7 +359,7 @@ def read_TSPLIB_CVRP(file_name):
                             if len(depot_ids)>1:
                                 raise IOError("multi depot problems not supported")
                     
-        f.close()
+        fh.close()
         
         if edge_weight_type=='EXPLICIT' and not (
                 ((edge_weight_format in ['FULL_MATRIX', 'LOWER_ROW', 'LOWER_DIAG_ROW']) and \
