@@ -93,8 +93,10 @@ class ReplicationBase(unittest.TestCase):
     def _solve_instance(self, algo,pfn, round_D_func = None, require_K = False,
                         predefined_k = None, suppress_constraint_check = False):
         N, points, dd_points, d, D, C, _ = cvrp_io.read_TSPLIB_CVRP(pfn)
-        K, L, service_time = cvrp_io.read_TSBLIB_additional_constraints(pfn)
-        
+        K, L, service_time, TWs = cvrp_io.read_TSBLIB_additional_constraints(pfn)
+        # TODO: TWs are ignored for now. Imlement support when the init_*
+        # functions of all algos are converted to use the newer ctrs API.
+
         if round_D_func:
             D = round_D_func(D)
         

@@ -93,7 +93,9 @@ def read_and_solve_a_problem(problem_instance_path, with_algorithm_function,
     
     pfn = problem_instance_path
     N, points, dd_points, d, D, C, ewt = cvrp_io.read_TSPLIB_CVRP(pfn)
-    required_K, L, st = cvrp_io.read_TSBLIB_additional_constraints(pfn)
+    required_K, L, st, TWs = cvrp_io.read_TSBLIB_additional_constraints(pfn)
+    # TODO: TWs are ignored for now. Imlement support when the init_*
+           # functions of all algos are converted to use the newer ctrs API.
     
     # model service time with the distance matrix
     D_c = cvrp_ops.D2D_c(D, st) if st else D

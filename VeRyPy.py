@@ -328,7 +328,9 @@ def main(overridden_args=None):
            N, points, dd_points, d, D, C, ewt, K, L, st = pickle.load( open( pfn, "rb" ) )
         except:
            N, points, dd_points, d, D, C, ewt = cvrp_io.read_TSPLIB_CVRP(pfn)
-           K, L, st = cvrp_io.read_TSBLIB_additional_constraints(pfn)
+           K, L, st, TWs = cvrp_io.read_TSBLIB_additional_constraints(pfn)
+           # TODO: TWs are ignored for now. Imlement support when the init_*
+           # functions of all algos are converted to use the newer ctrs API.
         
         # We do not have point coodrinates, but we have D! 
         if points is None:

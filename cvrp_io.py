@@ -403,22 +403,72 @@ def read_TSPLIB_CVRP(file_name):
     return ProblemDefinition(N, points, dd_points, demands, D, C, edge_weight_type)
  
 namedtuple('AdditionalConstraints',
-    'vehicle_count_constraint maximum_route_cost_constraint service_time_at_customer')
+    'vehicle_count_constraint '+
+    'maximum_route_cost_constraint '+
+    'service_time_at_customer '+
+    'time_windows')
 def read_TSBLIB_additional_constraints(custom_tsplib_file):
     """ An unofficial/custom and optional way of storing route cost/length/
     duration constraint in a TSBLIB file as an additional DISTANCE, VEHICLES
-    and SERVICE_TIME fields (e.g. in CMT instances).
+    and SERVICE_TIME fields (e.g. in CMT instances). Also, TIME_WINDOW_SECTION
+    is now supported.
     
-    Also SVC_TIME_SECTION is supported but only if the service time is set to
+    Note SVC_TIME_SECTION is supported but only if the service time is set to
     the same value for all customers.
     """    
+    N = None
     K = None
     L = None
     ST = None
-    reading_service_time_section = False
+    TWs = None
+    reading_section = None
+
+    def parse_tw(tws):
+        # Also support the sillyness of giving the TWs in hh:mm format.
+        # ( see http://www.bernabe.dorronsoro.es/vrp/index.html?/Problem_Instances/VRPLIBDesc.html )        
+        if ':' in tws:
+            hours, mins = [float(p) for p in tws.split(':')]
+            return hours*60+mins # to seconds?
+        # There is some sense in the world.
+        elif '.' in tws:
+            return float(tws)
+        else:
+            return int(tws)
+
     with open(custom_tsplib_file) as fh:
         for l in fh.readlines():
-            if reading_service_time_section:
+            if not l.strip():
+                continue # skip empty
+
+            if 'DIMENSION' in l:
+                N = int( l.split()[-1] )
+                reading_section = None
+            if "DISTANCE" in l:
+                if "." in l:
+                    L = float( l.split()[-1] )
+                else:
+                    L = int( l.split()[-1] )
+                reading_section = None
+            if "SERVICE_TIME" in l:
+                if "." in l:
+                    ST = float( l.split()[-1] )
+                else:
+                    ST = int( l.split()[-1] )
+                reading_section = None
+            if "VEHICLES" in l:
+                K = int( l.split()[-1] )
+                reading_section = None
+            if "SVC_TIME_SECTION" in l:
+                reading_section = "SVC_TIME_SECTION"
+                continue
+            if "TIME_WINDOW_SECTION" in l:
+                if not N:
+                    raise IOError("DIMENSION of the problem is not given before TIME_WINDOW_SECTION")
+                TWs = [ (0, float('inf')) for i in range(N+1) ]
+                reading_section = "TIME_WINDOW_SECTION"
+                continue
+
+            if reading_section=="SVC_TIME_SECTION":
                 nid, nst = l.split()
                 if "." in nst:
                     nst = float(nst)
@@ -428,22 +478,16 @@ def read_TSBLIB_additional_constraints(custom_tsplib_file):
                     raise IOError("Only single (same) service time for all customers is supported")
                 elif nid!=1:
                     ST = nst
-            if "DISTANCE" in l:
-                if "." in l:
-                    L = float( l.split()[-1] )
-                else:
-                    L = int( l.split()[-1] )
-            if "SERVICE_TIME" in l:
-                if "." in l:
-                    ST = float( l.split()[-1] )
-                else:
-                    ST = int( l.split()[-1] )
-            if "VEHICLES" in l:
-                K = int( l.split()[-1] )
-            if "SVC_TIME_SECTION" in l:
-                reading_service_time_section = True
+            if reading_section=="TIME_WINDOW_SECTION":
+                parts = l.split()
+                if len(parts)!=3:
+                    raise IOError("Only single time window per customer is supported")
+                i = int( parts[0] )-1 # We use 0 based indexing (0 is the depot)
+                tw_opens =  parse_tw(parts[1])
+                tw_closes =  parse_tw(parts[2])
+                TWs[i] = (tw_opens, tw_closes)
                     
-    return K, L, ST
+    return K, L, ST, TWs
  
 def generate_CVRP(N, C, muC, sdC, regular=False, R=200.0):
     """ Generate new random CVRP with N customer points and capacity of C.

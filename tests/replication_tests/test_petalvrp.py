@@ -449,7 +449,9 @@ class TestFosterRyanReplications(ReplicationBase):
                 
             pfn = path.join(BENCHMARKS_BASEPATH,self.problem_path, problem_name)
             N, points, dd_points, d, D, C, _ = cvrp_io.read_TSPLIB_CVRP(pfn)
-            K, L, service_time = cvrp_io.read_TSBLIB_additional_constraints(pfn)
+            K, L, service_time, TWs = cvrp_io.read_TSBLIB_additional_constraints(pfn)
+            # TODO: TWs are ignored for now. Imlement support when the init_*
+            # functions of all algos are converted to use the newer ctrs API.
             if service_time:
                 D_c = D2D_c(D, service_time)
             else:
