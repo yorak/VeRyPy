@@ -19,7 +19,7 @@ MIP_SOLVER_THREADS = 1 # 0 is automatic (parallel computing)
 
 # Set up some paths where to find benchmarks and external solvers
 
-HOME_PATH = expanduser("~")
+HOME_PATH = path.expanduser("~")
 
 BENCHMARKS_BASEPATH = path.join(HOME_PATH, r"Research/VRPBenchmarks")
 
