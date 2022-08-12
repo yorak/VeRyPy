@@ -111,3 +111,7 @@ visualizers/output
 
 # Non public experiments
 private_examples
+
+# Python environment and vscode temp files
+.vscode
+.cvrpvenv
