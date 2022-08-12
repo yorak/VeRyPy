@@ -298,8 +298,8 @@ def do_2point_move(route1_data, route2_data, D, d=None,
     """ Swap one point from route1 with one point on route2 if it improves the
     solution. This operation is sometimes referred to as "exchange" (e.g. in 
     Bräysy & M. Gendreau 2005, Savelsbergh 1992), but we use the name
-    "two point move" (Groër et al 2010) to differentiate it from the inter-
-    route one.
+    "two point move" (Groër et al 2010) to differentiate it from the intra-
+    route one that operates only on one route.
     
     If an improving move was found and made, operation returns new routes in
      same format as route_data inputs, but if C and d are not given the 3.
