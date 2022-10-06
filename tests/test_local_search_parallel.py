@@ -34,21 +34,21 @@ from scipy.spatial.distance import pdist, squareform
 # project imports
 from cvrp_io import generate_CVRP, read_TSPLIB_CVRP
 from cvrp_io import write_TSPLIB_file, write_OPT_file
-from cvrp_ops import normalize_solution, check_solution_feasibility
+from verypy.cvrp_ops import normalize_solution, check_solution_feasibility
 from random import randint, shuffle
-from local_search.naive_implementations import do_naive_local_search, \
+from verypy.local_search.naive_implementations import do_naive_local_search, \
     do_naive_2opt_move, do_naive_2optstar_move, \
     do_naive_1point_move, do_naive_relocate_move, \
     do_naive_exchange_move, do_naive_2point_move
-from local_search import LSOPT, do_local_search
-from local_search.intra_route_operators import do_2opt_move, do_3opt_move,\
+from verypy.local_search import LSOPT, do_local_search
+from verypy.local_search.intra_route_operators import do_2opt_move, do_3opt_move,\
     do_relocate_move, do_exchange_move
-from local_search.inter_route_operators import do_2optstar_move,\
+from verypy.local_search.inter_route_operators import do_2optstar_move,\
     do_1point_move, do_2point_move
                          
-from util import objf, sol2routes, routes2sol
-from config import BENCHMARKS_BASEPATH
-from config import CAPACITY_EPSILON as C_EPS
+from verypy.util import objf, sol2routes, routes2sol
+from verypy.config import BENCHMARKS_BASEPATH
+from verypy.config import CAPACITY_EPSILON as C_EPS
 
 DEBUG_VRPH_CALL = True
 # this is to verify the heuristics against independent implementation

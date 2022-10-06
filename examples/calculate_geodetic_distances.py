@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-from cvrp_io import _haversine 
+from verypy.cvrp_io import _haversine 
 
 points = [[24.42, 54.44], [24.44, 54.60], [24.42, 54.53]]
 

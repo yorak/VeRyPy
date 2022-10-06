@@ -7,11 +7,13 @@ TSPLIB formatted problem instance file with a single heuristic algorithm and
 printing the resulting solution route by route."""
 ###############################################################################
 
-import cvrp_io
-from classic_heuristics.parallel_savings import parallel_savings_init
-from util import sol2routes
+import verypy.cvrp_io as cvrp_io
+from verypy.classic_heuristics.parallel_savings import parallel_savings_init
+from verypy.util import sol2routes
 
-E_n51_k5_path = r"E-n51-k5.vrp"
+import os 
+dir_path = os.path.dirname(os.path.realpath(__file__))
+E_n51_k5_path = os.path.join(dir_path, "E-n51-k5.vrp")
 
 problem = cvrp_io.read_TSPLIB_CVRP(E_n51_k5_path)
 

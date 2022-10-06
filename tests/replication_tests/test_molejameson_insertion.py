@@ -5,7 +5,7 @@ from __future__ import division
 import unittest
 from os import path
 
-from classic_heuristics.mole_jameson_insertion import mole_jameson_insertion_init
+from verypy.classic_heuristics.mole_jameson_insertion import mole_jameson_insertion_init
 from replicationbase import ReplicationBase, REPRO_QUALITY_LEVELS
 
 # Mole & Jameson (1976) insertion has five different approaches, each tested

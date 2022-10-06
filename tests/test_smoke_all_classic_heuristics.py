@@ -11,8 +11,8 @@ from __future__ import division
 import unittest
 from scipy.spatial.distance import pdist, squareform
 
-from cvrp_ops import check_solution_feasibility, D2D_c
-from util import objf
+from verypy.cvrp_ops import check_solution_feasibility, D2D_c
+from verypy.util import objf
 
 SMOKE_TEST_VERBOSITY = 0
 
@@ -84,14 +84,14 @@ class TestSmokeWithSimple7pProblem(unittest.TestCase):
     
     #TestSmokeWithSimple7pProblem.test_sequential_cheapest_insertion
     def test_sequential_cheapest_insertion(self):
-        from classic_heuristics.cheapest_insertion import get_si_algorithm
+        from verypy.classic_heuristics.cheapest_insertion import get_si_algorithm
         self._solve(*get_si_algorithm(), C=self.C)
         self._solve(*get_si_algorithm(), L=self.L,st=self.st)
         self._solve(*get_si_algorithm(), C=self.C,L=self.L,st=self.st)
     
     #TestSmokeWithSimple7pProblem.    
     def test_parallel_cheapest_insertion(self):
-        from classic_heuristics.cheapest_insertion import get_pi_algorithm
+        from verypy.classic_heuristics.cheapest_insertion import get_pi_algorithm
         self._solve(*get_pi_algorithm(), C=self.C)
         self._solve(*get_pi_algorithm(2), C=self.C)
         self._solve(*get_pi_algorithm(3), C=self.C) 
@@ -106,14 +106,14 @@ class TestSmokeWithSimple7pProblem(unittest.TestCase):
       
     #TestSmokeWithSimple7pProblem.
     def test_cmt_2phase_heuristic(self):
-        from classic_heuristics.cmt_2phase import get_cmt2p_algorithm
+        from verypy.classic_heuristics.cmt_2phase import get_cmt2p_algorithm
         self._solve(*get_cmt2p_algorithm(), C=self.C)
         self._solve(*get_cmt2p_algorithm(), L=self.L,st=self.st)
         self._solve(*get_cmt2p_algorithm(), C=self.C,L=self.L,st=self.st)
     
     #TestSmokeWithSimple7pProblem.    
     def test_gapvrp_heuristic(self):
-        from classic_heuristics.gapvrp import get_gap_algorithm
+        from verypy.classic_heuristics.gapvrp import get_gap_algorithm
         self._solve(*get_gap_algorithm(), C=self.C)
         # "cones" seed generation does requires C, use kmeans instead
         self._solve(*get_gap_algorithm(seed_method="kmeans"), L=self.L,st=self.st)
@@ -121,56 +121,56 @@ class TestSmokeWithSimple7pProblem(unittest.TestCase):
      
     #TestSmokeWithSimple7pProblem.
     def test_gaskell_savings(self):
-        from classic_heuristics.gaskell_savings import get_gs_algorithm
+        from verypy.classic_heuristics.gaskell_savings import get_gs_algorithm
         self._solve(*get_gs_algorithm(), C=self.C)
         self._solve(*get_gs_algorithm(), L=self.L,st=self.st)
         self._solve(*get_gs_algorithm(), C=self.C,L=self.L,st=self.st)
     
     #TestSmokeWithSimple7pProblem.        
     def test_sequential_savings(self):
-        from classic_heuristics.sequential_savings import get_ss_algorithm
+        from verypy.classic_heuristics.sequential_savings import get_ss_algorithm
         self._solve(*get_ss_algorithm(lambda_multiplier="auto"), C=self.C)
         self._solve(*get_ss_algorithm(lambda_multiplier="auto"), L=self.L,st=self.st)
         self._solve(*get_ss_algorithm(lambda_multiplier="auto"), C=self.C,L=self.L,st=self.st)
 
     #TestSmokeWithSimple7pProblem.  
     def test_gillet_miller_sweep(self):
-        from classic_heuristics.gillet_miller_sweep import get_gm_algorithm
+        from verypy.classic_heuristics.gillet_miller_sweep import get_gm_algorithm
         self._solve(*get_gm_algorithm(), C=self.C)
         self._solve(*get_gm_algorithm(), L=self.L,st=self.st)
         self._solve(*get_gm_algorithm(), C=self.C,L=self.L,st=self.st)
     
     #TestSmokeWithSimple7pProblem.  
     def test_lr3opt_sweep(self):
-        from classic_heuristics.lr3opt import get_lr3opt_algorithm
+        from verypy.classic_heuristics.lr3opt import get_lr3opt_algorithm
         self._solve(*get_lr3opt_algorithm(), C=self.C)
         self._solve(*get_lr3opt_algorithm(), L=self.L,st=self.st)
         self._solve(*get_lr3opt_algorithm(), C=self.C,L=self.L,st=self.st)
     
     #TestSmokeWithSimple7pProblem.      
     def test_maximum_matching_heuristic(self):
-        from classic_heuristics.matchingvrp import get_mm_algorithm
+        from verypy.classic_heuristics.matchingvrp import get_mm_algorithm
         self._solve(*get_mm_algorithm(), C=self.C)
         self._solve(*get_mm_algorithm(), L=self.L,st=self.st)
         self._solve(*get_mm_algorithm(), C=self.C,L=self.L,st=self.st)
     
     #TestSmokeWithSimple7pProblem.test_mole_jameson_insertion
     def test_mole_jameson_insertion(self):
-        from classic_heuristics.mole_jameson_insertion import get_mj_algorithm
+        from verypy.classic_heuristics.mole_jameson_insertion import get_mj_algorithm
         self._solve(*get_mj_algorithm(), C=self.C)
         self._solve(*get_mj_algorithm(), L=self.L,st=self.st)
         self._solve(*get_mj_algorithm(), C=self.C,L=self.L,st=self.st)
     
     #TestSmokeWithSimple7pProblem.test_sequential_nearest_neighbor
     def test_sequential_nearest_neighbor(self):
-        from classic_heuristics.nearest_neighbor import get_snn_algorithm
+        from verypy.classic_heuristics.nearest_neighbor import get_snn_algorithm
         self._solve(*get_snn_algorithm(), C=self.C)
         self._solve(*get_snn_algorithm(), L=self.L,st=self.st)
         self._solve(*get_snn_algorithm(), C=self.C,L=self.L,st=self.st)
     
     #TestSmokeWithSimple7pProblem.test_parallel_nearest_neighbor
     def test_parallel_nearest_neighbor(self):
-        from classic_heuristics.nearest_neighbor import get_pnn_algorithm
+        from verypy.classic_heuristics.nearest_neighbor import get_pnn_algorithm
         self._solve(*get_pnn_algorithm(), C=self.C)
         self._solve(*get_pnn_algorithm(2), C=self.C)
         self._solve(*get_pnn_algorithm(3), C=self.C)
@@ -185,56 +185,56 @@ class TestSmokeWithSimple7pProblem(unittest.TestCase):
 
     #TestSmokeWithSimple7pProblem.  
     def test_paessens_generalized_savings(self):
-        from classic_heuristics.paessens_savings import get_gps_algorithm
+        from verypy.classic_heuristics.paessens_savings import get_gps_algorithm
         self._solve(*get_gps_algorithm(), C=self.C)
         self._solve(*get_gps_algorithm(), L=self.L,st=self.st)
         self._solve(*get_gps_algorithm(), C=self.C,L=self.L,st=self.st)
     
     #TestSmokeWithSimple7pProblem.  
     def test_clarke_wright_parallel_savings(self):
-        from classic_heuristics.parallel_savings import get_ps_algorithm
+        from verypy.classic_heuristics.parallel_savings import get_ps_algorithm
         self._solve(*get_ps_algorithm(), C=self.C) 
         self._solve(*get_ps_algorithm(), L=self.L,st=self.st)
         self._solve(*get_ps_algorithm(), C=self.C,L=self.L,st=self.st)
     
     #TestSmokeWithSimple7pProblem.test_petal_heuristic
     def test_petal_heuristic(self):
-        from classic_heuristics.petalvrp import get_ptl_algorithm
+        from verypy.classic_heuristics.petalvrp import get_ptl_algorithm
         self._solve(*get_ptl_algorithm(), C=self.C)  
         self._solve(*get_ptl_algorithm(), L=self.L,st=self.st)
         self._solve(*get_ptl_algorithm(), C=self.C,L=self.L,st=self.st)
     
     #TestSmokeWithSimple7pProblem.  
     def test_routefirst_clustersecond_heuristic(self):
-        from classic_heuristics.rfcs import get_rfcs_algorithm
+        from verypy.classic_heuristics.rfcs import get_rfcs_algorithm
         self._solve(*get_rfcs_algorithm(), C=self.C)
         self._solve(*get_rfcs_algorithm(), L=self.L,st=self.st)
         self._solve(*get_rfcs_algorithm(), C=self.C,L=self.L,st=self.st)
 
     #TestSmokeWithSimple7pProblem.  
     def test_suppression_savings_heuristic(self):
-        from classic_heuristics.suppression_savings import get_ims_algorithm
+        from verypy.classic_heuristics.suppression_savings import get_ims_algorithm
         self._solve(*get_ims_algorithm(), C=self.C)
         self._solve(*get_ims_algorithm(), L=self.L,st=self.st)
         self._solve(*get_ims_algorithm(), C=self.C,L=self.L,st=self.st)
     
     #TestSmokeWithSimple7pProblem.  
     def test_basic_sweep_heuristic(self):
-        from classic_heuristics.sweep import get_swp_algorithm
+        from verypy.classic_heuristics.sweep import get_swp_algorithm
         self._solve(*get_swp_algorithm(), C=self.C)
         self._solve(*get_swp_algorithm(), L=self.L,st=self.st)
         self._solve(*get_swp_algorithm(), C=self.C,L=self.L,st=self.st)
     
     #TestSmokeWithSimple7pProblem.test_tyagi_nearest_neighbor  
     def test_tyagi_nearest_neighbor(self):
-        from classic_heuristics.tyagi_nearest_neighbor import get_ty_algorithm
+        from verypy.classic_heuristics.tyagi_nearest_neighbor import get_ty_algorithm
         self._solve(*get_ty_algorithm(), C=self.C)
         self._solve(*get_ty_algorithm(), L=self.L,st=self.st)
         self._solve(*get_ty_algorithm(), C=self.C,L=self.L,st=self.st)
     
     #TestSmokeWithSimple7pProblem.  
     def test_wren_holliday_sweep(self):
-        from classic_heuristics.wren_holliday_sweep import get_wh_algorithm
+        from verypy.classic_heuristics.wren_holliday_sweep import get_wh_algorithm
         self._solve(*get_wh_algorithm(), C=self.C) 
         self._solve(*get_wh_algorithm(), L=self.L,st=self.st)
         self._solve(*get_wh_algorithm(), C=self.C,L=self.L,st=self.st)

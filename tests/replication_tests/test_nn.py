@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from replicationbase import ReplicationBase, REPRO_QUALITY_LEVELS
-from classic_heuristics.tyagi_nearest_neighbor import tyagi_init
+from verypy.classic_heuristics.tyagi_nearest_neighbor import tyagi_init
 from os import path
 import unittest
 

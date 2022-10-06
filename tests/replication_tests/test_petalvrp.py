@@ -7,12 +7,12 @@ import numpy as np
 from scipy.spatial.distance import pdist, squareform
 
 import cvrp_io
-from cvrp_ops import check_solution_feasibility, D2D_c
-from util import objf, totald
+from verypy.cvrp_ops import check_solution_feasibility, D2D_c
+from verypy.util import objf, totald
 from replicationbase import ReplicationBase
-from classic_heuristics.petalvrp import petal_init, _remove_multiserved, \
+from verypy.classic_heuristics.petalvrp import petal_init, _remove_multiserved, \
                                         _generate_solution_relaxation_petals
-from config import BENCHMARKS_BASEPATH
+from verypy.config import BENCHMARKS_BASEPATH
 
 MAX_REQUIRE_ITERATIONS = 250
 

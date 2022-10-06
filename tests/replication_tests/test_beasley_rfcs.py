@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from classic_heuristics.rfcs import route_first_cluster_second_init
+from verypy.classic_heuristics.rfcs import route_first_cluster_second_init
 from replicationbase import ReplicationBase
-from config import BENCHMARKS_BASEPATH
-from tsp_solvers.tsp_solver_ropt import solve_tsp_ropt 
-from tsp_solvers.tsp_solver_gurobi import solve_tsp_gurobi as solve_tsp_giant_tour
-#from tsp_solvers.tsp_solver_lkh import solve_tsp_lkh as solve_tsp_giant_tour
+from verypy.config import BENCHMARKS_BASEPATH
+from verypy.tsp_solvers.tsp_solver_ropt import solve_tsp_ropt 
+from verypy.tsp_solvers.tsp_solver_gurobi import solve_tsp_gurobi as solve_tsp_giant_tour
+#from verypy.tsp_solvers.tsp_solver_lkh import solve_tsp_lkh as solve_tsp_giant_tour
 
-from util import objf
+from verypy.util import objf
 import unittest
 from os import path
 

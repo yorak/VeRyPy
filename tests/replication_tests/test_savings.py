@@ -7,14 +7,14 @@ from __future__ import division
 import unittest
 from os import path
 
-from classic_heuristics.parallel_savings import parallel_savings_init
-from classic_heuristics.sequential_savings import sequential_savings_init
-from classic_heuristics.gaskell_savings import gaskell_savings_init
-from classic_heuristics.paessens_savings import paessens_savings_init
-from classic_heuristics.suppression_savings import suppression_savings_init
+from verypy.classic_heuristics.parallel_savings import parallel_savings_init
+from verypy.classic_heuristics.sequential_savings import sequential_savings_init
+from verypy.classic_heuristics.gaskell_savings import gaskell_savings_init
+from verypy.classic_heuristics.paessens_savings import paessens_savings_init
+from verypy.classic_heuristics.suppression_savings import suppression_savings_init
 
-from local_search import LSOPT, do_local_search
-from local_search.intra_route_operators import do_3opt_move
+from verypy.local_search import LSOPT, do_local_search
+from verypy.local_search.intra_route_operators import do_3opt_move
 
 from replicationbase import ReplicationBase, REPRO_QUALITY_LEVELS
 

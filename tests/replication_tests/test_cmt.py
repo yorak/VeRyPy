@@ -5,10 +5,10 @@ from __future__ import print_function
 from __future__ import division
 
 from replicationbase import ReplicationBase
-from classic_heuristics.cmt_2phase import cmt_2phase_init
+from verypy.classic_heuristics.cmt_2phase import cmt_2phase_init
 from os import path
 import unittest
-from util import objf
+from verypy.util import objf
 
 from random import random
 

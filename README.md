@@ -72,28 +72,26 @@ If you find VeRyPy useful in your research and use it to produce results for you
 
 ## Quick Start
 
-Make sure that the VeRyPy is in your `PYTHONPATH`. On linux the relevant command is
+Currently, VeRyPy supports up to Python 3.8. 
+
+```bash
+git clone https://github.com/yorak/VeRyPy.git
+cd VeRyPy
+pip install -e .
 ```
-$ export PYTHONPATH=$PYTHONPATH:/home/jussi/Projects/CVRP:/home/jussi/Projects/CVRP/VeRyPy
-```
-and on Windows 
-```
-> set PYTHONPATH=%PYTHONPATH%;C:\users\jussi\Projects\CVRP;C:\users\jussi\Projects\CVRP\VeRyPy
-```
-Be sure to modify the paths as necessary.
 
 The command line use of VeRyPy assumes TSPLIB formatted files (assuming VeRyPy is in your PYTHONPATH):
 ```bash
-$ python -O VeRyPy.py -a all E-n51-k5.vrp
+python -O VeRyPy.py -a all E-n51-k5.vrp
 ```
 
 > Note: running with `python -O` entirely disables `__debug__` and logging.
 
 An an alternative way of using VeRyPy, this simple Python code illustrates the API usage:
 ```python
-import cvrp_io
-from classic_heuristics.parallel_savings import parallel_savings_init
-from util import sol2routes
+import verypy.cvrp_io as cvrp_io
+from verypy.classic_heuristics.parallel_savings import parallel_savings_init
+from verypy.util import sol2routes
 
 E_n51_k5_path = r"E-n51-k5.vrp"
 
@@ -108,17 +106,22 @@ for route_idx, route in enumerate(sol2routes(solution)):
     print("Route #%d : %s"%(route_idx+1, route))
 ```
 
+or
+
+```bash
+python examples/single_solve_example.py
+```
+
 <!-- TODO: Make sure it works -->
 
 <!-- TODO: A more comprehensive reference documentation can be found [here](/doc/). -->
 
-For API use, be sure to set the `PYTHONPATH` correctly.
 
-### Dependencies and Installation
+<!-- ### Dependencies and Installation -->
+<!-- 
+VeRyPy requires Python 2.7, NumPy, and SciPy. However, it should be Python3 compatible and *seems* to work also on Python 3.8. For CLI use you also need `natsort` from PyPI and some algorithms have additional dependencies: [CMT79-2P](#CMT79-2P), [FR76-1PLT](#FR76-1PLT), [GM74-SwRI](#GM74-SwRI) and [WH72-SwLS](#WH72-SwLS) require `orderedset` from PyPI; [MJ76-INS](#MJ76-INS) needs `llist` from PyPI; and [FR76-1PLT](#FR76-1PLT) , [FG81-GAP](#FG81-GAP), and [DV89-MM](#DV89-MM) require Gurobi with `gurobipy`. By default [Be83-RFCS](#Be83-RFCS), [SG82-LR3OPT](#SG82-LR3OPT), and [Ty68-NN](#Ty68-NN) use [LKH](http://akira.ruc.dk/~keld/research/LKH/) to solve TSPs, but they can be configured to use any other TSP solver (such as the internal one) if these external executables are not available. Refer to [auxiliary documentation](LKH_install_notes.md) on how to compile LKH. -->
 
-VeRyPy requires Python 2.7, NumPy, and SciPy. However, it should be Python3 compatible and *seems* to work also on Python 3.8. For CLI use you also need `natsort` from PyPI and some algorithms have additional dependencies: [CMT79-2P](#CMT79-2P), [FR76-1PLT](#FR76-1PLT), [GM74-SwRI](#GM74-SwRI) and [WH72-SwLS](#WH72-SwLS) require `orderedset` from PyPI; [MJ76-INS](#MJ76-INS) needs `llist` from PyPI; and [FR76-1PLT](#FR76-1PLT) , [FG81-GAP](#FG81-GAP), and [DV89-MM](#DV89-MM) require Gurobi with `gurobipy`. By default [Be83-RFCS](#Be83-RFCS), [SG82-LR3OPT](#SG82-LR3OPT), and [Ty68-NN](#Ty68-NN) use [LKH](http://akira.ruc.dk/~keld/research/LKH/) to solve TSPs, but they can be configured to use any other TSP solver (such as the internal one) if these external executables are not available. Refer to [auxiliary documentation](LKH_install_notes.md) on how to compile LKH.
-
-Be sure to add the VeRyPy root folder to your `PYTHONPATH` environment variable.
+<!-- Be sure to add the VeRyPy root folder to your `PYTHONPATH` environment variable. -->
 
 
 

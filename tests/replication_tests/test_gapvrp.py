@@ -2,7 +2,7 @@
 
 import unittest
 import cvrp_io
-from classic_heuristics.gapvrp import gap_init, _sweep_seed_points
+from verypy.classic_heuristics.gapvrp import gap_init, _sweep_seed_points
 import numpy as np
 from collections import namedtuple
 from os import path

@@ -8,13 +8,13 @@ from time import time
 
 import numpy as np
 
-from util import objf, without_empty_routes
+from verypy.util import objf, without_empty_routes
 from shared_cli import print_solution_statistics
-from cvrp_ops import check_solution_feasibility
+from verypy.cvrp_ops import check_solution_feasibility
 import cvrp_io
 
 
-from config import BENCHMARKS_BASEPATH
+from verypy.config import BENCHMARKS_BASEPATH
 
 class REPRO_QUALITY_LEVELS:
     # Allow more leeway as there are many inaccuracies in the implementation details

@@ -8,8 +8,8 @@ from random import shuffle
 import numpy as np
 
 from replicationbase import ReplicationBase, REPRO_QUALITY_LEVELS
-from classic_heuristics.lr3opt import lr3opt_init, _check_lr3opt_move, _init_with_random
-from cvrp_ops import calculate_objective
+from verypy.classic_heuristics.lr3opt import lr3opt_init, _check_lr3opt_move, _init_with_random
+from verypy.cvrp_ops import calculate_objective
     
 def _random_init_lr3opt(pts,D,d,C,L,st,times):
     best_sol = None
