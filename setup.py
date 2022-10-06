@@ -22,11 +22,11 @@ install_requires = [r.strip() for r in requirements]
 setup(
     name="verypy",
     version="0.0.1",
-    description="",
+    description="A python library with implementations of classical heuristics for the capacitated vehicle routing problem",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/yorak/VeRyPy",
-    license="Apache 2",
+    license="MIT License",
     platforms="any",
     packages=["verypy"],
     include_package_data=True,
