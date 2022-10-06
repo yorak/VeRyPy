@@ -82,7 +82,7 @@ pip install -e .
 
 The command line use of VeRyPy assumes TSPLIB formatted files (assuming VeRyPy is in your PYTHONPATH):
 ```bash
-python -O VeRyPy.py -a all E-n51-k5.vrp
+python -O VeRyPy.py -a all examples/E-n51-k5.vrp
 ```
 
 > Note: running with `python -O` entirely disables `__debug__` and logging.

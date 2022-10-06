@@ -4,3 +4,4 @@ orderedset # compatible up to python 3.8
 numpy
 scipy
 llist
+elkai
