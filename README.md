@@ -73,7 +73,7 @@ If you find VeRyPy useful in your research and use it to produce results for you
 ## Quick Start
 
 Currently, VeRyPy supports up to Python 3.8. 
-
+To install this package:
 ```bash
 git clone https://github.com/yorak/VeRyPy.git
 cd VeRyPy
