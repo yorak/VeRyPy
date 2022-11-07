@@ -7,9 +7,9 @@ Sweep algorithm with a local search post-optimization phase.
 
 The script is callable and can be used as a standalone solver for TSPLIB 
 formatted CVRPs.It has moderate dependencies: the sweep procedure from
-sweep.py, the OrderedSet module, and a TSP solver (the built-in one based on 
-local search can be used). As usual, numpy and scipy are required for reading
-and preparing the problem instance."""
+sweep.py, and a TSP solver (the built-in one based on local search can be used).
+As usual, numpy and scipy are required for reading and preparing the problem
+instance."""
 ###############################################################################
 
 # Written in Python 2.7, but try to maintain Python 3+ compatibility

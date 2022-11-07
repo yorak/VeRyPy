@@ -6,7 +6,7 @@ heuristic library and provides an implementation of the Christofides, Mingozzi
 and Toth (1979) two phase heuristic. Also a deterministic variant is included.
 
 The script is callable and can be used as a standalone solver for TSPLIB 
-formatted CVRPs. It has moderate dependencies: orderedset, a TSP solver, 
+formatted CVRPs. It has moderate dependencies: a TSP solver, 
 and numpy and scipy for reading and preparing the problem instance."""
 ###############################################################################
 
@@ -14,6 +14,7 @@ and numpy and scipy for reading and preparing the problem instance."""
 from __future__ import print_function
 from __future__ import division
 
+import sys
 import numpy as np
 from collections import deque, namedtuple 
 from logging import log, DEBUG
@@ -22,12 +23,7 @@ from logging import log, DEBUG
 from random import shuffle
 from sys import stderr
 
-# One of the few non standard-lib additions, used in algorithm's second 
-#  phase to keep track of the non-routed nodes. Install it e.g. with:
-#
-# $ pip install orderedset
-#
-from orderedset import OrderedSet
+from verypy.util import OrderedDictSet
 
 try:
     ## For tiny instances you might want to get the optimal solution
@@ -87,7 +83,7 @@ def _phase_one(lambda_multiplier, D,d,C,L, seed_f, rr):
     if rr is not None:
         shuffle(customer_nodes)
         rr-=1
-    unrouted = OrderedSet(customer_nodes)
+    unrouted = OrderedDictSet(customer_nodes)
     
     if __debug__:
         log(DEBUG, "## Sequential route bulding phase ##")
@@ -221,7 +217,7 @@ def _phase_two(mu_multiplier,route_seeds, D,d,C,L, rr,
     if rr is not None: 
         #->stochastic version, resolve the ties randomly
         shuffle(customer_nodes)
-    unrouted_nodes = OrderedSet(customer_nodes)
+    unrouted_nodes = OrderedDictSet(customer_nodes)
     unrouted_nodes.difference_update( route_seeds )
     
     # routes are stored in dict with a key of route seed,

@@ -7,9 +7,9 @@ Sweep heuristic.
 
 The script is callable and can be used as a standalone solver for TSPLIB 
 formatted CVRPs.It has moderate dependencies: the sweep procedure from
-sweep.py, the OrderedSet module, and a TSP solver (the built-in one based on 
-local search can be used). As usual, numpy and scipy are required for reading
-and preparing the problem instance."""
+sweep.py, and a TSP solver (the built-in one based on local search can be used).
+As usual, numpy and scipy are required for reading and preparing the problem 
+instance."""
 ###############################################################################
 
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
@@ -19,15 +19,8 @@ from __future__ import division
 import numpy as np
 from logging import log, DEBUG
 
-# One of the few non standard-lib additions, used in algorithm's second 
-#  phase to keep track of the non-routed nodes. Install it e.g. with:
-#
-# $ pip install orderedset
-#
-from orderedset import OrderedSet
-
 from verypy.routedata import RouteData
-from verypy.util import produce_nn_list
+from verypy.util import produce_nn_list, OrderedDictSet
 from verypy.classic_heuristics.sweep import _step,sweep_init,BEST_ALTERNATIVE
 
 from verypy.config import CAPACITY_EPSILON as C_EPS
@@ -149,7 +142,7 @@ def _improvement_callback(route_data, callback_datastructures,
         candidate_node_JII = None    
 
     # construct and route to get the modified route cost D2
-    D2_route_nodes = OrderedSet(D1_nodes)
+    D2_route_nodes = OrderedDictSet(D1_nodes)
     D2_route_nodes.remove(to_remove_node_KII)
     D2_route_nodes.add(candidate_node_JJX)
     D2_route,D2 = solve_tsp(D, list(D2_route_nodes))
@@ -173,9 +166,9 @@ def _improvement_callback(route_data, callback_datastructures,
         return route_data, [], [], True
             
     ## G&M Step 11
-    D3_nodes = OrderedSet() # the min. dist. from 0 through J,J+1...J+4 to J+5
-    D4_nodes = OrderedSet() # the min. dist. /w JJX excluded, KII included
-    D6_nodes = OrderedSet() # the min. dist. /w JJX and JII excl., KII incl.
+    D3_nodes = OrderedDictSet() # the min. dist. from 0 through J,J+1...J+4 to J+5
+    D4_nodes = OrderedDictSet() # the min. dist. /w JJX excluded, KII included
+    D6_nodes = OrderedDictSet() # the min. dist. /w JJX and JII excl., KII incl.
     JJX_in_chain = False
     JII_in_chain = False
             
