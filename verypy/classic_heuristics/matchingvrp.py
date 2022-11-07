@@ -43,11 +43,11 @@ from verypy.config import COST_EPSILON as S_EPS
 from verypy.config import CAPACITY_EPSILON as C_EPS
 
 __author__ = "Jussi Rasku"
-__copyright__ = "Copyright 2018, Jussi Rasku"
+__copyright__ = "Copyright 2022, Jussi Rasku"
 __credits__ = ["Jussi Rasku"]
 __license__ = "MIT"
 __maintainer__ = "Jussi Rasku"
-__email__ = "jussi.rasku@jyu.fi"
+__email__ = "jussi.rasku@gmail.com"
 __status__ = "Development"
     
 def _mmp_add_cnts_sum(m, x_ij, x_ij_keys, w_ij, n):

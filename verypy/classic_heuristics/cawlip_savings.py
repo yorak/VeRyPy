@@ -17,11 +17,11 @@ from verypy.local_search.intra_route_operators import do_2opt_move
 #from verypy.local_search.inter_route_operators import do_2optstar_move 
 
 __author__ = "Jussi Rasku"
-__copyright__ = "Copyright 2018, Jussi Rasku"
+__copyright__ = "Copyright 2022, Jussi Rasku"
 __credits__ = ["Jussi Rasku"]
 __license__ = "MIT"
 __maintainer__ = "Jussi Rasku"
-__email__ = "jussi.rasku@jyu.fi"
+__email__ = "jussi.rasku@gmail.com"
 __status__ = "Development"
 
 

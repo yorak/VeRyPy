@@ -22,11 +22,11 @@ from verypy.local_search.intra_route_operators import do_3opt_move
 from verypy.util import objf, without_empty_routes, is_better_sol
 
 __author__ = "Jussi Rasku"
-__copyright__ = "Copyright 2018, Jussi Rasku"
+__copyright__ = "Copyright 2022, Jussi Rasku"
 __credits__ = ["Jussi Rasku"]
 __license__ = "MIT"
 __maintainer__ = "Jussi Rasku"
-__email__ = "jussi.rasku@jyu.fi"
+__email__ = "jussi.rasku@gmail.com"
 __status__ = "Development"
 
 M4_FINETUNE_STEP = 0.1

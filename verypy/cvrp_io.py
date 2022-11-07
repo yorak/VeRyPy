@@ -23,12 +23,11 @@ import numpy as np
 from scipy.spatial.distance import pdist, cdist, squareform
 
 __author__ = "Jussi Rasku"
-__copyright__ = "Copyright 2018, Jussi Rasku"
+__copyright__ = "Copyright 2022, Jussi Rasku"
 __credits__ = ["Jussi Rasku"]
 __license__ = "MIT"
-__version__ = "0.5"
 __maintainer__ = "Jussi Rasku"
-__email__ = "jussi.rasku@jyu.fi"
+__email__ = "jussi.rasku@gmail.com"
 __status__ = "Development"
 
 ################################################################################

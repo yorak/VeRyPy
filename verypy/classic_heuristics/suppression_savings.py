@@ -24,11 +24,11 @@ from verypy.classic_heuristics.parallel_savings import parallel_savings_init
 from verypy.util import objf, is_better_sol
 
 __author__ = "Jussi Rasku"
-__copyright__ = "Copyright 2018, Jussi Rasku"
+__copyright__ = "Copyright 2022, Jussi Rasku"
 __credits__ = ["Jussi Rasku"]
 __license__ = "MIT"
 __maintainer__ = "Jussi Rasku"
-__email__ = "jussi.rasku@jyu.fi"
+__email__ = "jussi.rasku@gmail.com"
 __status__ = "Development"
 
 
