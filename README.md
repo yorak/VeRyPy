@@ -20,11 +20,13 @@ VeRyPy is an **easy** to use **Python** library of classical Capacitated **Vehic
 
 ## Introduction
 
-Compared to the existing heuristic and metaheuristic open source VRP libraries such as [VRPH](https://projects.coin-or.org/VRPH), [Google OR-Tools](https://developers.google.com/optimization/), the focus in VeRyPy has been in reusability of the code and in faithful recreation of the original algorithms. Because of this specific goal, the algorithm codes can replicate the existing results from the literature. Also, there is no architecture astronautery in VeRyPy. Instead, the focus is entirely on the Python functions implementing the classical algorithms. The lightness of the framework is very much intentional-Many existing libraries are complex beasts to reason about and understand, which severely limits their use in a more exploratory setting.
+Compared to the existing heuristic and metaheuristic open source VRP libraries such as [VRPH](https://projects.coin-or.org/VRPH), [Google OR-Tools](https://developers.google.com/optimization/), the focus in VeRyPy has been in reusability of the code and in faithful recreation of the original algorithms. Because of these specific goals, the algorithm codes can (mostly) replicate the existing results from the literature. Also, there is no architecture astronautery in VeRyPy. Instead, the focus is entirely on the Python functions that implement the classical algorithms. The lightness of the framework or shared code is very much intentional-Many existing libraries are complex beasts to reason about and understand, which severely limits their use in a more exploratory setting.
 
-However, please note that the limitations of VeRyPy are also related to the main aims of this project, that is, of replication and simplicity: it is not the fastest, the most sophisticated, nor the most effective library for solving these problems. For example, it being tested only on symmetric distances limits its real-world use. For an implementation of a state-of-the-art CVRP algorithm, please consider checking out, e.g., the [HGS-CVRP](https://github.com/vidalt/HGS-CVRP) from Thibaut Vidal. However, if you **are** just looking for something simple, VeRyPy might be a perfect fit!
+However, please note that the limitations of VeRyPy are also related to the main aims of this project, that is, of replication and simplicity: it is not the fastest, the most sophisticated, nor the most effective library for solving these problems. For example, it being tested only on symmetric distances limits its real-world use. Furthermore, there is no shared structure for constraint checking or updating objective function during the execution of the algorithms. Hence, any additional side constraints need to be implemented separately for each heuristic. For an implementation of a state-of-the-art CVRP algorithm, please consider checking out, e.g., the [HGS-CVRP](https://github.com/vidalt/HGS-CVRP) from Thibaut Vidal.
 
-Additionally, an ensemble of relatively simple heuristics can be an effective and robust way to solve practical problems. Learning and experimenting on the advantages and disadvantages of the different approaches before rolling out a more specialized and sophisticated algorithm can be very fruitful. Furthermore, the quality of the solutions produced by the state-of-the-art metaheuristics often depend on the quality of the initial solutions and VeRyPy can be used to produce a varied set of initial solutions for these more advanced methods.
+However, if you **are** just looking for something simple, VeRyPy might be a perfect fit!
+
+There is also the point to be made that an ensemble of relatively simple heuristics can be an effective and robust way to solve practical problems. Learning and experimenting on the advantages and disadvantages of the different approaches before rolling out a more specialized and sophisticated algorithm can be very fruitful. Furthermore, the quality of the solutions produced by the state-of-the-art metaheuristics often depend on the quality of the initial solutions and VeRyPy can be used to produce a varied set of initial solutions for these more advanced methods.
 
 ## Features
 
@@ -72,30 +74,29 @@ If you find VeRyPy useful in your research and use it to produce results for you
 
 ## Quick Start
 
-Currently, VeRyPy supports up to Python 3.8. 
-To install this package:
+Currently, VeRyPy supports up to Python 3.8 and should still be compatible with Python 2.7.
+
+To install this package and its dependencies:
 ```bash
-git clone https://github.com/yorak/VeRyPy.git
-cd VeRyPy
-pip install -e .
+pip install git+https://github.com/yorak/VeRyPy.git
 ```
 
-The command line use of VeRyPy assumes TSPLIB formatted files (assuming VeRyPy is in your PYTHONPATH):
+The module provides a `VeRyPy`command, which reads [TSPLIB95](http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/tsp95.pdf) formatted files:
 ```bash
-python -O VeRyPy.py -a all E-n51-k5.vrp
+VeRyPy -a all E-n51-k5.vrp
 ```
 
-> Note: running with `python -O` entirely disables `__debug__` and logging.
+> Note: an alternative invocation `python -O -m verypy` does the same but entirely disables `__debug__` and logging.
 
-An an alternative way of using VeRyPy, this simple Python code illustrates the API usage:
+A third typical way of using VeRyPy is to use API. This simple Python code illustrates such use:
 ```python
-import verypy.cvrp_io as cvrp_io
+from verypy.cvrp_io import read_TSPLIB_CVRP
 from verypy.classic_heuristics.parallel_savings import parallel_savings_init
 from verypy.util import sol2routes
 
 E_n51_k5_path = r"E-n51-k5.vrp"
 
-problem = cvrp_io.read_TSPLIB_CVRP(E_n51_k5_path)
+problem = read_TSPLIB_CVRP(E_n51_k5_path)
 
 solution = parallel_savings_init(
     D=problem.distance_matrix, 
@@ -106,7 +107,7 @@ for route_idx, route in enumerate(sol2routes(solution)):
     print("Route #%d : %s"%(route_idx+1, route))
 ```
 
-or
+More such examples are in the `examples` folder, e.g., 
 
 ```bash
 python examples/single_solve_example.py
@@ -117,13 +118,15 @@ python examples/single_solve_example.py
 <!-- TODO: A more comprehensive reference documentation can be found [here](/doc/). -->
 
 
-<!-- ### Dependencies and Installation -->
-<!-- 
-VeRyPy requires Python 2.7, NumPy, and SciPy. However, it should be Python3 compatible and *seems* to work also on Python 3.8. For CLI use you also need `natsort` from PyPI and some algorithms have additional dependencies: [CMT79-2P](#CMT79-2P), [FR76-1PLT](#FR76-1PLT), [GM74-SwRI](#GM74-SwRI) and [WH72-SwLS](#WH72-SwLS) require `orderedset` from PyPI; [MJ76-INS](#MJ76-INS) needs `llist` from PyPI; and [FR76-1PLT](#FR76-1PLT) , [FG81-GAP](#FG81-GAP), and [DV89-MM](#DV89-MM) require Gurobi with `gurobipy`. By default [Be83-RFCS](#Be83-RFCS), [SG82-LR3OPT](#SG82-LR3OPT), and [Ty68-NN](#Ty68-NN) use [LKH](http://akira.ruc.dk/~keld/research/LKH/) to solve TSPs, but they can be configured to use any other TSP solver (such as the internal one) if these external executables are not available. Refer to [auxiliary documentation](LKH_install_notes.md) on how to compile LKH. -->
+### Dependencies and Installation
+VeRyPy requires NumPy, and SciPy. It should be Python2 and Python3 compatible. For advanced CLI use you need `natsort`, and some algorithms have additional dependencies: [CMT79-2P](#CMT79-2P), [FR76-1PLT](#FR76-1PLT), [GM74-SwRI](#GM74-SwRI) and [WH72-SwLS](#WH72-SwLS) require `orderedset`; [MJ76-INS](#MJ76-INS) needs `llist` from PyPI; and [FR76-1PLT](#FR76-1PLT) , [FG81-GAP](#FG81-GAP), and [DV89-MM](#DV89-MM) require Gurobi with `gurobipy`. By default [Be83-RFCS](#Be83-RFCS), [SG82-LR3OPT](#SG82-LR3OPT), and [Ty68-NN](#Ty68-NN) use [LKH](http://akira.ruc.dk/~keld/research/LKH/) to solve TSPs, but they can be configured to use any other TSP solver (such as the internal one) if these external executables are not available. Note that LKH has non-free license. Refer to [auxiliary documentation](LKH_install_notes.md) on how to compile and condifure LKH.
 
-<!-- Be sure to add the VeRyPy root folder to your `PYTHONPATH` environment variable. -->
+Installation with `pip` from this repository installs most of the dependencies (save Gurobi and LKH).
+```bash
+pip install git+https://github.com/yorak/VeRyPy.git
+```
 
-
+In case you want to run the tests, clone this repository and add the VeRyPy root folder to your `PYTHONPATH` environment variable.
 
 <!-- TODO: insert dependency / object diagram here-->
 
@@ -138,7 +141,7 @@ When contributing:
 * Use a consistent Pythonic coding style (PEP 8)
 * The comments and docstrings have to be written in NumPy Style
 
-Feature requests can be made, but there is no guarantee that they will be addressed. For a more complex use cases one can contact Jussi Rasku who is the main author of this library: <jussi.rasku@gmail.com> .
+Feature requests can be made, but there is no guarantee that they will be addressed. For a more complex use cases one can contact Jussi Rasku who is the main author of this library: <jussi.rasku@gmail.com>.
 
 If you are itching to get started, please refer to the todo list below:
 
