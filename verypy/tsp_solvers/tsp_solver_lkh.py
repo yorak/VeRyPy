@@ -10,7 +10,7 @@ import numpy as np
 import sys
 import os
 
-from cvrp_io import write_TSPLIB_file    
+from verypy.cvrp_io import write_TSPLIB_file    
 
 from verypy.config import LKH_EXE_PATH, LKH_EXACT_DISTANCES_PRECISION_DECIMALS
 
@@ -130,5 +130,5 @@ def solve_tsp_lkh(D, selected_idxs,
     return sol, obj_f
     
 if __name__=="__main__":
-    from shared_cli import tsp_cli
+    from verypy.shared_cli import tsp_cli
     tsp_cli("lkh", solve_tsp_lkh)

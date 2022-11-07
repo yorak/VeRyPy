@@ -38,7 +38,7 @@ except ImportError:
 
 
 from verypy.classic_heuristics.sweep import get_sweep_from_cartesian_coordinates, bisect_angle
-from cvrp_io import calculate_D
+from verypy.cvrp_io import calculate_D
 from verypy.util import is_better_sol, totald
 from verypy.config import MAX_MIP_SOLVER_RUNTIME, MIP_SOLVER_THREADS
 from verypy.config import CAPACITY_EPSILON as C_EPS
@@ -283,6 +283,7 @@ def _sweep_seed_points(points, D, d, C, K, trial=0):
                     d[prev_node_i] if C else D[prev_node_i,i]) ) 
                 
                 if __debug__:
+                    # pylint: disable=bad-string-format-type
                     if C:
                         log(DEBUG-3,"Node %d, added %.2f %% of demand (%.2f)" %\
                             (prev_node_i, cone_fraction*100, d[prev_node_i]))
@@ -291,6 +292,7 @@ def _sweep_seed_points(points, D, d, C, K, trial=0):
                             (prev_node_i, cone_fraction*100, 0.5*D[prev_node_i,i]))
                     log(DEBUG-2,"Group %.2f %% full"%\
                         (group_cum/group_target*100.0))
+                    # pylint: enable=bad-string-format-type
                                     
                 if (group_target-group_cum)<EPS:  
                     group_end_ray = bisect_angle(prev_ray, ray, cone_fraction)  
@@ -299,9 +301,11 @@ def _sweep_seed_points(points, D, d, C, K, trial=0):
                                                 group_cum, group_nodes) )
                                                
                     if __debug__:
+                        # pylint: disable=bad-string-format-type
                         log(DEBUG-2,"Node %d cone sets group_end_ray=%.2f"%\
-                            (prev_node_i,group_end_ray))
+                            (prev_node_i, group_end_ray))
                         log(DEBUG-2,"Group completed!\n")
+                        # pylint: enable=bad-string-format-type
                             
                     # next group            
                     group_start_ray = group_end_ray
@@ -319,17 +323,21 @@ def _sweep_seed_points(points, D, d, C, K, trial=0):
                             d[prev_node_i] if C else D[prev_node_i,i]))
 
                     if __debug__:
+                        # pylint: disable=bad-string-format-type
                         if len(grouped_cones)<K:
                             log(DEBUG-2,"Node %d cone sets group_start_ray=%.2f"%\
                                 (prev_node_i,group_start_ray))
+                        # pylint: enable=bad-string-format-type
                
                 # the group now spans upto this
                 group_end_ray = ray
                 
                 if __debug__:
+                    # pylint: disable=bad-string-format-type
                     if len(grouped_cones)<K:
                         log(DEBUG-2,"Node %d cone grows group to ray=%.2f"%\
                             (prev_node_i,group_end_ray))
+                    # pylint: enable=bad-string-format-type
                     
             prev_ray = ray
             prev_node_i = i
@@ -443,7 +451,7 @@ def _end_of_thoroughfares_seed_points(points, D, d, C, K, trial=0):
     
     if __debug__:
         log(DEBUG-3,"DBSCAN labels = %s"%str(list(zip(range(N),db.labels_))))
-        log(DEBUG-3,"DBSCAN core = %s"%str(db.core_sample_idxs_))
+        log(DEBUG-3,"DBSCAN core = %s"%str(db.core_sample_indices_))
         log(DEBUG-2,"Select %d seed nodes from non-core nodes %s."%
             (min(len(candidate_idxs),K), str(candidate_idxs)))
     seeds = []
@@ -519,7 +527,7 @@ def _large_demand_seed_points(points, D, d, C, K, trial=0):
         not_over_half_idxs = np.where( ~candidate_d_mask )[0].tolist()
         sorted_d = [(d[i], i) for i in not_over_half_idxs]
         sorted_d.sort(reverse=True)
-        sorted_d_idxs = list(zip(*sorted_d)[1])
+        sorted_d_idxs = list(zip(*sorted_d))[1]
         additional_large_d_idxs = sorted_d_idxs[max(0, trial-N):min(N,trial)]
         candidate_d_idxs+=additional_large_d_idxs
         candidate_d_mask[additional_large_d_idxs] = True
@@ -950,5 +958,5 @@ def get_gap_algorithm(seed_method="cones"):
     return (algo_name, algo_desc, call_init)
     
 if __name__=="__main__":
-    from shared_cli import cli
+    from verypy.shared_cli import cli
     cli(*get_gap_algorithm())

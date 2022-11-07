@@ -43,12 +43,14 @@ def print_solution_edges(routes, output_handle, color=None):
         prev_v = None
         for v in route:
             if prev_v is not None:
+                # pylint: disable=bad-string-format-type
                 if color:
-                    print('    n%04d--n%04d [color="%s"];'%(prev_v, v, color),
-                          file=output_handle)  
+                    print('    n%04d--n%04d [color="%s"];'%(prev_v, v, color), 
+                          file=output_handle)
                 else:
                     print('    n%04d--n%04d;'%(prev_v, v),
-                          file=output_handle)  
+                          file=output_handle)
+                # pylint: enable=bad-string-format-type
             prev_v = v
         
 def output_dot(output_handle, npts, active_point_idxs=None,

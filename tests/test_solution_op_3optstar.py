@@ -19,7 +19,7 @@ from verypy.local_search import LSOPT, do_local_search
 from verypy.local_search.solution_operators import do_3optstar_move
 from verypy.classic_heuristics.nearest_neighbor import nearest_neighbor_init
 
-from cvrp_io import generate_CVRP
+from verypy.cvrp_io import generate_CVRP
 from verypy.cvrp_ops import check_solution_feasibility, calculate_objective
 from verypy.util import sol2routes, routes2sol
 from test_intra_route_local_search_operation import Test3Opt

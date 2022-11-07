@@ -445,6 +445,6 @@ def get_pi_algorithm(emerging_route_count="auto"):
     return (algo_name, algo_desc, call_init)
 
 if __name__=="__main__":
-    from shared_cli import cli
+    from verypy.shared_cli import cli
     cli(*get_si_algorithm())
         

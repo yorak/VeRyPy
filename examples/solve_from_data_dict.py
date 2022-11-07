@@ -36,8 +36,8 @@ except:
     from time import process_time as clock
 
 import numpy as np
-from VeRyPy import get_algorithms
-import cvrp_ops
+from verypy import get_algorithms
+from verypy.cvrp_ops import normalize_solution, calculate_objective
 
 def check_symmetric(A, tol=1e-8):
     """ Helper function to check if a matrix is symmetric. """
@@ -75,7 +75,7 @@ for algo_abbreviation, algo_name, _, algo_f in algos:
         sol = algo_f(points, D, d, C, None, None, "GEO", False, False)
         elapsed_t = clock()-start_t
     
-    sol = cvrp_ops.normalize_solution(sol)
-    obj = cvrp_ops.calculate_objective(sol, D)
+    sol = normalize_solution(sol)
+    obj = calculate_objective(sol, D)
     K = sol.count(0)-1
     print(algo_name, obj, K, sol, elapsed_t, sep='\t')

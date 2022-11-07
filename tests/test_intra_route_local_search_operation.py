@@ -10,7 +10,7 @@ from scipy.spatial.distance import pdist, squareform
 from verypy.local_search import LSOPT
 from verypy.local_search.intra_route_operators import do_2opt_move, do_3opt_move,\
                             do_relocate_move, do_exchange_move
-from cvrp_io import generate_CVRP
+from verypy.cvrp_io import generate_CVRP
 
 # Helpers, so simple that they are sure to work right
 from verypy.util import routes2sol, sol2routes

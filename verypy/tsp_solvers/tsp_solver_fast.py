@@ -17,5 +17,5 @@ def solve_tsp_fast(D, selected_idxs):
         return solve_tsp_lkh(D, selected_idxs, num_runs=1)
     
 if __name__=="__main__":
-    from shared_cli import tsp_cli
+    from verypy.shared_cli import tsp_cli
     tsp_cli("fast", solve_tsp_fast)

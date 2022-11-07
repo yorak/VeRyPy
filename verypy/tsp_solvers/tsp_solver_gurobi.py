@@ -124,5 +124,5 @@ def solve_tsp_gurobi(D, selected_idxs):
     return sol, obj_f
 
 if __name__=="__main__":
-    from shared_cli import tsp_cli
+    from verypy.shared_cli import tsp_cli
     tsp_cli("gurobi", solve_tsp_gurobi)

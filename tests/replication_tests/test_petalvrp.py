@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 
+# Written in Python 2.7, but try to maintain Python 3+ compatibility
+from __future__ import print_function
+from __future__ import division
+
 import unittest
 from os import path
 
 import numpy as np
 from scipy.spatial.distance import pdist, squareform
 
-import cvrp_io
+from verypy.cvrp_io import read_TSPLIB_CVRP, read_TSBLIB_additional_constraints
 from verypy.cvrp_ops import check_solution_feasibility, D2D_c
 from verypy.util import objf, totald
 from replicationbase import ReplicationBase
@@ -133,7 +137,7 @@ class TestFosterRyanRelaxationOperation(unittest.TestCase):
         #     #0   #1   #2   #3   #4   #5   #6   #7
         d = [0.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 0.5]
         result = self._make_improving_2pm_move(d=d, C=3.0) 
-        print "test_exchage_with_C_constraint_no_improving", [rd.route for rd in result]
+        print("test_exchage_with_C_constraint_no_improving", [rd.route for rd in result])
         self.assertTrue( len(result)==0, "There should be no improving moves")
     
     def test_2pm_with_C_constraint_improving(self):
@@ -448,8 +452,8 @@ class TestFosterRyanReplications(ReplicationBase):
                 ref_f=1377
                 
             pfn = path.join(BENCHMARKS_BASEPATH,self.problem_path, problem_name)
-            N, points, dd_points, d, D, C, _ = cvrp_io.read_TSPLIB_CVRP(pfn)
-            K, L, service_time = cvrp_io.read_TSBLIB_additional_constraints(pfn)
+            N, points, dd_points, d, D, C, _ = read_TSPLIB_CVRP(pfn)
+            K, L, service_time = read_TSBLIB_additional_constraints(pfn)
             if service_time:
                 D_c = D2D_c(D, service_time)
             else:

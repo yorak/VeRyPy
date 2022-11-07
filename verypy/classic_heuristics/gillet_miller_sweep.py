@@ -354,5 +354,5 @@ def get_gm_algorithm():
     return (algo_name, algo_desc, call_init)
     
 if __name__=="__main__":
-    from shared_cli import cli
+    from verypy.shared_cli import cli
     cli(*get_gm_algorithm())

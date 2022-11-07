@@ -60,6 +60,6 @@ def solve_tsp_ropt(D, selected_idxs,
     return new_route, new_route_cost
 
 if __name__=="__main__":
-    from shared_cli import tsp_cli
+    from verypy.shared_cli import tsp_cli
     tsp_cli("ropt", solve_tsp_ropt)
     

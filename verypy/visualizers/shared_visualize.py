@@ -6,12 +6,15 @@ from __future__ import division
 
 import subprocess
 import argparse
-from export_dot import BB_HALF_SIZE, output_dot
+
 from os import makedirs, path
+from os import remove as remove_file
 from shutil import copyfile
 from sys import stderr, argv, exit, version_info
 
-# Exoect these to be found from the PATH, edit if not
+from verypy.visualizers.export_dot import BB_HALF_SIZE, output_dot
+
+# Expect these to be found from the PATH, edit if not
 GRAPHVIZ_NEATO_EXE = r"neato"
 GIFSICLE_EXE = r"gifsicle"
 PYTHON_EXE = r"python"
@@ -258,7 +261,7 @@ def visualize_procedure(algo_output, algo_name, data_name, selector=VISUALIZE.AL
             for tempf in dot_files+gif_files:
                 if path.isfile(tempf):
                     try:
-                        os.remove(tempf)
+                        remove_file(tempf)
                     except:
                         pass
                     finally:
@@ -296,5 +299,5 @@ def normalize_to_rect(pts, normalization_params):
     new_xl = [(x-minx)/float(rangex)*(ranger)+minr for x in xl]
     new_yl = [(y-miny)/float(rangey)*(ranger)+minr for y in yl]
     
-    return zip(new_xl, new_yl)    
+    return list(zip(new_xl, new_yl))
     

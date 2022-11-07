@@ -80,8 +80,8 @@ class TestGilletMillerSweep(unittest.TestCase):
         C = 4.0; L = 14.0; st = 2.0
         D_c = D2D_c(D, st)
         
-        #import cvrp_io
-        #cvrp_io.write_TSPLIB_file("tiny_7_pt_problem.vrp", D, d, C, L)
+        #from verypy.cvrp_io import write_TSPLIB_file
+        #write_TSPLIB_file("tiny_7_pt_problem.vrp", D, d, C, L)
         
         sol = gillet_miller_init(pts,D_c,d,C,L)
         self.assertTrue(check_solution_feasibility(sol, D_c, d, C, L),"Should produce feasible solution")

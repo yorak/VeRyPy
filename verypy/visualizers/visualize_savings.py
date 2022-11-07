@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
-from shared_visualize import visualize_cli, visualize_procedure, VISUALIZE
+from verypy.visualizers.shared_visualize import visualize_cli, visualize_procedure, VISUALIZE
 from verypy.util import sol2routes
 
 MAKE_ANIM = True

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import re
-from shared_visualize import visualize_cli, visualize_procedure, VISUALIZE
+from verypy.visualizers.shared_visualize import visualize_cli, normalize_to_rect,\
+                                                visualize_procedure, VISUALIZE
 
 MAKE_ANIM = True
 
@@ -41,7 +42,8 @@ def _process_gap_debug_line(line, normalization_parameters, currentK,
     elif se:
         new_seed_node = int(se.group(1))
         active_nodes.remove(new_seed_node)
-        node_coord = normalize_to_rect( [eval(se.group(2))], normalization_parameters)[0]       
+        rect_pts = normalize_to_rect([eval(se.group(2))], normalization_parameters)
+        node_coord = rect_pts[0]       
         points_of_interest.append( node_coord )
         changed = True
     elif "group_start_ray" in line:

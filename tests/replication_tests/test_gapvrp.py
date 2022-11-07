@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-import cvrp_io
-from verypy.classic_heuristics.gapvrp import gap_init, _sweep_seed_points
-import numpy as np
 from collections import namedtuple
 from os import path
-
 from math import sqrt
+
+import numpy as np
+
+from verypy.cvrp_io import read_TSPLIB_CVRP
+from verypy.classic_heuristics.gapvrp import gap_init, _sweep_seed_points
 
 from replicationbase import ReplicationBase
 
@@ -38,7 +39,7 @@ class TestGAPVRPAlgorithm(unittest.TestCase):
  
     def test_seed_point_gen_vs_fig4_example(self):
         pfn = r"fisher_jaikumar_fig4.vrp"
-        seed_example_problem_instance = cvrp_io.read_TSPLIB_CVRP(pfn)
+        seed_example_problem_instance = read_TSPLIB_CVRP(pfn)
         seed_example_seed_points = _read_TSPLIB_seed_points(pfn)
         
         N, points, dd_points, d, D, C, _ = seed_example_problem_instance
@@ -119,10 +120,7 @@ class TestFisherJaikumarReplications(ReplicationBase):
                          (None, None, None, None, None, None, None,
                           None, None, 1518, None, 848)]
         # duplicate for EXACT and FLOOR targets
-	self.targets*=2
-
-        
-                         
+        self.targets*=2                 
         self.problem_path = path.join("Classic", "FisherJaikumar1981")
      
     # NOTES: The description of some details of the heuristic are vague in 

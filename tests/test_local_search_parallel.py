@@ -32,8 +32,8 @@ import numpy as np
 from scipy.spatial.distance import pdist, squareform
 
 # project imports
-from cvrp_io import generate_CVRP, read_TSPLIB_CVRP
-from cvrp_io import write_TSPLIB_file, write_OPT_file
+from verypy.cvrp_io import generate_CVRP, read_TSPLIB_CVRP
+from verypy.cvrp_io import write_TSPLIB_file, write_OPT_file
 from verypy.cvrp_ops import normalize_solution, check_solution_feasibility
 from random import randint, shuffle
 from verypy.local_search.naive_implementations import do_naive_local_search, \

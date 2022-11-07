@@ -70,7 +70,7 @@ algo_name_aliases = {
 def get_algorithms(names):
     has_gurobi = True
     try:
-        import gurobipy
+        import gurobipy # type: ignore reportMissingImports
     except:
         has_gurobi = False
     

@@ -9,9 +9,9 @@ from time import time
 import numpy as np
 
 from verypy.util import objf, without_empty_routes
-from shared_cli import print_solution_statistics
+from verypy.shared_cli import print_solution_statistics
 from verypy.cvrp_ops import check_solution_feasibility
-import cvrp_io
+import verypy.cvrp_io as cvrp_io
 
 
 from verypy.config import BENCHMARKS_BASEPATH

@@ -10,7 +10,7 @@ import os
 
 import numpy as np
 
-from cvrp_io import write_TSPLIB_file
+from verypy.cvrp_io import write_TSPLIB_file
 from verypy.config import ACOTSP_EXE_PATH, ACOTSP_EXACT_DISTANCES_PRECISION_DECIMALS
 
 # Make sure we have access to LKH executable (download, comiple, and modify config.py).
@@ -132,5 +132,5 @@ def solve_tsp_acotsp(D, selected_idxs,
     return sol, sol_f
     
 if __name__=="__main__":
-    from shared_cli import tsp_cli
+    from verypy.shared_cli import tsp_cli
     tsp_cli("acotsp", solve_tsp_acotsp)

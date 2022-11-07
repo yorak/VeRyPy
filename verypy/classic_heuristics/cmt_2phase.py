@@ -545,12 +545,12 @@ def cmt_2phase_init(D, d, C, L=None, minimize_K=False,
             if len(e.args)>0 and type(e.args[0]) is list:
                 if phase1_sol is None:
                     phase1_sol = without_empty_routes(e.args[0])
-                    phase1_f = objf(phase1_sol)
+                    phase1_f = objf(phase1_sol, D)
                     phase1_K = phase1_sol.count(0)-1
                     
                 elif phase2_sol is None:
                     phase2_sol = without_empty_routes(e.args[0])
-                    phase2_f = objf(phase2_sol)
+                    phase2_f = objf(phase2_sol, D)
                     phase2_K = phase2_sol.count(0)-1
             interrupted = True
         
@@ -593,5 +593,5 @@ def get_cmt2p_algorithm():
     return (algo_name, algo_desc, call_init)
     
 if __name__=="__main__":
-    from shared_cli import cli
+    from verypy.shared_cli import cli
     cli(*get_cmt2p_algorithm())

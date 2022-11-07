@@ -138,7 +138,7 @@ When contributing:
 * Use a consistent Pythonic coding style (PEP 8)
 * The comments and docstrings have to be written in NumPy Style
 
-Feature requests can be made, but there is no guarantee that they will be addressed. For a more complex use cases one can contact Jussi Rasku who is the main author of this library: <jussi.rasku@jyu.fi> .
+Feature requests can be made, but there is no guarantee that they will be addressed. For a more complex use cases one can contact Jussi Rasku who is the main author of this library: <jussi.rasku@gmail.com> .
 
 If you are itching to get started, please refer to the todo list below:
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from shared_visualize import visualize_cli, visualize_procedure, VISUALIZE
-from visualize_sweep import _process_debug_line as _process_sweep_debug_line
+from verypy.visualizers.shared_visualize import visualize_cli, visualize_procedure, VISUALIZE
+from verypy.visualizers.visualize_sweep import _process_sweep_debug_line
 import re
 
 MAKE_ANIM = True

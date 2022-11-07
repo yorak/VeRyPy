@@ -15,8 +15,6 @@ from os import path
 from glob import glob
 import logging
 
-from natsort import natsorted
-
 import verypy.cvrp_ops as cvrp_ops
 import verypy.cvrp_io as cvrp_io
 from verypy.util import objf, sol2routes, is_better_sol
@@ -160,6 +158,9 @@ def get_a_problem_file_list(problem_paths):
     files_to_solve = []
     for problem_path in problem_paths:
         if path.isdir(problem_path):
+            # Solving a directory is somewhat a special case, so import natsort
+            #  here. Now CLI does not need natsort for 99% of the users.
+            from natsort import natsorted
             for in_fn in natsorted(glob(path.join(problem_path, "*.vrp"))):
                 files_to_solve.append( in_fn )
             for in_fn in natsorted(glob(path.join(problem_path, "*.tsp"))):

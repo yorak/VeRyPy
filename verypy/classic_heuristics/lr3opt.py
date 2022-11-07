@@ -41,11 +41,11 @@ from verypy.config import COST_EPSILON as S_EPS
 from verypy.config import CAPACITY_EPSILON as C_EPS
 
 __author__ = "Jussi Rasku"
-__copyright__ = "Copyright 2022, Jussi Rasku"
+__copyright__ = "Copyright 2018, Jussi Rasku"
 __credits__ = ["Jussi Rasku"]
 __license__ = "MIT"
 __maintainer__ = "Jussi Rasku"
-__email__ = "jussi.rasku@gmail.com"
+__email__ = "jussi.rasku@jyu.fi"
 __status__ = "Development"
 
 
@@ -111,7 +111,7 @@ def _check_lr3opt_move(D, C, L, removed_weights, best_delta,
     # Note that the move has to have some potential to be an improvement.
     if (delta+S_EPS<best_delta):
         
-        prev_edge = None
+        prev_edge = [None,None]
         route_d = 0
         route_l = 0
         
@@ -376,5 +376,5 @@ def get_lr3opt_algorithm():
     return (algo_name, algo_desc, call_init)
     
 if __name__=="__main__":
-    from shared_cli import cli
+    from verypy.shared_cli import cli
     cli(*get_lr3opt_algorithm())
