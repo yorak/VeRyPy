@@ -21,7 +21,7 @@ install_requires = [r.strip() for r in requirements]
 
 setup(
     name="verypy",
-    version="0.0.1",
+    version="0.5.1",
     description="A python library with implementations of classical heuristics for the capacitated vehicle routing problem",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -29,6 +29,11 @@ setup(
     license="MIT License",
     platforms="any",
     packages=["verypy"],
+    entry_points={
+        'console_scripts': [
+            'VeRyPy = verypy.VeRyPy:main',
+        ],
+    },
     include_package_data=True,
     install_requires=install_requires,
 )
