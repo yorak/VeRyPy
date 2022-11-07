@@ -144,7 +144,7 @@ def main(args):
             locations.append( geocode_data(location, BING_MAP_API_KEY) )
 
         if args.verbosity:
-            sys.stderr.write("INFO: Filling %d x %d distance matrix."%(len(locations), len(locations)))
+            sys.stderr.write("INFO: Filling %d x %d distance matrix.\n"%(len(locations), len(locations)))
 
         if (len(locations)>BING_DM_API_CUSTOMER_LIMIT):
             sys.stderr.write("ERROR: Bing Distance Matrix API is limited to a query with %d\n"%(BING_DM_API_CUSTOMER_LIMIT*BING_DM_API_CUSTOMER_LIMIT))
