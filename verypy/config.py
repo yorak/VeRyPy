@@ -25,8 +25,6 @@ BENCHMARKS_BASEPATH = path.join(HOME_PATH, r"Research/VRPBenchmarks")
 
 LKH_EXE_PATH = path.join(HOME_PATH, r"Research/TSP/LKH-2.0.9/lkh"+exe_ext)
 LKH_EXACT_DISTANCES_PRECISION_DECIMALS = 1000.0 # of the form 0.123 
-print(LKH_EXE_PATH)
 
 ACOTSP_EXE_PATH = path.join(HOME_PATH, r"Research/TSP/ACOTSP-1.03-ls/acotsp"+exe_ext)
 ACOTSP_EXACT_DISTANCES_PRECISION_DECIMALS = 1000.0 # of the form 0.123 
-print(ACOTSP_EXE_PATH)
