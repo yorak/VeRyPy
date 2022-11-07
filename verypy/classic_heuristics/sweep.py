@@ -23,11 +23,9 @@ from logging import log, DEBUG
 
 import numpy as np
 
-#todo: could use OrderedDict, but it is slow in Python2.7
 #  the ordered property is used by wren_holliday (the routes are built in the
 #  order the nodes are added during the sweep).
-from orderedset import OrderedSet
-
+from verypy.util import OrderedDictSet
 from verypy.util import objf, without_empty_routes, is_better_sol
 from verypy.routedata import RouteData
 
@@ -175,7 +173,7 @@ def do_one_sweep(N, D, d, C, L, routing_algo,
     
     # Emerging route
     current_route = RouteData([0])
-    current_route.node_set = OrderedSet([0])
+    current_route.node_set = OrderedDictSet([0])
     current_route_cost_upper_bound = 0
     route_complete = False
     
@@ -285,7 +283,7 @@ def do_one_sweep(N, D, d, C, L, routing_algo,
                     break # SWEEP
                 
                 current_route = RouteData([0])
-                current_route.node_set = OrderedSet([0])
+                current_route.node_set = OrderedDictSet([0])
                 current_route_cost_upper_bound = 0.0
                 route_complete = False
                 
@@ -303,7 +301,7 @@ def do_one_sweep(N, D, d, C, L, routing_algo,
                 routes.append( RouteData(list(current_route.route),
                                          current_route.cost,
                                          current_route.demand,
-                                         OrderedSet(current_route.node_set)) )
+                                         OrderedDictSet(current_route.node_set)) )
                 
         # Route improvement can route nodes, so ensure this was not routed.
         if (sweep_node is not None) and (not routed[sweep_node]):

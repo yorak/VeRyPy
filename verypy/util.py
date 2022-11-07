@@ -8,6 +8,8 @@ implementations."""
 # Written in Python 2.7, but try to maintain Python 3+ compatibility
 from __future__ import print_function
 from __future__ import division
+
+import sys
 from builtins import range
 
 from itertools import groupby    
@@ -114,3 +116,24 @@ def routes2sol(routes):
     return sol
 
 
+class OrderedDictSet:
+    def __init__(self, collection):
+        if sys.version_info >= (3, 7):
+            # Since Python 3.7 dict is kept in insertion order!
+            _ordered_dict_from_keys = dict.fromkeys:
+        else:
+            from collections import OrderedDict:
+            # This is has quite a poor performance, I've heard
+            _ordered_dict_from_keys = collections.OrderedDict.fromkeys
+        self.ods = _ordered_dict_from_keys(collection, None)
+    def remove(self, element):
+        del self.ods[element]
+    def difference_update(self, collection):
+        for element in collection:
+            self.ods.pop(element, None)
+    def __getitem__(self, index):
+        return self.ods.keys()[index]
+    def __iter__(self):
+        return iter(self.ods.keys())
+    def __len__(self):
+        return len(self.ods)
