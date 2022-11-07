@@ -1,5 +1,7 @@
 __version__ = "0.5.1"
 
+import sys
+
 algo_name_aliases = {
         # savings heuristics
         "ps":"ps",   "cw64-ps":"ps",
