@@ -169,8 +169,8 @@ else:
 
 ## Solve the related CVRP using VeRyPy ##
 if args.C:
-    from classic_heuristics.parallel_savings import parallel_savings_init
-    from util import sol2routes
+    from verypy.classic_heuristics.parallel_savings import parallel_savings_init
+    from verypy.util import sol2routes
 
     if locations:
         d = [loc["demand"] for loc in locations]

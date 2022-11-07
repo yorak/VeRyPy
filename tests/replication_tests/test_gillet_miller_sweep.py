@@ -7,8 +7,8 @@ Created on Wed Sep 27 08:52:30 2017
 
 import unittest
 from scipy.spatial.distance import pdist, squareform
-from classic_heuristics.gillet_miller_sweep import gillet_miller_init, _shortest_path_through_nodes
-from cvrp_ops import D2D_c, check_solution_feasibility
+from verypy.classic_heuristics.gillet_miller_sweep import gillet_miller_init, _shortest_path_through_nodes
+from verypy.cvrp_ops import D2D_c, check_solution_feasibility
 
 from replicationbase import ReplicationBase, REPRO_QUALITY_LEVELS
 

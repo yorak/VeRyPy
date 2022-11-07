@@ -7,17 +7,17 @@ from __future__ import division
 
 import unittest
 from scipy.spatial.distance import pdist, squareform
-from local_search import LSOPT
-from local_search.inter_route_operators import do_2optstar_move,\
+from verypy.local_search import LSOPT
+from verypy.local_search.inter_route_operators import do_2optstar_move,\
                             do_insert_move,do_redistribute_move,\
                             do_2point_move, do_1point_move
                             
-from routedata import RouteData
+from verypy.routedata import RouteData
 
 # Helpers, so simple that they are sure to work right
-from util import routes2sol, sol2routes
-from util import objf as route_l
-from util import totald as route_d
+from verypy.util import routes2sol, sol2routes
+from verypy.util import objf as route_l
+from verypy.util import totald as route_d
 
 def set_weight(D,n1,n2,wt):
     """ A helper shorthand to set the symmetric distance matrix weights. This

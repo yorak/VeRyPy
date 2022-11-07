@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from classic_heuristics.matchingvrp import mbsa_init
+from verypy.classic_heuristics.matchingvrp import mbsa_init
 import numpy as np
 from os import path
 
 from replicationbase import ReplicationBase, REPRO_QUALITY_LEVELS
-#from tsp_solvers.tsp_solver_ropt import solve_tsp_3opt as solve_tsp
-from tsp_solvers.tsp_solver_gurobi import solve_tsp_gurobi as solve_tsp
+#from verypy.tsp_solvers.tsp_solver_ropt import solve_tsp_3opt as solve_tsp
+from verypy.tsp_solvers.tsp_solver_gurobi import solve_tsp_gurobi as solve_tsp
 
 
 #

@@ -5,9 +5,9 @@ from __future__ import print_function
 from __future__ import division
 
 import unittest
-from classic_heuristics.wren_holliday_sweep import wren_holliday_init,\
+from verypy.classic_heuristics.wren_holliday_sweep import wren_holliday_init,\
                                 _get_route_phi_range
-from classic_heuristics.sweep import BEST_ALTERNATIVE
+from verypy.classic_heuristics.sweep import BEST_ALTERNATIVE
 from replicationbase import ReplicationBase, REPRO_QUALITY_LEVELS
 
 import numpy as np

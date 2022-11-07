@@ -1,0 +1,6 @@
+# python<=3.8 
+natsort
+orderedset # compatible up to python 3.8
+numpy
+scipy
+llist
