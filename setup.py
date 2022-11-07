@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 classifiers = [
     "Development Status :: Development",
@@ -28,7 +28,7 @@ setup(
     url="https://github.com/yorak/VeRyPy",
     license="MIT License",
     platforms="any",
-    packages=["verypy"],
+    packages=find_packages(),
     entry_points={
         'console_scripts': [
             'VeRyPy = verypy.VeRyPy:main',
