@@ -183,7 +183,9 @@ def main(args):
         print("\nCorresponding CVRP solution is")
         for route_idx, route in enumerate(sol2routes(solution)):
             print("Route #%d : %s"%(route_idx+1, route))
-
+    else:
+        sys.stderr.write("WARNING: No capacity given, no CVRP to solve (give one with -C <float> command line argument).\n")
+        
 
 if __name__ == "__main__":
     ## CLI specification ##
