@@ -158,8 +158,8 @@ def get_a_problem_file_list(problem_paths, recursive=False):
     files_to_solve = []
     if recursive:
         for problem_path in problem_paths:
-            for _, dirs, _ in walk(problem_path):
-                problem_paths += dirs
+            for root, dirs, _ in walk(problem_path):
+                problem_paths += [path.join(root,d) for d in dirs]
 
     for problem_path in problem_paths:
         if path.isdir(problem_path):
