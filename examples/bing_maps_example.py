@@ -29,18 +29,15 @@ and place it into a text file named MyBingMapApi.key, where the script reads it.
 from __future__ import print_function
 from __future__ import division
 try:
-    from urllib.parse import urlparse, urlencode, quote
+    from urllib.parse import quote
     from urllib.request import urlopen, Request
-    from urllib.error import HTTPError
 except ImportError:
-    from urlparse import urlparse
-    from urllib import urlencode, quote
-    from urllib2 import urlopen, Request, HTTPError
+    from urllib import quote
+    from urllib2 import urlopen, Request
 
 __author__ = "Jussi Rasku"
-__copyright__ = "Copyright 2020"
+__copyright__ = "Copyright 2022"
 __license__ = "MIT"
-__version__ = "1.0.0"
 __status__ = "Example"
 
 import json
@@ -59,9 +56,9 @@ BING_DM_API_CUSTOMER_LIMIT = 50 # 50 x 50 = 2500
 BING_MAP_API_KEY = ""
 try:
     BING_MAP_API_KEY = open('MyBingMapApi.key', mode='r').read().strip()
-except:
+except OSError:
     sys.stderr.write("ERROR: No file called \"MyBingMapApi.key\" found in \"%s\"\n"%os.getcwd() )
-    sys.stderr.write("It is a text file that should contain your personal Microsoft Bing Maps API key.\n")
+    sys.stderr.write("It is a text file that should contain your Microsoft Bing Maps API key.\n")
     sys.stderr.write("You can get one from here: https://www.bingmapsportal.com/\n")
     sys.stderr.write("Exiting.\n")
     sys.exit(1)
@@ -91,18 +88,18 @@ def geocode_data(address_data, bing_maps_key):
     return ret_data
 
 def request_distance_matrix(address_list, travel_mode, bing_maps_key):
-    coordinateList = []
+    coordinate_list = []
     for a in address_list:
-        coordinateList.append( str(a['latitude'])+","+str(a['longitude']) )
-    coordinates = ";".join(coordinateList)
+        coordinate_list.append( str(a['latitude'])+","+str(a['longitude']) )
+    coordinates = ";".join(coordinate_list)
 
-    distanceUrl = ("https://dev.virtualearth.net/REST/v1/Routes/DistanceMatrix"+
+    distance_url = ("https://dev.virtualearth.net/REST/v1/Routes/DistanceMatrix"+
         "?origins="+coordinates+"&destinations="+coordinates+
         "&travelMode="+str(travel_mode)+
         "&distanceUnit=km"+
         "&key="+str(bing_maps_key))
     #print(distanceUrl)
-    request = Request(distanceUrl)
+    request = Request(distance_url)
     response = urlopen(request)
     result = json.loads(response.read().decode(encoding='utf-8'))
     #pprint(result)
@@ -110,21 +107,23 @@ def request_distance_matrix(address_list, travel_mode, bing_maps_key):
     N = len(address_list)
     D = np.zeros( (N,N) )
     for cell in result['resourceSets'][0]['resources'][0]['results']:
-        D[cell['originIndex'], cell['destinationIndex']] =  cell['travelDistance'] # could also be cell['travelDuration'] 
+        D[cell['originIndex'], cell['destinationIndex']] = \
+            cell['travelDistance'] # could also be cell['travelDuration'] 
     return D
 
 def main(args):
     ## Read addresses from the file, geocode them, and compute the distance matrix using Bing maps API ##
     locations = []
     if args.address_file:
-        for l in args.address_file.readlines():
-            l = l.strip()
-            if len(l)==0:
+        for line in args.address_file.readlines():
+            line = line.strip()
+            if len(line)==0:
                 continue
-            parts = l.split('\t')
+            parts = line.split('\t')
             if len(parts)<4 or len(parts)>6:
-                sys.stderr.write("ERROR: Invalid address data line \""+l+"\"\n")
-                sys.stderr.write("Data lines should be in format: addressLine \\t postalCode \\t locality \\t countryRegion [\\t goodsDemand [\\t comment]]\n")
+                sys.stderr.write("ERROR: Invalid address data line \""+line+"\"\n")
+                sys.stderr.write("Data lines should be in format: "+
+                    "addressLine \\t postalCode \\t locality \\t countryRegion [\\t goodsDemand [\\t comment]]\n")
                 sys.stderr.write("Exiting.\n")
                 sys.exit(1)
             location = {
@@ -155,11 +154,12 @@ def main(args):
         D = request_distance_matrix(locations, args.travel_mode, BING_MAP_API_KEY)
         if args.output_file:
             pickle.dump(D, args.output_file)
-        print("D = ", end="");pprint(D)
+        print("D = ", end="");
+        pprint(D)
     elif args.distance_matrix_file:
         D = pickle.load(args.distance_matrix_file)
     else:
-        assert(False) # argparse should take care that we never arrive here
+        assert False # argparse should take care that we never arrive here
         pass
 
     ## Solve the related CVRP using VeRyPy ##
@@ -197,5 +197,5 @@ if __name__ == "__main__":
     parser.add_argument('-C', type=float, help="capacity of the vehicles (i.e. C in CVRP)")
     parser.add_argument('-o', type=argparse.FileType('wb'), dest='output_file', help="output file for pickled Numpy distance matrix")
     parser.add_argument('-v', '--verbose', action='store_true', dest='verbosity', help="verbose output")
-    args = parser.parse_args()
-    main(args)
+    main(parser.parse_args())
+    
