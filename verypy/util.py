@@ -10,6 +10,7 @@ from __future__ import print_function
 from __future__ import division
 
 import sys
+import re
 from builtins import range
 
 from itertools import groupby    
@@ -115,6 +116,15 @@ def routes2sol(routes):
                 sol += [0]
     return sol
 
+def natural_sort(l): 
+    """Returns elements of l sorted in a natural way (as a human would).
+
+    From: https://stackoverflow.com/a/4836734 which attributes Jeff Atwood:
+    https://blog.codinghorror.com/sorting-for-humans-natural-sort-order/
+    """
+    convert = lambda text: int(text) if text.isdigit() else text.lower()
+    alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
+    return sorted(l, key=alphanum_key)
 
 class OrderedDictSet:
     """ A wrapper that allows use of ordered dictionary as a ordered set.

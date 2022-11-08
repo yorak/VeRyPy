@@ -17,7 +17,7 @@ import logging
 
 import verypy.cvrp_ops as cvrp_ops
 import verypy.cvrp_io as cvrp_io
-from verypy.util import objf, sol2routes, is_better_sol
+from verypy.util import objf, sol2routes, is_better_sol, natural_sort
 from verypy.config import DEBUG_VERBOSITY as DEFAULT_DEBUG_VERBOSITY
 
 def print_problem_information(points, D, d, C, L, service_time, tightness=None, verbosity=0):
@@ -163,14 +163,11 @@ def get_a_problem_file_list(problem_paths, recursive=False):
 
     for problem_path in problem_paths:
         if path.isdir(problem_path):
-            # Solving a directory is somewhat a special case, so import natsort
-            #  here. Now CLI does not need natsort for 99% of the users.
-            from natsort import natsorted
-            for in_fn in natsorted(glob(path.join(problem_path, "*.vrp"))):
+            for in_fn in natural_sort(glob(path.join(problem_path, "*.vrp"))):
                 files_to_solve.append( in_fn )
-            for in_fn in natsorted(glob(path.join(problem_path, "*.tsp"))):
+            for in_fn in natural_sort(glob(path.join(problem_path, "*.tsp"))):
                 files_to_solve.append( in_fn )
-            for in_fn in natsorted(glob(path.join(problem_path, "*.pickle"))):
+            for in_fn in natural_sort(glob(path.join(problem_path, "*.pickle"))):
                 files_to_solve.append( in_fn )
         elif path.isfile(problem_path) and problem_path[-4:].lower()==".txt":
             with open(problem_path, 'r') as vrp_list_file:
