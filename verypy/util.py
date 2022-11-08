@@ -130,6 +130,10 @@ class OrderedDictSet:
     def remove(self, element):
         del self.ods[element]
         self.keylist = None # needs update
+    def add(self, element):
+        self.ods[element] = None
+        if self.keylist:
+            self.keylist.append(element) # avoid full update
     def difference_update(self, collection):
         for element in collection:
             self.ods.pop(element, None)
