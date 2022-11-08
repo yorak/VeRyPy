@@ -74,7 +74,7 @@ If you find VeRyPy useful in your research and use it to produce results for you
 
 ## Quick Start
 
-Currently, VeRyPy supports up to Python 3.8 and should still be compatible with Python 2.7.
+Currently, VeRyPy supports Python versions at least up to 3.8.10 and should still be compatible with Python 2.7.
 
 To install this package and its dependencies:
 ```bash
