@@ -120,19 +120,24 @@ class OrderedDictSet:
     def __init__(self, collection):
         if sys.version_info >= (3, 7):
             # Since Python 3.7 dict is kept in insertion order!
-            _ordered_dict_from_keys = dict.fromkeys:
+            _ordered_dict_from_keys = dict.fromkeys
         else:
-            from collections import OrderedDict:
+            from collections import OrderedDict
             # This is has quite a poor performance, I've heard
-            _ordered_dict_from_keys = collections.OrderedDict.fromkeys
+            _ordered_dict_from_keys = OrderedDict.fromkeys
         self.ods = _ordered_dict_from_keys(collection, None)
+        self.keylist = None
     def remove(self, element):
         del self.ods[element]
+        self.keylist = None # needs update
     def difference_update(self, collection):
         for element in collection:
             self.ods.pop(element, None)
+        self.keylist = None # needs update
     def __getitem__(self, index):
-        return self.ods.keys()[index]
+        if self.keylist is None:
+            self.keylist = list(self.ods.keys())
+        return self.keylist[index]
     def __iter__(self):
         return iter(self.ods.keys())
     def __len__(self):
