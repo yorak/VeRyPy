@@ -108,6 +108,7 @@ venv.bak/
 
 # No outputs
 visualizers/output
+output
 
 # Non public experiments
 private_examples

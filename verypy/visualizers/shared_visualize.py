@@ -113,7 +113,7 @@ def visualize_procedure(algo_output, algo_name, data_name, selector=VISUALIZE.AL
         # write the initial state
         print("write step 0 (initial state)")
         with open(path.join(output_folder, "i00_000000_gapvrp_initial.dot"), "w") as initial_fh:
-            output_dot(initial_fh, scaled_points, rays=[], label="START")
+            output_dot(initial_fh, scaled_points, rays=[], title="START")
             dot_files.append(initial_fh.name)
     
     step = 1
@@ -163,7 +163,7 @@ def visualize_procedure(algo_output, algo_name, data_name, selector=VISUALIZE.AL
                                        gray_routes=candidate_routes,
                                        red_routes=infeasible_routes,
                                        black_routes=complete_routes,
-                                       label=", ".join(labels))
+                                       title=", ".join(labels))
                                 dot_files.append(step_fh.name)
                             step+=1
                 if newK is not None:
@@ -197,7 +197,7 @@ def visualize_procedure(algo_output, algo_name, data_name, selector=VISUALIZE.AL
                 output_dot(step_fh, scaled_points, active_point_idxs=None,
                        rays=rays, active_ray_idxs=active_ray_idxs,
                        points_of_interest=points_of_interest,
-                       black_routes=routes, label="STOP")
+                       black_routes=routes, title="STOP")
                 dot_files.append(step_fh.name)
                 step_fh.close()
     print("\n")

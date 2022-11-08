@@ -38,25 +38,28 @@ def _segment_intersect_border(line1, lim_x=None, lim_y=None):
     else:
         return None
 
-def print_solution_edges(routes, output_handle, color=None):
+def print_solution_edges(routes, output_handle, D=None, color=None):
     for route in routes:
         prev_v = None
         for v in route:
             if prev_v is not None:
                 # pylint: disable=bad-string-format-type
+                print('    n%04d--n%04d'%(prev_v, v), end="", file=output_handle)
+                attributes = []
+                if D is not None:
+                    attributes.append('label="%.1f"'%D[prev_v,v])
                 if color:
-                    print('    n%04d--n%04d [color="%s"];'%(prev_v, v, color), 
-                          file=output_handle)
-                else:
-                    print('    n%04d--n%04d;'%(prev_v, v),
-                          file=output_handle)
+                    attributes.append('color="%s"'%color)
+                if attributes:
+                    print( ' ['+" ".join(attributes)+']', end="", file=output_handle)
+                print(';', file=output_handle)
                 # pylint: enable=bad-string-format-type
             prev_v = v
         
 def output_dot(output_handle, npts, active_point_idxs=None,
                rays=None, active_ray_idxs=None, points_of_interest = None,
                gray_routes=None, red_routes=None, black_routes=None,
-               label=None):
+               title=None, D=None):
     
     
     xs, ys = zip(*npts)
@@ -69,11 +72,11 @@ def output_dot(output_handle, npts, active_point_idxs=None,
     label_length = int((log(abs(len(npts)),10)+1e-15))+1
     label_format = "%0"+str(label_length)+"d"
 
-    print("""Graph G {""", file=output_handle)  
-    if label:
-        print('label="%s"'%label, file=output_handle)
-    print("node [shape=circle width=.4 fixedsize=true];", file=output_handle)
-    print("n0000 [fillcolor=black style=filled fontcolor=white", 
+    print("""graph G {""", file=output_handle)  
+    if title:
+        print('label="%s"'%title, file=output_handle)
+    print("    node [shape=circle width=.4 fixedsize=true];", file=output_handle)
+    print("    n0000 [fillcolor=black style=filled fontcolor=white", 
           file=output_handle, end=" ") 
     print('label="'+label_format%0+'" pos="%f,%f!"];'%(npts[0][X], npts[0][Y]),
           file=output_handle)
@@ -141,10 +144,10 @@ def output_dot(output_handle, npts, active_point_idxs=None,
                   (pi, poi[X], poi[Y]), file=output_handle)
       
     if gray_routes:
-        print_solution_edges(gray_routes, output_handle, "gray")
+        print_solution_edges(gray_routes, output_handle, D, "gray")
     if red_routes:
-        print_solution_edges(red_routes, output_handle, "red")  
+        print_solution_edges(red_routes, output_handle, D,  "red")  
     if black_routes:
-        print_solution_edges(black_routes, output_handle)
+        print_solution_edges(black_routes, output_handle, D)
     
     print("}", file=output_handle)
