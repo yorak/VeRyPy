@@ -78,7 +78,7 @@ Currently, VeRyPy supports up to Python 3.8 and should still be compatible with 
 
 To install this package and its dependencies:
 ```bash
-pip install git+https://github.com/yorak/VeRyPy.git
+pip install https://github.com/yorak/VeRyPy/zipball/master
 ```
 
 The module provides a `VeRyPy`command, which reads [TSPLIB95](http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/tsp95.pdf) formatted files:
@@ -123,7 +123,7 @@ VeRyPy requires NumPy, and SciPy. It should be Python2 and Python3 compatible. F
 
 Installation with `pip` from this repository installs most of the dependencies (save Gurobi and LKH).
 ```bash
-pip install git+https://github.com/yorak/VeRyPy.git
+pip install https://github.com/yorak/VeRyPy/zipball/master
 ```
 
 In case you want to run the tests, clone this repository and add the VeRyPy root folder to your `PYTHONPATH` environment variable.

@@ -1,4 +1,5 @@
 from setuptools import setup, find_packages
+from io import open # Should be Py2.7 compatible
 
 classifiers = [
     "Development Status :: Development",
@@ -11,10 +12,10 @@ classifiers = [
 ]
 
 
-with open("README.md") as f:
+with open("README.md", encoding="utf-8") as f:
     long_description = f.read()
 
-with open("requirements.txt") as f:
+with open("requirements.txt", encoding="utf-8") as f:
     requirements = f.readlines()
 
 install_requires = [r.strip() for r in requirements]
