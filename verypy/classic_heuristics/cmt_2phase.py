@@ -23,7 +23,7 @@ from logging import log, DEBUG
 from random import shuffle
 from sys import stderr
 
-from verypy.util import OrderedDictSet
+from verypy.util import OrderedDictSet as OrderedSet
 
 try:
     ## For tiny instances you might want to get the optimal solution
@@ -83,7 +83,7 @@ def _phase_one(lambda_multiplier, D,d,C,L, seed_f, rr):
     if rr is not None:
         shuffle(customer_nodes)
         rr-=1
-    unrouted = OrderedDictSet(customer_nodes)
+    unrouted = OrderedSet(customer_nodes)
     
     if __debug__:
         log(DEBUG, "## Sequential route bulding phase ##")
@@ -217,7 +217,7 @@ def _phase_two(mu_multiplier,route_seeds, D,d,C,L, rr,
     if rr is not None: 
         #->stochastic version, resolve the ties randomly
         shuffle(customer_nodes)
-    unrouted_nodes = OrderedDictSet(customer_nodes)
+    unrouted_nodes = OrderedSet(customer_nodes)
     unrouted_nodes.difference_update( route_seeds )
     
     # routes are stored in dict with a key of route seed,

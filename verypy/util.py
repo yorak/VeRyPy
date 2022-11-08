@@ -117,6 +117,23 @@ def routes2sol(routes):
 
 
 class OrderedDictSet:
+    """ A wrapper that allows use of ordered dictionary as a ordered set.
+
+    The API is a subset of the one orderedset package[1]. The package has not
+    been updated since 2020 and only supports up to Python 3.8. Fortunately,
+    since Python 3.7 there has been a new implementation of the built-in dict
+    that keeps the insertion order of the keys.
+    
+    This wrapper class uses built in dict on python > 3.7 and OrderedDict
+    from collections on earlier Python versions. This allowed to lose the 
+    orderedset dependecy altoghether for VeRyPy.
+
+    Also, experiments on 437 classical CVRP problem instances showed that this
+    implementation is some 0.9% faster than the one provided by the orderedset
+    package.
+
+    [1] https://pypi.org/project/orderedset/
+    """
     def __init__(self, collection):
         if sys.version_info >= (3, 7):
             # Since Python 3.7 dict is kept in insertion order!
