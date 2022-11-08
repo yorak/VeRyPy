@@ -11,7 +11,7 @@ from __future__ import division
 
 import sys
 from time import time
-from os import path
+from os import path, walk
 from glob import glob
 import logging
 
@@ -154,8 +154,13 @@ def read_and_solve_a_problem(problem_instance_path, with_algorithm_function,
         
     return best_sol, objf(best_sol, D), objf(best_sol, D_c)
 
-def get_a_problem_file_list(problem_paths):
+def get_a_problem_file_list(problem_paths, recursive=False):
     files_to_solve = []
+    if recursive:
+        for problem_path in problem_paths:
+            for _, dirs, _ in walk(problem_path):
+                problem_paths += dirs
+
     for problem_path in problem_paths:
         if path.isdir(problem_path):
             # Solving a directory is somewhat a special case, so import natsort

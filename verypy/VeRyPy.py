@@ -71,7 +71,9 @@ def main(overridden_args=None):
     parser.add_argument('--routes', dest='print_route_stat', help="Print per route statistics of the final solution", action="store_true")
     parser.add_argument('--vrph', dest='print_vrph_sol', help="Print the final solution in the VRPH format", action="store_true")
     parser.add_argument('--forbid', dest='forbid_algorithms', help="Forbid applying algorithms (argument can set multiple times to forbid multiple algorithms)", action='append')    
+    parser.add_argument('--recursive', dest='recursive', help="Find .vrp problems to solve recursively", action="store_true")
     parser.add_argument('--simulate', dest='simulate', help="Do not really invoke algorithms, can be used e.g. to test scripts", action="store_true")
+    
     #TODO: consider adding more LS opts e.g. 2optstart, 3optstart
     parser.add_argument('--post-optimize', dest='local_search_operators', choices=['2opt', '3opt'], help="Do post-optimization with local search operator(s) (can set multiple)", action='append')
     parser.add_argument("problem_file", help="a path of a .vrp problem file, a directory containing .vrp files, or a text file of paths to .vrp files", action='append')
@@ -98,7 +100,7 @@ def main(overridden_args=None):
         exit()
     
     # get .vrp file list
-    files_to_solve = shared_cli.get_a_problem_file_list(app_args.problem_file)
+    files_to_solve = shared_cli.get_a_problem_file_list(app_args.problem_file, app_args.recursive)
 
     # get algorithms
     algos = get_algorithms(app_args.active_algorithms)
