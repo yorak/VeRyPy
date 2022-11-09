@@ -16,7 +16,7 @@ TSPLIB problem instance.
 from __future__ import print_function
 from __future__ import division
 
-from logging import log, DEBUG
+from logging import log, DEBUG, WARNING
 
 from verypy.classic_heuristics.cheapest_insertion import parametrized_insertion_criteria,\
                                cheapest_insertion_init
@@ -34,7 +34,12 @@ from verypy.config import COST_EPSILON as S_EPS
 #
 # $ pip install llist
 #
-from llist import dllist
+try:
+    from llist import dllist
+except ImportError:
+    from pyllist import dllist
+    log(WARNING, "Using pyllist instead of llist carries a performance penalty for MJ76-INS. "+
+        "Install the package with a command: $ pip install llist")
 
 __author__ = "Jussi Rasku"
 __copyright__ = "Copyright 2022, Jussi Rasku"

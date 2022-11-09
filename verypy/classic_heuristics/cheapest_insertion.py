@@ -18,7 +18,7 @@ from builtins import range
 
 from collections import namedtuple
 from heapq import heappush, heappop
-from logging import log, DEBUG
+from logging import log, DEBUG, WARNING
 
 from verypy.util import objf, routes2sol
 from verypy.config import COST_EPSILON as S_EPS
@@ -29,7 +29,12 @@ from verypy.config import CAPACITY_EPSILON as C_EPS
 #
 # $ pip install llist
 #
-from llist import dllist
+try:
+    from llist import dllist
+except ImportError:
+    from pyllist import dllist
+    log(WARNING, "Using pyllist instead of llist carries a performance penalty for vB94-(S|P)I. "+
+        "Install the package with a command: $ pip install llist")
 
 __author__ = "Jussi Rasku"
 __copyright__ = "Copyright 2022, Jussi Rasku"
