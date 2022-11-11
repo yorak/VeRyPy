@@ -67,7 +67,12 @@ algo_name_aliases = {
         "classical":"classical", "classic":"classical",
 }
 
-def get_algorithms(names):
+def get_algorithms(names='all'):
+    
+    # With just one name, find just that one name
+    if isinstance(names, str):
+        names = [names]
+
     has_gurobi = True
     try:
         import gurobipy # type: ignore reportMissingImports
