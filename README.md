@@ -81,9 +81,6 @@ To install this package and its dependencies:
 pip install https://github.com/yorak/VeRyPy/zipball/master
 ```
 
-There is a tutorial video available that shows the steps for installing VeRyPy 
-on Windows on top of [palin Python](https://youtu.be/FdUDtschLUg) or [PyCharm IDE](https://youtu.be/FhXr6BD1Tow).
-
 The module provides a `VeRyPy`command, which reads [TSPLIB95](http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/tsp95.pdf) formatted files:
 ```bash
 VeRyPy -a all E-n51-k5.vrp
@@ -116,6 +113,8 @@ More such examples are in the `examples` folder, e.g.,
 python examples/single_solve_example.py
 ```
 
+There is a tutorial video available that shows the steps for installing VeRyPy 
+on Windows on top of [plain Python](https://youtu.be/FdUDtschLUg) or [PyCharm IDE](https://youtu.be/FhXr6BD1Tow).
 <!-- TODO: Make sure it works -->
 
 <!-- TODO: A more comprehensive reference documentation can be found [here](/doc/). -->
