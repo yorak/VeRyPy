@@ -10,10 +10,19 @@ route operations repeadedly until a local optima is reached.
 from __future__ import print_function
 from __future__ import division
 
+from sys import version_info
+
 from collections import defaultdict, Counter
 from logging import log, DEBUG
 from itertools import permutations
-from inspect import getargspec
+
+# getargspec is getting depricated (does not work in Python 3.11)
+if version_info>(3,8):
+    from inspect import getfullargspec
+    getfuncarglist = lambda f: getfullargspec(f)[0]
+else:
+    from inspect import getargspec
+    getfuncarglist = lambda f : getargspec(f)[0]
 
 from verypy.routedata import RouteData
 from verypy.util import objf, is_sorted
@@ -88,8 +97,9 @@ def do_local_search(ls_ops, sol, D, d, C, L=None,
         ls_op_idx = 0
         while ls_op_idx<len(ls_ops):
             ls_op = ls_ops[ls_op_idx]
-            # TODO: For full Python 3.X replace this with modern approach.
-            ls_op_args = getargspec(ls_op)[0]
+            # Some ls_op operate on 1, 2 or 3 routes. To get this cound, assume
+            #  route args are followed by the distance matrix call argument 'D'.
+            ls_op_args = getfuncarglist(ls_op)
             route_count = ls_op_args.index('D')
             op_order_sensitive = ls_op in ROUTE_ORDER_SENSITIVE_OPERATORS
             
