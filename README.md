@@ -113,8 +113,7 @@ More such examples are in the `examples` folder, e.g.,
 python examples/single_solve_example.py
 ```
 
-There is a tutorial video available that shows the steps for installing VeRyPy 
-on Windows on top of [plain Python](https://youtu.be/FdUDtschLUg) or [PyCharm IDE](https://youtu.be/FhXr6BD1Tow).
+
 <!-- TODO: Make sure it works -->
 
 <!-- TODO: A more comprehensive reference documentation can be found [here](/doc/). -->
@@ -128,7 +127,7 @@ Installation with `pip` from this repository installs most of the dependencies (
 pip install https://github.com/yorak/VeRyPy/zipball/master
 ```
 
-In case you want to run the tests, clone this repository and add the VeRyPy root folder to your `PYTHONPATH` environment variable.
+There are tutorial videos available that show the steps for installing VeRyPy on Windows on top of [plain Python](https://youtu.be/FdUDtschLUg) or [PyCharm IDE](https://youtu.be/FhXr6BD1Tow). Note that in case you want to run the tests, skip `pip` installation. Instead, clone this repository and add the VeRyPy root folder to your `PYTHONPATH` environment variable.
 
 <!-- TODO: insert dependency / object diagram here-->
 
