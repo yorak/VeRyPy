@@ -78,14 +78,14 @@ def print_solution_statistics(sol, D, D_cost, d, C, L=None, service_time=None,
 
 def read_and_solve_a_problem(problem_instance_path, with_algorithm_function,
                              minimize_K, best_of_n=1, verbosity=-1,
-                             single=False, measure_time=False):
+                             single=False, print_measured_time=False):
     """ Solve a problem instance with the path in problem_instance_path
     with the agorithm in <with_algorithm_function>.
     
     The <with_algorithm_function> has a signature of:
     init_f(points, D_c, d, C, L, st, wtt, verbosity, single, minimize_K)
     
-    Options <verbosity>, <single> and <measure_time> may be used to adjust what
+    Options <verbosity>, <single> and <print_measured_time> may be used to adjust what
     is printed and if a restricted single iteration search (different meaning 
     for different algorithms) is made."""
     
@@ -139,7 +139,7 @@ def read_and_solve_a_problem(problem_instance_path, with_algorithm_function,
             if best_of_n>1 and verbosity>=1:
                 print("SOLUTION QUALITY %d of %d: %.2f"%
                       (repeat_n+1,best_of_n, objf(best_sol, D_c)))
-            if measure_time or verbosity>=1:
+            if print_measured_time or verbosity>=1:
                 print("SOLVED IN: %.2f s"%elapsed)
                 
         if interrupted:
@@ -151,9 +151,9 @@ def read_and_solve_a_problem(problem_instance_path, with_algorithm_function,
     
     if interrupted:
         raise KeyboardInterrupt()
-        
-    return best_sol, objf(best_sol, D), objf(best_sol, D_c)
-
+    
+    return best_sol, objf(best_sol, D), objf(best_sol, D_c), elapsed
+    
 def get_a_problem_file_list(problem_paths, recursive=False):
     files_to_solve = []
     if recursive:
@@ -243,7 +243,7 @@ def tsp_cli(tsp_f_name, tsp_f):
 def cli(init_name, init_desc, init_f):
     ## Simple command line interface
     single = False # ask to run only single iteration of the algorithm
-    measure_time = False
+    print_measured_time = False
     verbosity = DEFAULT_DEBUG_VERBOSITY
     minimize_K = False
     output_logfilepath = None
@@ -258,7 +258,7 @@ def cli(init_name, init_desc, init_f):
         if sys.argv[i]=="-1":
             single = True
         if sys.argv[i]=="-t":
-            measure_time = True
+            print_measured_time = True
         if sys.argv[i]=="-l":
             output_logfilepath = sys.argv[i+1]       
         if sys.argv[i]=="-b":
@@ -330,4 +330,4 @@ def cli(init_name, init_desc, init_f):
             problem_name = path.basename(problem_path)
             print("Solve", problem_name ,"with", init_name)
             read_and_solve_a_problem(problem_path, init_f, minimize_K, best_of_n, 
-                                     verbosity, single, measure_time)
+                                     verbosity, single, print_measured_time)
