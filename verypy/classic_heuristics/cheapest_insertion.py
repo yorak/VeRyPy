@@ -423,7 +423,7 @@ def get_si_algorithm():
     def call_init(points, D, d, C, L, st, wtt, single, minimize_K):
         return cheapest_insertion_init(D, d, C, L=L, minimize_K=minimize_K,
                                        emerging_route_count=1)
-    
+    call_init.__doc__ = cheapest_insertion_init.__doc__
     return (algo_name, algo_desc, call_init)
 
 def get_pi_algorithm(emerging_route_count="auto"):
@@ -446,7 +446,8 @@ def get_pi_algorithm(emerging_route_count="auto"):
     else:
         raise ValueError("Not a valid parameter value, has to be 'auto' or "+
                          "an integer > 1, (was %s)"%str(emerging_route_count))
-            
+    
+    call_init.__doc__ = cheapest_insertion_init.__doc__
     return (algo_name, algo_desc, call_init)
 
 if __name__=="__main__":

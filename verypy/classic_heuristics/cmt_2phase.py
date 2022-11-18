@@ -586,6 +586,7 @@ def get_cmt2p_algorithm():
     algo_desc = "Christofides, Mingozzi & Toth (1979) two phase heuristic"
     def call_init(points, D, d, C, L, st, wtt, single, minimize_K):
         return cmt_2phase_init(D, d, C, L, minimize_K)
+    call_init.__doc__ = cmt_2phase_init.__doc__
     return (algo_name, algo_desc, call_init)
     
 if __name__=="__main__":

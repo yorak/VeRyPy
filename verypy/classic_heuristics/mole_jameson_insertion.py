@@ -298,6 +298,7 @@ def get_mj_algorithm():
                                                strain_criterion="clarke_wright")
         else:
             return mole_jameson_insertion_init(D, d, C, L, minimize_K)
+    call_init.__doc__ = mole_jameson_insertion_init.__doc__  
     return (algo_name, algo_desc, call_init)
     
 if __name__=="__main__":

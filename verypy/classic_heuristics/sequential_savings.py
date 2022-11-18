@@ -216,6 +216,7 @@ def get_ss_algorithm(lambda_multiplier='auto'):
     algo_desc = "Webb (1964) sequential savings algorithm"
     def call_init(points, D, d, C, L, st, wtt, single, minimize_K):
         return sequential_savings_init(D,d,C,L,minimize_K)
+    call_init.__doc__ = sequential_savings_init.__doc__
     return (algo_name, algo_desc, call_init)
     
 if __name__=="__main__":

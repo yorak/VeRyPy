@@ -536,6 +536,7 @@ def get_swp_algorithm():
         direction = "cw" if single else "both"
         return sweep_init(points, D, d, C, L, minimize_K,
                           direction=direction, seed_node=seed_search)
+    call_init.__doc__ = sweep_init.__doc__
     return (algo_name, algo_desc, call_init)
     
 if __name__=="__main__":

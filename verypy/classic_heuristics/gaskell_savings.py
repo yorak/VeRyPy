@@ -123,6 +123,7 @@ def get_gs_algorithm():
     def call_init(points, D, d, C, L, st, wtt, single, minimize_K):
         savings_method = "both" if not single else "pi"
         return gaskell_savings_init(D,d,C,L, minimize_K, savings_method)
+    call_init.__doc__ = gaskell_savings_init.__doc__
     return (algo_name, algo_desc, call_init)
     
 if __name__=="__main__":

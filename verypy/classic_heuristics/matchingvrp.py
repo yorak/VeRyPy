@@ -369,6 +369,7 @@ def get_mm_algorithm():
                 "savings algorithm"
     def call_init(points, D, d, C, L, st, wtt, single, minimize_K):
         return mbsa_init(D, d, C, L, minimize_K)
+    call_init.__doc__ = mbsa_init.__doc__  
     return (algo_name, algo_desc, call_init)
     
 if __name__=="__main__":

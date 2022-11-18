@@ -955,6 +955,7 @@ def get_gap_algorithm(seed_method="cones"):
                         seed_edge_weight_type=wtt,
                         find_optimal_seeds=(not single),
                         seed_method=seed_method)
+    call_init.__doc__ = gap_init.__doc__
     return (algo_name, algo_desc, call_init)
     
 if __name__=="__main__":

@@ -373,6 +373,7 @@ def get_lr3opt_algorithm():
         if minimize_K:
             raise NotImplementedError("LR3OPT does not support minimizing the number of vehicles")
         return lr3opt_init(D, d, C, L)
+    call_init.__doc__ = lr3opt_init.__doc__  
     return (algo_name, algo_desc, call_init)
     
 if __name__=="__main__":

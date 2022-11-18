@@ -345,6 +345,7 @@ def get_gm_algorithm():
             
         return gillet_miller_init(points, D, d, C, L, minimize_K,
                                   direction, seed_node)
+    call_init.__doc__ = gillet_miller_init.__doc__  
     return (algo_name, algo_desc, call_init)
     
 if __name__=="__main__":

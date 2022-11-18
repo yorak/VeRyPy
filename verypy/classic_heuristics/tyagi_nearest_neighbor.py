@@ -356,6 +356,7 @@ def get_ty_algorithm():
         if minimize_K:
             raise NotImplementedError("Nearest neighbor algorithm does not support minimizing the number of vehicles")
         return tyagi_init(D, d, C, L )
+    call_init.__doc__ = tyagi_init.__doc__
     return (algo_name, algo_desc, call_init)
     
 if __name__=="__main__":

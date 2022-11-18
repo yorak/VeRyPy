@@ -162,6 +162,7 @@ def get_ims_algorithm():
     algo_desc = "Holmes & Parker (1976) parallel savings supression algorithm"
     def call_init(points, D, d, C, L, st, wtt, single, minimize_K):
         return suppression_savings_init(D,d,C,L,minimize_K)
+    call_init.__doc__ = suppression_savings_init.__doc__
     return (algo_name, algo_desc, call_init)
     
 if __name__=="__main__":

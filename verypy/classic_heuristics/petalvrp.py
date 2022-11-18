@@ -995,6 +995,7 @@ def get_ptl_algorithm():
             return petal_init(points, D,d,C,L,
                               minimize_K=minimize_K)
                               #minimize_K=True)
+    call_init.__doc__ = petal_init.__doc__
     return (algo_name, algo_desc, call_init)
     
 if __name__=="__main__":

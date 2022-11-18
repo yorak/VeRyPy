@@ -148,6 +148,7 @@ def get_gps_algorithm():
     algo_desc = "Paessens (1988) parametrized parallel savings algorithm"
     def call_init(points, D, d, C, L, st, wtt, single, minimize_K):
         return paessens_savings_init(D,d,C,L,minimize_K)
+    call_init.__doc__ = paessens_savings_init.__doc__   
     return (algo_name, algo_desc, call_init)
     
 if __name__=="__main__":

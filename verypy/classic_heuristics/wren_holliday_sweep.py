@@ -760,6 +760,7 @@ def get_wh_algorithm():
     def call_init(points, D, d, C, L, st, wtt, single, minimize_K):
         seed_node = 1 if single else BEST_OF_FOUR
         return wren_holliday_init(points, D, d, C, L, minimize_K, seed_node)
+    call_init.__doc__ = wren_holliday_init.__doc__
     return (algo_name, algo_desc, call_init)
     
 if __name__=="__main__":

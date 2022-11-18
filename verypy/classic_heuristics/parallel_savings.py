@@ -190,6 +190,7 @@ def get_ps_algorithm():
     algo_desc = "Clarke & Wright (1964) parallel savings algorithm"
     def call_init(points, D, d, C, L, st, wtt, single, minimize_K):
         return parallel_savings_init(D,d,C,L,minimize_K)
+    call_init.__doc__ = parallel_savings_init.__doc__   
     return (algo_name, algo_desc, call_init)
     
 if __name__=="__main__":

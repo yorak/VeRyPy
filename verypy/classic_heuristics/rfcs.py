@@ -243,6 +243,7 @@ def get_rfcs_algorithm():
     algo_desc = "Route-first-cluster-second heuristic of Beasley (1983)"
     def call_init(points, D, d, C, L, st, wtt, single, minimize_K):
         return route_first_cluster_second_init(D, d, C, L, minimize_K)
+    call_init.__doc__ = route_first_cluster_second_init.__doc__   
     return (algo_name, algo_desc, call_init)
     
 if __name__=="__main__":

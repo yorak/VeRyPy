@@ -341,6 +341,7 @@ def get_snn_algorithm():
                                           " not support minimizing the number"+
                                           " of vehicles")
         return nearest_neighbor_init(D,d,C,L, emerging_route_count=1)
+    call_init.__doc__ = nearest_neighbor_init.__doc__   
     return (algo_name, algo_desc, call_init)
 
 def get_pnn_algorithm(emerging_route_count="auto"):
@@ -388,6 +389,7 @@ def get_pnn_algorithm(emerging_route_count="auto"):
         raise ValueError("Not a valid emerging_route_count value "+
                          "(%s) for parallel algorithm"%
                          str(emerging_route_count))
+    call_init.__doc__ = nearest_neighbor_init.__doc__   
     return (algo_name, algo_desc, call_init)
         
 if __name__=="__main__":
