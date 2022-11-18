@@ -33,7 +33,7 @@ from scipy.spatial.distance import pdist, squareform
 
 # project imports
 from verypy.cvrp_io import generate_CVRP, read_TSPLIB_CVRP
-from verypy.cvrp_io import write_TSPLIB_file, write_OPT_file
+from verypy.cvrp_io import write_TSPLIB_file, as_OPT_solution
 from verypy.cvrp_ops import normalize_solution, check_solution_feasibility
 from random import randint, shuffle
 from verypy.local_search.naive_implementations import do_naive_local_search, \
@@ -137,9 +137,9 @@ class TestVsVRPH(unittest.TestCase):
                               float_to_int_precision=1000)
             
             with NamedTemporaryFile( delete=False, suffix='.opt') as tmpfile:
+                tmpfile.write( as_OPT_solution(objf(initial_sol, self.D), initial_sol) )
                 opt_file_path = tmpfile.name
-            write_OPT_file(opt_file_path, self.D, initial_sol)
-            
+
             vrph_sol = _do_vrph_ls(tsplib_file_path, opt_file_path, [vrph_heur])
             
             ls_sol = do_local_search([ls_heur], initial_sol,

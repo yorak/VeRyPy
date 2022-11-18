@@ -495,21 +495,20 @@ def as_VRPH_solution(sol):
     vrph_sol.append(0)
     return vrph_sol
 
-def write_OPT_file(opt_file_path, D, sol):
+def as_OPT_solution(cost, sol):
     routes = [[0]+list(r)+[0] for x, r in groupby(sol, lambda z: z == 0) if not x]    
-    with open(opt_file_path, 'w') as opt_file:
-        for ri, route in enumerate(routes):
-            opt_file.write("Route #%d: "%(ri+1))
-            opt_file.write("\t".join( str(n) for n in route if n!=0))
-            opt_file.write("\n")
-        
-        cost = sum(( D[sol[i-1],sol[i]] for i in range(1,len(sol))))
-        if cost == int(cost):
-            opt_file.write("Cost : %d\n"%int(cost))
-        else:
-            opt_file.write("Cost : %.2f\n"%cost)
-            
-    return opt_file_path
+    opt_str = ""
+    for ri, route in enumerate(routes):
+        opt_str+="Route #%d: "%(ri+1)
+        opt_str+="\t".join( str(n) for n in route if n!=0)
+        opt_str+="\n"
+    
+    if cost == int(cost):
+        opt_str+="Cost : %d\n"%int(cost)
+    else:
+        opt_str+="Cost : %.2f\n"%cost
+
+    return opt_str
 
 def write_TSPLIB_file(tsplib_file_path, D,
                       d=None, C=None, L=None, selected_idxs=None,
