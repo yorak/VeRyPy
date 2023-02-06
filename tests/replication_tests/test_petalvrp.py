@@ -11,7 +11,7 @@ import numpy as np
 from scipy.spatial.distance import pdist, squareform
 
 from verypy.cvrp_io import read_TSPLIB_CVRP, read_TSBLIB_additional_constraints
-from verypy.cvrp_ops import check_solution_feasibility, D2D_c
+from verypy.cvrp_ops import validate_solution_feasibility, D2D_c
 from verypy.util import objf, totald
 from replicationbase import ReplicationBase
 from verypy.classic_heuristics.petalvrp import petal_init, _remove_multiserved, \
@@ -463,7 +463,7 @@ class TestFosterRyanReplications(ReplicationBase):
             ref_sol_f = int(objf(ref_sol, D_c))
             ref_sol_k = ref_sol.count(0)-1
             
-            cover_ok, capa_ok, rlen_ok = check_solution_feasibility(ref_sol, D,d,C,L,True)
+            cover_ok, capa_ok, rlen_ok = validate_solution_feasibility(ref_sol, D,d,C,L,True)
             self.assertTrue( cover_ok, "Must be a valid solution")
             self.assertTrue( capa_ok, "Must not violate the C constraint" )
             self.assertTrue( rlen_ok, "Must not violate the L constraint"  )

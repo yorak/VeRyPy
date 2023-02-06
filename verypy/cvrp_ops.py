@@ -82,13 +82,20 @@ def generate_missing_coordinates(for_D):
     edge_weight_type = "EUC_2D" if _is_all_integer_array(for_D) else "EXACT_2D"
     return points, edge_weight_type    
     
-def check_solution_feasibility(solution, D, d=None,
+def validate_solution_feasibility(solution, D, d=None,
                                C=None, L=None, print_violations=False):
-    """ This checks if the solution is feasible. This feasibility checker also
-     supports solutions that do not have 0 as their first node as long as there
-     is at least one visit to the depot (0).
+    """ This checks if the solution is feasible.
     
-    Note: This is not performance optimized in any way. Therefore, it is 
+    Besides the normalized form, this feasibility checker also supports
+     solutions that do not have 0 as their first node as long as there
+     is at least one visit to the depot (0).
+
+    WARNING: This function is NOT used by the algorithms for constraint 
+     checking. The actual constraint checks and modification delta
+     calculations are defined by the algorithms. I.e., modifying this
+     does not change the objective for the _algorithms_!
+    
+    Further: This is not performance optimized in any way. Therefore, it is 
      advisable to use this for solution verification purposes only, and not i.e.
      as a building block of an algorithm.
      
@@ -183,63 +190,15 @@ def check_solution_feasibility(solution, D, d=None,
     
     return (covering_feasibility, capacity_feasibility, route_cost_feasibility)
 
-def check_route_feasibility(routes, D=None, d=None, C=None, L=None):
-    
-    N = len(d) if d else len(D) 
-    served = [False]*N
-    served[0] = True
-    
-    for route in routes:
-        route_demand = 0
-        route_cost = 0
-        p = 0
-        for n in route:
-            if n!=0 and served[n]:
-                print("ERROR: 'serve only once' constraint violated", file=stderr)
-            served[n]=True
-            if C:
-                route_demand+=d[n]
-            if L:
-                route_cost+=D[p,n]
-                p = n
-        if L:
-            route_cost+=D[p,0]
-            if route_cost-S_EPS > L:
-                print("ERROR: maximum route cost violated", file=stderr)
-                return False
-        if C and route_demand-C_EPS > C:
-            print("ERROR: route capacity violated", file=stderr)
-            return False
-        
-    if sum(served)!=len(d):
-        print("ERROR: all vertices are not served", file=stderr)
-        
-    return True
-   
-def fast_constraint_check(sol,D,d,C,L):
-    """ A faster version of the constrain checker. E.g. does not check 
-    if all customers are served (it is assumed this constraint is not violated.
-    """
-    prev_node = None
-    c = 0.0
-    l = 0.0
-    for node in sol:    
-        if C and node!=0:
-            c += d[node]
-            if c-C_EPS>C:
-                return False
-        if L and prev_node!=None:
-            l += D[prev_node,node]
-            if l-S_EPS>L:
-                return False
-        if(node==0):
-            c = 0.0
-            l = 0.0
-        prev_node  = node
-    return True
+def recalculate_objective(sol, D):
+    """ Recalulates the objective for a given solution.
 
-def calculate_objective(sol, D):
-    """ The objective is the total cost of all routes in VRP solution. D is 
+   WARNING: This function is NOT used to guide the algorithms. The actual
+    objetive function and modification delta calculations are defined in the
+    heuristic code. Modifying this code is not enough to change the overall
+    objective function!
+    
+    The objective is the total cost of all routes in VRP solution. D is 
     the full distance matrix of the points in the problem (also includes the
     depot with index of 0), and solution is a list containing giant tour
     encoded VRP solution, where 0 indicates a visit to the depot OR a list of 

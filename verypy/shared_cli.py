@@ -42,7 +42,7 @@ def print_problem_information(points, D, d, C, L, service_time, tightness=None, 
 def print_solution_statistics(sol, D, D_cost, d, C, L=None, service_time=None,
                               verbosity=-1):
     print("\nSOLUTION:", sol)
-    cover_ok,capa_ok,rlen_ok = cvrp_ops.check_solution_feasibility(
+    cover_ok,capa_ok,rlen_ok = cvrp_ops.validate_solution_feasibility(
                                           sol, D_cost,d,C,L,True)
     
     if verbosity>1:

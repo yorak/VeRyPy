@@ -11,7 +11,7 @@ from __future__ import division
 import unittest
 from scipy.spatial.distance import pdist, squareform
 
-from verypy.cvrp_ops import check_solution_feasibility, D2D_c
+from verypy.cvrp_ops import validate_solution_feasibility, D2D_c
 from verypy.util import objf
 
 SMOKE_TEST_VERBOSITY = 0
@@ -65,7 +65,7 @@ class TestSmokeWithSimple7pProblem(unittest.TestCase):
             sol_f = objf(sol, D_c)
            
             print("SOLUTION %s (%.2f)"%(sol,objf(sol,D_c)))
-            cover_ok,capa_ok,rlen_ok = check_solution_feasibility(sol,D_c,d,C,L)
+            cover_ok,capa_ok,rlen_ok = validate_solution_feasibility(sol,D_c,d,C,L)
             self.assertTrue( cover_ok, str(sol)+" is not a valid solution")
             self.assertTrue( capa_ok, str(sol)+" violates C constraint" )
             self.assertTrue( rlen_ok, str(sol)+" violates L constraint"  )

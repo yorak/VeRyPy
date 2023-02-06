@@ -20,7 +20,7 @@ from verypy.local_search.solution_operators import do_3optstar_move
 from verypy.classic_heuristics.nearest_neighbor import nearest_neighbor_init
 
 from verypy.cvrp_io import generate_CVRP
-from verypy.cvrp_ops import check_solution_feasibility, calculate_objective
+from verypy.cvrp_ops import validate_solution_feasibility, recalculate_objective
 from verypy.util import sol2routes, routes2sol
 from test_intra_route_local_search_operation import Test3Opt
 
@@ -86,7 +86,7 @@ class TestRandomStressOn3OptStarSolutionOperator(unittest.TestCase):
         
         self.naive_sol = routes2sol( [[n] for n in range(1,aN+1)] )
         self.nn_sol = nearest_neighbor_init(D, d, C)
-        self.L = max( calculate_objective(r,D) for r in sol2routes(self.nn_sol) )
+        self.L = max( recalculate_objective(r,D) for r in sol2routes(self.nn_sol) )
         self.N = aN
         self.problem = (aN,pts,d,D,C)
         
@@ -113,14 +113,14 @@ class TestRandomStressOn3OptStarSolutionOperator(unittest.TestCase):
                 print("no more improvements found")
                 if PRINT_ONLY_FINAL_RESULT:
                      print("final (%s)"%_strategy_to_str(strategy),
-                           sol, calculate_objective(sol, D))
+                           sol, recalculate_objective(sol, D))
                 print("total elapsed %.2f s"%total_t)
                 break
             if not PRINT_ONLY_FINAL_RESULT:
-                print(out_sol, calculate_objective(out_sol[0], D))
+                print(out_sol, recalculate_objective(out_sol[0], D))
             sol = out_sol[0]
             
-            self.assertTrue( all(check_solution_feasibility(sol, D, d, C, L)), "must be feasible")
+            self.assertTrue( all(validate_solution_feasibility(sol, D, d, C, L)), "must be feasible")
     
     
     def test_random_problems_with_C_constraints_first_accept_from_naive_sol(self):

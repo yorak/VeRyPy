@@ -150,7 +150,7 @@ class OrderedDictSet:
 
     [1] https://pypi.org/project/orderedset/
     """
-    def __init__(self, collection):
+    def __init__(self, collection=None):
         if sys.version_info >= (3, 7):
             # Since Python 3.7 dict is kept in insertion order!
             _ordered_dict_from_keys = dict.fromkeys
@@ -158,6 +158,8 @@ class OrderedDictSet:
             from collections import OrderedDict
             # This is has quite a poor performance, I've heard
             _ordered_dict_from_keys = OrderedDict.fromkeys
+        if not collection:
+            collection = []
         self.ods = _ordered_dict_from_keys(collection, None)
         self.keylist = None
     def remove(self, element):

@@ -34,7 +34,7 @@ from scipy.spatial.distance import pdist, squareform
 # project imports
 from verypy.cvrp_io import generate_CVRP, read_TSPLIB_CVRP
 from verypy.cvrp_io import write_TSPLIB_file, as_OPT_solution
-from verypy.cvrp_ops import normalize_solution, check_solution_feasibility
+from verypy.cvrp_ops import normalize_solution, validate_solution_feasibility
 from random import randint, shuffle
 from verypy.local_search.naive_implementations import do_naive_local_search, \
     do_naive_2opt_move, do_naive_2optstar_move, \
@@ -259,9 +259,9 @@ def _compare_improved_from_solution(testcase, sol, D,d,C,L,
             print("+".join( op.__name__ for op in naive_ops),":", bf_sol,
                   "(%.2f)"%objf(bf_sol, D))
         
-        testcase.assertTrue(all(check_solution_feasibility(ls_sol_fwdop, D, d, C, L)))
-        testcase.assertTrue(all(check_solution_feasibility(ls_sol_rwdop, D, d, C, L)))
-        testcase.assertTrue(all(check_solution_feasibility(bf_sol, D, d, C, L)))
+        testcase.assertTrue(all(validate_solution_feasibility(ls_sol_fwdop, D, d, C, L)))
+        testcase.assertTrue(all(validate_solution_feasibility(ls_sol_rwdop, D, d, C, L)))
+        testcase.assertTrue(all(validate_solution_feasibility(bf_sol, D, d, C, L)))
         testcase.assertTrue(ls_sol_fwdop==bf_sol or ls_sol_rwdop==bf_sol, extra_msg)   
            
 class Test2Opt(unittest.TestCase):

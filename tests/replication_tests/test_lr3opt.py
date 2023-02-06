@@ -9,7 +9,7 @@ import numpy as np
 
 from replicationbase import ReplicationBase, REPRO_QUALITY_LEVELS
 from verypy.classic_heuristics.lr3opt import lr3opt_init, _check_lr3opt_move, _init_with_random
-from verypy.cvrp_ops import calculate_objective
+from verypy.cvrp_ops import recalculate_objective
     
 def _random_init_lr3opt(pts,D,d,C,L,st,times):
     best_sol = None
@@ -17,7 +17,7 @@ def _random_init_lr3opt(pts,D,d,C,L,st,times):
     
     for t in range(times):
         sol = lr3opt_init(D, d, C, L, initialization_algorithm=_init_with_random)
-        sol_f = calculate_objective(sol, D)
+        sol_f = recalculate_objective(sol, D)
         if sol_f<best_f:
             best_sol = None
             best_f = None
@@ -104,7 +104,7 @@ class TestStewartGoldenReplications(ReplicationBase):
         for i, repeats in repeats_per_problem: 
             for repeat in range(repeats):
                 problem_name = self.problem_names[i]
-                print "Repeat %d of %d for %s"%(repeat+1,repeats,problem_name)
+                print("Repeat %d of %d for %s"%(repeat+1,repeats,problem_name))
                 avgq, sdq, minq, maxq = self.solve_problems(
                     "lr3opt_ran", instance_idx = i, require_K = False,
                     round_f_func = np.int,

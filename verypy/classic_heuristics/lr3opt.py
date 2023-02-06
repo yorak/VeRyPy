@@ -33,7 +33,7 @@ except ImportError:
     from verypy.tsp_solvers.tsp_solver_ropt import solve_tsp_ropt as solve_tsp
     
 
-from verypy.cvrp_ops import fast_constraint_check, calculate_objective, normalize_solution
+from verypy.cvrp_ops import recalculate_objective, normalize_solution
 from verypy.local_search.solution_operators import do_3optstar_move
 from verypy.local_search import LSOPT
 from verypy.util import without_empty_routes, sol2routes, routes2sol
@@ -47,10 +47,6 @@ __license__ = "MIT"
 __maintainer__ = "Jussi Rasku"
 __email__ = "jussi.rasku@jyu.fi"
 __status__ = "Development"
-
-
-def _make_checker_function(lambda1, lambda2):
-    return 
 
 def _check_lr3opt_move(D, C, L, removed_weights, best_delta,
                      edges, end_p, end_n, cum_d, cum_l,
@@ -164,14 +160,38 @@ def _init_with_random(D,d,C,L):
     customers = list(range(1,len(D)))
     shuffle(customers)
     random_sol = [0]+customers+[0]
-    return random_sol, calculate_objective(random_sol, D)
+    return random_sol, recalculate_objective(random_sol, D)
 
 def _init_with_tsp(D,d,C,L):
     route_tsp_sol, route_f = solve_tsp(D, list(range(0,len(D))))
     return route_tsp_sol+[0], route_f
 
+def _check_CL_constraints(sol,D,d,C,L):
+    """ A faster version of the constrain checker. E.g. does not check 
+    if all customers are served (it is assumed this constraint is not violated.
+
+    NOTE: local search pro
+    """
+    prev_node = None
+    c = 0.0
+    l = 0.0
+    for node in sol:    
+        if C and node!=0:
+            c += d[node]
+            if c-C_EPS>C:
+                return False
+        if L and prev_node!=None:
+            l += D[prev_node,node]
+            if l-S_EPS>L:
+                return False
+        if(node==0):
+            c = 0.0
+            l = 0.0
+        prev_node  = node
+    return True
+
 def _force_feasible(sol, D, d, C, L):
-    # Force an incomplete solution feasible
+    """ Forces an incomplete solution feasible by adding visits to the depot """
     feasible_routes = []
     routes = sol2routes(sol)
     for r in routes:
@@ -275,7 +295,7 @@ def lr3opt_init(D, d, C, L,
 
         if __debug__:
             log(DEBUG, "Start from initial solution %s (%.2f), and with l1=%.2f, l2=%.2f"%
-                (sol, calculate_objective(sol, D),
+                (sol, recalculate_objective(sol, D),
                  (0 if lambdas[0] is None else lambdas[0]),
                  (0 if lambdas[1] is None else lambdas[1])))
        
@@ -291,7 +311,7 @@ def lr3opt_init(D, d, C, L,
             
             if __debug__:
                 log(DEBUG-2, "Finding a LR3OPT move for %s (%.2f)"%
-                    (sol, calculate_objective(sol, D)))
+                    (sol, recalculate_objective(sol, D)))
             new_sol, delta = do_3optstar_move(sol, D, d, C, L,
                          strategy=LSOPT.FIRST_ACCEPT, 
                          move_checker = checker_function)
@@ -300,10 +320,10 @@ def lr3opt_init(D, d, C, L,
             # TODO: it should not happen that the sol==new_sol. However it happens and as a quickfix check for it.
             if delta is None or sol==new_sol:
                 # return the first feasible solution (note: does not check for covering)
-                if fast_constraint_check(sol,D,d,C,L):
+                if _check_CL_constraints(sol,D,d,C,L):
                     if __debug__:
                         log(DEBUG, "Reached feasible solution %s (%.2f)"%
-                            (sol, calculate_objective(sol,D)))
+                            (sol, recalculate_objective(sol,D)))
                     while postoptimize_with_3optstar:
                         opt_sol, delta = do_3optstar_move(sol, D, d, C, L,
                                          strategy=LSOPT.FIRST_ACCEPT)
@@ -313,7 +333,7 @@ def lr3opt_init(D, d, C, L,
                             sol = opt_sol
                             #print("REMOVEME improved with post-optimization 3-opt*")
                             log(DEBUG, "Found improving 3-opt* move leading to %s (%.2f)"%
-                                (sol, calculate_objective(sol,D)))                
+                                (sol, recalculate_objective(sol,D)))                
                                
                     return normalize_solution(sol) # remove any [0,0]'s
                 else:
@@ -347,9 +367,9 @@ def lr3opt_init(D, d, C, L,
             else:
                 if __debug__:
                     log(DEBUG, "Found improving LR3OPT move leading to %s (%.2f)"%
-                        (new_sol, calculate_objective(new_sol,D)))
+                        (new_sol, recalculate_objective(new_sol,D)))
                     log(DEBUG-2, "However, routes %s remain infeasible."%
-                        [r for r in sol2routes(new_sol) if not fast_constraint_check(r,D,d,C,L)])
+                        [r for r in sol2routes(new_sol) if not _check_CL_constraints(r,D,d,C,L)])
                         
                     
                 sol = new_sol

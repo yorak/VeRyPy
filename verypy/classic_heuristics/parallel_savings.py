@@ -74,7 +74,7 @@ def parallel_savings_init(D, d, C, L=None, minimize_K=False,
       where the returned (sorted!) list contains savings (that is, how much 
        solution cost approximately improves if a route merge with an edge
        (i,j) is made). This should be calculated for each i \in {1..n},
-       j \in {i+1..n}, where n is the number of customers. The x is a secondary
+       j \\in {i+1..n}, where n is the number of customers. The x is a secondary
        sorting criterion but otherwise ignored by the savings heuristic.
       The default is to use the Clarke Wright savings criterion.
         

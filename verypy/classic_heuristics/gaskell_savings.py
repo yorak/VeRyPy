@@ -3,7 +3,7 @@
 ###############################################################################
 """ This file is a part of the VeRyPy classical vehicle routing problem
 heuristic library and provides implementations of the Gaskell (1967)
-\pi and \lambda savings functions for parallel (as in multiple route)
+\\pi and \\lambda savings functions for parallel (as in multiple route)
 savings heuristic.
 
 The script is callable and can be used as a standalone solver for TSPLIB 

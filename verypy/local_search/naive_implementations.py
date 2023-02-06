@@ -24,10 +24,31 @@ from time import time
 
 from verypy.util import objf
 from verypy.local_search import LSOPT
-from verypy.cvrp_ops import fast_constraint_check
 
 from verypy.config import COST_EPSILON as S_EPS
 from verypy.config import CAPACITY_EPSILON as C_EPS
+
+def _naive_constraint_check(sol,D,d,C,L):
+    """ A stand-alone version of the constrain checker. Does not check 
+    if all customers are served (it is assumed this constraint is not violated.
+    """
+    prev_node = None
+    c = 0.0
+    l = 0.0
+    for node in sol:    
+        if C and node!=0:
+            c += d[node]
+            if c-C_EPS>C:
+                return False
+        if L and prev_node!=None:
+            l += D[prev_node,node]
+            if l-S_EPS>L:
+                return False
+        if(node==0):
+            c = 0.0
+            l = 0.0
+        prev_node  = node
+    return True
 
 def _apply_as_intra_route(operation,
                      solution,D,d,C,L,
@@ -334,7 +355,7 @@ def do_naive_1point_move(solution,D,d,C,L,
             ansatz_sol.remove(n)
             ansatz_sol.insert(j,n)
        
-            if fast_constraint_check(ansatz_sol,D,d,C,L):
+            if _naive_constraint_check(ansatz_sol,D,d,C,L):
                 ansatz_sol_f = objf(ansatz_sol, D)
                 delta = ansatz_sol_f-sol_f
 
@@ -402,7 +423,7 @@ def do_naive_2point_move(solution,D,d,C,L,
 #            print("quality_delta", objf(ansatz_sol, D)-objf(solution, D))
 #            print("feasibility",fast_constraint_check(ansatz_sol,D,d,C,L) )
             
-            if fast_constraint_check(ansatz_sol,D,d,C,L):
+            if _naive_constraint_check(ansatz_sol,D,d,C,L):
                 ansatz_sol_f = objf(ansatz_sol, D)
                 delta = ansatz_sol_f-sol_f
                 

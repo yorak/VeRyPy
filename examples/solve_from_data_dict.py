@@ -37,7 +37,7 @@ except:
 
 import numpy as np
 from verypy import get_algorithms
-from verypy.cvrp_ops import normalize_solution, calculate_objective
+from verypy.cvrp_ops import normalize_solution, recalculate_objective
 
 def check_symmetric(A, tol=1e-8):
     """ Helper function to check if a matrix is symmetric. """
@@ -76,6 +76,6 @@ for algo_abbreviation, algo_name, _, algo_f in algos:
         elapsed_t = clock()-start_t
     
     sol = normalize_solution(sol)
-    obj = calculate_objective(sol, D)
+    obj = recalculate_objective(sol, D)
     K = sol.count(0)-1
     print(algo_name, obj, K, sol, elapsed_t, sep='\t')

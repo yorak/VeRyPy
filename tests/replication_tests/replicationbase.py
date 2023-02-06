@@ -10,7 +10,7 @@ import numpy as np
 
 from verypy.util import objf, without_empty_routes
 from verypy.shared_cli import print_solution_statistics
-from verypy.cvrp_ops import check_solution_feasibility
+from verypy.cvrp_ops import validate_solution_feasibility
 import verypy.cvrp_io as cvrp_io
 
 
@@ -135,7 +135,7 @@ class ReplicationBase(unittest.TestCase):
             print_solution_statistics(sol, D, D_c, d, C, L,service_time)
         
         
-        cover_ok, capa_ok, rlen_ok = check_solution_feasibility(sol, D,d,C,L,True)
+        cover_ok, capa_ok, rlen_ok = validate_solution_feasibility(sol, D,d,C,L,True)
         if not suppress_constraint_check:
             self.assertTrue( cover_ok, "Must be a valid solution")
             self.assertTrue( capa_ok, "Must not violate the C constraint" )

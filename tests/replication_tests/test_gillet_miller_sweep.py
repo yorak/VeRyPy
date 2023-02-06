@@ -8,7 +8,7 @@ Created on Wed Sep 27 08:52:30 2017
 import unittest
 from scipy.spatial.distance import pdist, squareform
 from verypy.classic_heuristics.gillet_miller_sweep import gillet_miller_init, _shortest_path_through_nodes
-from verypy.cvrp_ops import D2D_c, check_solution_feasibility
+from verypy.cvrp_ops import D2D_c, validate_solution_feasibility
 
 from replicationbase import ReplicationBase, REPRO_QUALITY_LEVELS
 
@@ -84,7 +84,7 @@ class TestGilletMillerSweep(unittest.TestCase):
         #write_TSPLIB_file("tiny_7_pt_problem.vrp", D, d, C, L)
         
         sol = gillet_miller_init(pts,D_c,d,C,L)
-        self.assertTrue(check_solution_feasibility(sol, D_c, d, C, L),"Should produce feasible solution")
+        self.assertTrue(validate_solution_feasibility(sol, D_c, d, C, L),"Should produce feasible solution")
         
 
 class TestMillerSolutions(unittest.TestCase):

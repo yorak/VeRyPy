@@ -200,9 +200,9 @@ def main(overridden_args=None):
             if sol:
                 sol = cvrp_ops.normalize_solution(sol)
                 if app_args.show_solution_cost:
-                    sol_q = cvrp_ops.calculate_objective(sol, D_c)
+                    sol_q = cvrp_ops.recalculate_objective(sol, D_c)
                 else:
-                    sol_q = cvrp_ops.calculate_objective(sol, D)
+                    sol_q = cvrp_ops.recalculate_objective(sol, D)
                 sol_K = sol.count(0)-1
                 
                 if app_args.local_search_operators:
@@ -213,9 +213,9 @@ def main(overridden_args=None):
                     sol = cvrp_ops.normalize_solution(sol)
                         
                     if app_args.show_solution_cost:
-                        ls_sol_q = cvrp_ops.calculate_objective(sol, D_c)
+                        ls_sol_q = cvrp_ops.recalculate_objective(sol, D_c)
                     else:
-                        ls_sol_q = cvrp_ops.calculate_objective(sol, D)
+                        ls_sol_q = cvrp_ops.recalculate_objective(sol, D)
                     if ls_sol_q<sol_q:
                         if not app_args.minimal_output:
                             print(" improved by %.2f%%."%(1-ls_sol_q/sol_q))
@@ -233,7 +233,7 @@ def main(overridden_args=None):
                 print("%s;%s"%(algo_abbreviation, bn),end="")
                 timecap_symbol = "*" if interrupted else ""
                 if sol:
-                    feasible = all( cvrp_ops.check_solution_feasibility( sol,D_c,d,C,L,st) )
+                    feasible = all( cvrp_ops.validate_solution_feasibility( sol,D_c,d,C,L,st) )
                     print(";%s;%.2f;%d;%.2f%s"%
                           (str(feasible), sol_q, sol_K, elapsed_t, timecap_symbol))
                 else:
