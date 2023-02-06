@@ -116,3 +116,4 @@ private_examples
 # Python environment and vscode temp files
 .vscode
 .cvrpvenv
+*.code-workspace

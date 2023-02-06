@@ -44,7 +44,13 @@ def produce_nn_list(D):
 def objf(sol, D):
     """A quick procedure for calclulating the quality of an solution (or a 
     route). Assumes that the solution (or the route) contains all visits (incl. 
-    the first and the last) to the depot."""
+    the first and the last) to the depot.
+    
+    WARNING: This function is NOT used to guide the algorithms. The actual
+    objetive function and modification delta calculations are defined in the
+    heuristic code.
+    
+    I.e., modifying this does not change the objective for the _algorithms_!"""
     return sum(( D[sol[i-1],sol[i]] for i in range(1,len(sol))))
 
 def totald(sol, d):
