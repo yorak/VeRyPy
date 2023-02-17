@@ -50,7 +50,7 @@ def solve_tsp_lkh(D, selected_idxs,
         return sol, sol_f
 
     # 1. Create a TSPLIB file
-    are_float_distances = issubclass(D.dtype.type, np.float)
+    are_float_distances = np.issubdtype(D.dtype.type, np.floating)
     if not are_float_distances:
         float_accuracy = None
     with NamedTemporaryFile( delete=False, suffix='.tsp') as tmpfile:
