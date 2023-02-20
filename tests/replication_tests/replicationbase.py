@@ -173,8 +173,8 @@ class ReplicationBase(unittest.TestCase):
         suppress_constraint_check: can be uesd to disable constraint checking.
         """
         
-        algo_idx = (i for i,al in enumerate(self.algorithms)\
-                      if al[0]==algo_name).next()
+        algo_idx = next(i for i,al in enumerate(self.algorithms)\
+                        if al[0]==algo_name)
         assert self.algorithms[algo_idx][0]==algo_name
         
         algo_targets = self.targets[algo_idx]
