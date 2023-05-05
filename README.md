@@ -14,17 +14,67 @@ Ve Ry Py
 <!-- TODO: https://www.smartfile.com/blog/testing-python-with-travis-ci/ -->
 <!-- [![Travis](https://img.shields.io/travis/zalandoresearch/flair.svg)](https://travis-ci.org/zalandoresearch/flair) -->
 
-*Save your effort with VeRyPy and avoid reimplementing the best-known classical VRP heuristic algorithms.*
+*Save your effort to where it matters. With VeRyPy you can avoid reimplementing the best-known classical VRP heuristic algorithms and concentrate on building atop of existing research.*
 
-VeRyPy is an **easy** to use **Python** library of classical Capacitated **Vehicle Routing Problem** (CVRP) algorithms with **symmetric** distances. Many planning tasks such as delivery truck route planning, grocery or meal deliveries, school bus routing, service visit routing, waste collection, and many others can be modeled as a such capaciated vehicle routing problem. Besides CVRPs, the enclosed implemented algorithms can also be used to solve travelling salesman problems (TSP). The code is published with a very permissive MIT license and the files are very loosely coupled. This means you can take just the algorithms or the functionality you need in your studies, in your academic research project, or to solve the real-world logistics planning problems you are facing. 
+Many planning tasks such as delivery truck route planning, grocery or meal deliveries, school bus routing, service visit routing, waste collection, and many others can be modeled as a Capaciated **Vehicle Routing Problem** (CVRP). VeRyPy is an **easy** to use **Python** library of classical algorithms for CVRPs with **symmetric** distances. Besides CVRPs, the enclosed implemented algorithms can also be used to solve travelling salesman problems (TSP). 
 
-## Introduction
+The code is published with a very permissive MIT license, it has very few dependencies, and its code is very loosely coupled. This means you can take just the algorithms or the functionality you need. Be it in your studies, in your academic research project, or to actually solve the real-world logistics planning problems. 
 
-Compared to the existing heuristic and metaheuristic open source VRP libraries such as [VRPH](https://projects.coin-or.org/VRPH), [Google OR-Tools](https://developers.google.com/optimization/), the focus in VeRyPy has been in reusability of the code and in faithful recreation of the original algorithms. Because of these specific goals, the algorithm codes can (mostly) replicate the existing results from the literature. Also, there is no architecture astronautery in VeRyPy. Instead, the focus is entirely on the Python functions that implement the classical algorithms. The lightness of the framework or shared code is very much intentional-Many existing libraries are complex beasts to reason about and understand, which severely limits their use in a more exploratory setting.
+## Quick Start
+
+To install this package and its dependencies:
+
+```bash
+pip install https://github.com/yorak/VeRyPy/zipball/master
+```
+
+The installation provides a `VeRyPy`command, which reads, e.g., [TSPLIB95](http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/tsp95.pdf) formatted files. Solving a problem instance is simple:
+
+```bash
+VeRyPy -a all E-n51-k5.vrp
+```
+
+> Note: an alternative invocation `python -O -m verypy` does the same but entirely disables `__debug__` and logging.
+
+A third typical way of using VeRyPy is to use it as a python module:
+
+```python
+from verypy.cvrp_io import read_TSPLIB_CVRP
+# Import the Clarke & Wright (1964) Savings heuristic
+from verypy.classic_heuristics.parallel_savings import parallel_savings_init
+from verypy.util import sol2routes
+
+E_n51_k5_path = r"E-n51-k5.vrp"
+
+problem = read_TSPLIB_CVRP(E_n51_k5_path)
+
+solution = parallel_savings_init(
+    D=problem.distance_matrix, 
+    d=problem.customer_demands, 
+    C=problem.capacity_constraint)
+
+for route_idx, route in enumerate(sol2routes(solution)):
+    print("Route #%d : %s"%(route_idx+1, route))
+```
+
+More such examples are in the `examples` folder. Run them with, e.g.,:
+
+```bash
+python examples/single_solve_example.py
+```
+
+<!-- TODO: Make sure it works -->
+
+<!-- TODO: A more comprehensive reference documentation can be found [here](/doc/). -->
+
+
+## Goals and Advantages
+
+Compared to the existing heuristic and metaheuristic open source VRP libraries such as [VRPH](https://projects.coin-or.org/VRPH), [Google OR-Tools](https://developers.google.com/optimization/), the focus in VeRyPy has been in reusability of the code and in faithful recreation of the original algorithms. Because of these specific goals, the enclosed algorithms can (mostly) replicate the existing results from the literature. Also, there is no architecture astronautery in VeRyPy. Instead, the focus is entirely on the Python functions that implement the classical algorithms. The lightness of the framework or shared code is very much intentional-Many existing libraries are complex beasts to reason about and understand, which severely limits their use in a more exploratory setting.
 
 ## Limitations
 
-The lightness of shared framework between the implemented algorithms has its downsides. There is no central place for a constraint checker or objective function calculation in VeRyPy. Each of the implemented heuristics has its own conventions for constraint checking or updating objective function during the execution of the algorithms. Sometimes this way of doing constraint checking _is_ very much the core of the algorithm. This means that any additional side constraints need to be implemented separately for each heuristic.
+Minimizing the shared code between the implemented algorithms has its downsides. For one, there is no central place for a constraint checker or objective function calculation in VeRyPy. Each of the implemented heuristics has its own conventions for constraint checking or updating objective function during the execution of the algorithm. In fact, sometimes the clever way of doing constraint checking _is_ very much the core of the algorithm. This means that any additional side constraints need to be implemented separately for each heuristic.
 
 The other limitations of VeRyPy are also related to the main aims of this project, that is, of replication and simplicity: it is not the fastest, the most sophisticated, nor the most effective library for solving these problems. For example, it being tested only on symmetric distances limits its real-world use. For an implementation of a state-of-the-art CVRP algorithm, please consider checking out, e.g., the [HGS-CVRP](https://github.com/vidalt/HGS-CVRP) from Thibaut Vidal.
 
@@ -76,55 +126,9 @@ If you find VeRyPy useful in your research and use it to produce results for you
 
 > Rasku, J., Kärkkäinen, T., & Musliu, N. (2019). Meta-Survey and Implementations of Classical Capacitated Vehicle Routing Heuristics with Reproduced Results. In J. Rasku, *Toward Automatic Customization of Vehicle Routing Systems* (pp. 133-260). JYU Dissertations 113, University of Jyväskylä, Finland.
 
-## Quick Start
-
-Currently, VeRyPy supports Python versions at least up to 3.8.10 and should still be compatible with Python 2.7.
-
-To install this package and its dependencies:
-```bash
-pip install https://github.com/yorak/VeRyPy/zipball/master
-```
-
-The module provides a `VeRyPy`command, which reads [TSPLIB95](http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/tsp95.pdf) formatted files:
-```bash
-VeRyPy -a all E-n51-k5.vrp
-```
-
-> Note: an alternative invocation `python -O -m verypy` does the same but entirely disables `__debug__` and logging.
-
-A third typical way of using VeRyPy is to use API. This simple Python code illustrates such use:
-```python
-from verypy.cvrp_io import read_TSPLIB_CVRP
-from verypy.classic_heuristics.parallel_savings import parallel_savings_init
-from verypy.util import sol2routes
-
-E_n51_k5_path = r"E-n51-k5.vrp"
-
-problem = read_TSPLIB_CVRP(E_n51_k5_path)
-
-solution = parallel_savings_init(
-    D=problem.distance_matrix, 
-    d=problem.customer_demands, 
-    C=problem.capacity_constraint)
-
-for route_idx, route in enumerate(sol2routes(solution)):
-    print("Route #%d : %s"%(route_idx+1, route))
-```
-
-More such examples are in the `examples` folder, e.g., 
-
-```bash
-python examples/single_solve_example.py
-```
-
-
-<!-- TODO: Make sure it works -->
-
-<!-- TODO: A more comprehensive reference documentation can be found [here](/doc/). -->
-
-
 ### Dependencies and Installation
-VeRyPy requires NumPy, and SciPy. It should be Python2 and Python3 compatible. Also, some algorithms have additional dependencies: [MJ76-INS](#MJ76-INS) needs `llist` from PyPI; and [FR76-1PLT](#FR76-1PLT) , [FG81-GAP](#FG81-GAP), and [DV89-MM](#DV89-MM) require Gurobi with `gurobipy`. By default [Be83-RFCS](#Be83-RFCS), [SG82-LR3OPT](#SG82-LR3OPT), and [Ty68-NN](#Ty68-NN) use [LKH](http://akira.ruc.dk/~keld/research/LKH/) to solve TSPs, but they can be configured to use any other TSP solver (such as the internal one) if these external executables are not available. Note that LKH has non-free license. Refer to [auxiliary documentation](LKH_install_notes.md) on how to compile and condifure LKH.
+
+Currently, VeRyPy supports Python versions at least up to 3.8.10 and should still be compatible with Python 2.7. VeRyPy requires NumPy, and SciPy. Also, some algorithms have additional dependencies: [MJ76-INS](#MJ76-INS) needs `llist` from PyPI; and [FR76-1PLT](#FR76-1PLT) , [FG81-GAP](#FG81-GAP), and [DV89-MM](#DV89-MM) require Gurobi with `gurobipy`. By default [Be83-RFCS](#Be83-RFCS), [SG82-LR3OPT](#SG82-LR3OPT), and [Ty68-NN](#Ty68-NN) use [LKH](http://akira.ruc.dk/~keld/research/LKH/) to solve TSPs, but they can be configured to use any other TSP solver (such as the internal one) if these external executables are not available. Note that LKH has non-free license. Refer to [auxiliary documentation](LKH_install_notes.md) on how to compile and condifure LKH.
 
 Installation with `pip` from this repository installs most of the dependencies (save Gurobi and LKH).
 ```bash
