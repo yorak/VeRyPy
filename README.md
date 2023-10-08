@@ -34,6 +34,8 @@ The installation provides a `VeRyPy`command, which reads, e.g., [TSPLIB95](http:
 VeRyPy -a all E-n51-k5.vrp
 ```
 
+> Note: some algorithms require additional dependencies such as Gurobi with Python bindings to be installed. See [Dependencies and Installation](#Dependencies-and-Installation) below.
+
 > Note: an alternative invocation `python -O -m verypy` does the same but entirely disables `__debug__` and logging.
 
 A third typical way of using VeRyPy is to use it as a python module:
