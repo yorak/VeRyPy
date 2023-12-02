@@ -35,7 +35,7 @@ def _cartesian_product(nparray1, nparray2):
     return np.array(np.meshgrid(nparray1,nparray2)).T.reshape(-1,2)
 
 def paessens_savings_function(D, g_multiplier, f_multiplier):
-    """ the Paessens 1988 Savings function
+    """ The Paessens 1988 Savings function
     0.0<g<=3.0
     0.0<=f<=1.0
     """

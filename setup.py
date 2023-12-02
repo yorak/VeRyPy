@@ -19,9 +19,14 @@ with open("requirements.txt", encoding="utf-8") as f:
 
 install_requires = [r.strip() for r in requirements]
 
+with open("verypy/__init__.py") as f:
+    for line in f:
+        if line.startswith("__version__"):
+            module_version = line.split('"')[1]
+
 setup(
     name="verypy",
-    version="0.5.1",
+    version=module_version,
     description="A python library with implementations of classical heuristics for the capacitated vehicle routing problem",
     long_description=long_description,
     long_description_content_type="text/markdown",
