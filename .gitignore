@@ -112,6 +112,7 @@ output
 
 # Non public experiments
 private_examples
+experiments 
 
 # Python environment and vscode temp files
 .vscode
