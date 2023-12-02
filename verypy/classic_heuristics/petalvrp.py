@@ -26,8 +26,19 @@ from gurobipy import Model, GRB, GurobiError, quicksum
 
 from verypy.classic_heuristics.sweep import do_one_sweep, get_sweep_from_cartesian_coordinates
 #from verypy.local_search import ITEROPT
-from verypy.tsp_solvers.tsp_solver_fast import solve_tsp_fast as solve_tsp  
-#from verypy.tsp_solvers.tsp_solver_gurobi import solve_tsp_gurobi as solve_tsp
+
+try:
+    ## For tiny instances you might want to get the optimal solution
+    #from verypy.tsp_solvers.tsp_solver_gurobi import solve_tsp_gurobi as solve_tsp
+    ## This is the default TSP solver. Used mainly if L constraint is set.
+    from verypy.tsp_solvers.tsp_solver_fast import solve_tsp_fast as solve_tsp  
+    ## For largest instances we have reserved an option to rely rely on a CUSTOM acotsp 
+    #from verypy.tsp_solvers.tsp_solver_acotsp import solve_tsp_acotsp as solve_tsp
+except ImportError:
+    print("WARNING: [ptl/FR76-1PTL] can't use the external TSP solver (executable is not found?). "+
+          "Relying on internal TSP solver and the results may differ from those that were published.", file=stderr)
+    from verypy.tsp_solvers.tsp_solver_ropt import solve_tsp_ropt as solve_tsp
+
 from verypy.util import objf, totald, routes2sol, without_empty_routes, is_better_sol
 from verypy.routedata import RouteData
 
