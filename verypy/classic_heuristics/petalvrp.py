@@ -29,9 +29,9 @@ from verypy.classic_heuristics.sweep import do_one_sweep, get_sweep_from_cartesi
 
 try:
     ## For tiny instances you might want to get the optimal solution
-    #from verypy.tsp_solvers.tsp_solver_gurobi import solve_tsp_gurobi as solve_tsp
+    from verypy.tsp_solvers.tsp_solver_gurobi import solve_tsp_gurobi as solve_tsp
     ## This is the default TSP solver. Used mainly if L constraint is set.
-    from verypy.tsp_solvers.tsp_solver_fast import solve_tsp_fast as solve_tsp  
+    #from verypy.tsp_solvers.tsp_solver_fast import solve_tsp_fast as solve_tsp  
     ## For largest instances we have reserved an option to rely rely on a CUSTOM acotsp 
     #from verypy.tsp_solvers.tsp_solver_acotsp import solve_tsp_acotsp as solve_tsp
 except ImportError:

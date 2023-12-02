@@ -243,7 +243,7 @@ def main(overridden_args=None):
                 # Minimal output is not enabled, print like crazy :)
                 
                 if app_args.print_elapsed_time:
-                    print("Algorithm produced a solution in %.3f s\n"%(elapsed_t))
+                    print("Algorithm produced a solution in %.5f s\n"%(elapsed_t))
                 else:
                     #just a newline
                     print()

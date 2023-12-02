@@ -26,7 +26,10 @@ try:
     # The original algorithm of Stewart & Golden (1984) was stochastic and used restarts
     #  with multiple random TSP solutions. For a deterministic variant, we use LKH to get
     #  a single high quality TSP solution.
-    from verypy.tsp_solvers.tsp_solver_lkh import solve_tsp_lkh as solve_tsp
+    #from verypy.tsp_solvers.tsp_solver_lkh import solve_tsp_lkh as solve_tsp
+    ## For reasonably sized instances you might want to get the optimal TSP solution
+    from verypy.tsp_solvers.tsp_solver_gurobi import solve_tsp_gurobi as solve_tsp
+    
 except ImportError:
     print("WARNING: [lr3o/SG84-LR3OPT] can't use the external TSP solver (executable is not found?). "+
           "Relying on internal TSP solver and the results may differ from those that were published.", file=stderr)

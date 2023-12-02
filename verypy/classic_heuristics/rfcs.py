@@ -25,7 +25,10 @@ try:
     # The original implementation of Beasley (1983) generated multiple 2-optimal initial
     #  solutions. We just generate one that is very, very good with state-of-the-art TSP
     #  solver LKH.
-    from verypy.tsp_solvers.tsp_solver_lkh import solve_tsp_lkh as solve_tsp_intial
+    #from verypy.tsp_solvers.tsp_solver_lkh import solve_tsp_lkh as solve_tsp_intial
+    ## For reasonably sized instances you might want to get the optimal TSP solution
+    ## with Gurobi.
+    from verypy.tsp_solvers.tsp_solver_gurobi import solve_tsp_gurobi as solve_tsp_intial
 except ImportError:
     print("WARNING: [rfcs/Be83-RFCS] can't use the external TSP solver (executable is not found?). "+
           "Relying on internal TSP solver and the results may differ from those that were published.", file=stderr)
